@@ -1,8 +1,7 @@
-// using Identity.CustomPolicy;
-// using Identity.Models;
-// using Microsoft.AspNetCore.Authorization;
-// using Microsoft.AspNetCore.Identity;
-// using Microsoft.EntityFrameworkCore;
+using intex2.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,12 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 // builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
 // builder.Services.Configure<DataProtectionTokenProviderOptions>(opts => opts.TokenLifespan = TimeSpan.FromHours(10));
 //
-// builder.Services.ConfigureApplicationCookie(options =>
-// {
-//     options.Cookie.Name = ".AspNetCore.Identity.Application";
-//     options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-//     options.SlidingExpiration = true;
-// });
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.Name = ".AspNetCore.Identity.Application";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+    options.SlidingExpiration = true;
+});
 //
 // builder.Services.AddAuthorization(opts =>
 // {
@@ -43,13 +42,13 @@ var builder = WebApplication.CreateBuilder(args);
 //         policy.AddRequirements(new AllowPrivatePolicy());
 //     });
 // });
-//
-// builder.Services.Configure<IdentityOptions>(opts =>
-// {
-//     opts.Lockout.AllowedForNewUsers = true;
-//     opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-//     opts.Lockout.MaxFailedAccessAttempts = 3;
-// });
+
+builder.Services.Configure<IdentityOptions>(opts =>
+{
+    opts.Lockout.AllowedForNewUsers = true;
+    opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+    opts.Lockout.MaxFailedAccessAttempts = 3;
+});
 
 /*builder.Services.Configure<IdentityOptions>(opts =>
 {
