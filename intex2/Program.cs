@@ -1,48 +1,51 @@
 using intex2.Models;
+using intex2.CustomPolicy;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddDbContext<AppIdentityDbContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-// builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
-// builder.Services.Configure<DataProtectionTokenProviderOptions>(opts => opts.TokenLifespan = TimeSpan.FromHours(10));
-//
+builder.Services.AddDbContext<Lego2IntexContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<Lego2IntexContext>().AddDefaultTokenProviders();
+builder.Services.Configure<DataProtectionTokenProviderOptions>(opts => opts.TokenLifespan = TimeSpan.FromHours(10));
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.Name = ".AspNetCore.Identity.Application";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
     options.SlidingExpiration = true;
 });
-//
-// builder.Services.AddAuthorization(opts =>
-// {
-//     opts.AddPolicy("AspManager", policy =>
-//     {
-//         policy.RequireRole("Manager");
-//         policy.RequireClaim("Coding-Skill", "ASP.NET Core MVC");
-//     });
-// });
-//
-// builder.Services.AddTransient<IAuthorizationHandler, AllowUsersHandler>();
-// builder.Services.AddAuthorization(opts =>
-// {
-//     opts.AddPolicy("AllowTom", policy =>
-//     {
-//         policy.AddRequirements(new AllowUserPolicy("tom"));
-//     });
-// });
-//
-// builder.Services.AddTransient<IAuthorizationHandler, AllowPrivateHandler>();
-// builder.Services.AddAuthorization(opts =>
-// {
-//     opts.AddPolicy("PrivateAccess", policy =>
-//     {
-//         policy.AddRequirements(new AllowPrivatePolicy());
-//     });
-// });
+
+builder.Services.AddAuthorization(opts =>
+{
+    opts.AddPolicy("AspManager", policy =>
+    {
+        policy.RequireRole("Admin");
+        //policy.RequireClaim("Coding-Skill", "ASP.NET Core MVC");
+    });
+});
+
+builder.Services.AddTransient<IAuthorizationHandler, AllowUsersHandler>();
+
+builder.Services.AddAuthorization(opts =>
+{
+    opts.AddPolicy("AllowTom", policy =>
+    {
+        policy.AddRequirements(new AllowUserPolicy("tom"));
+    });
+});
+
+builder.Services.AddTransient<IAuthorizationHandler, AllowPrivateHandler>();
+
+builder.Services.AddAuthorization(opts =>
+{
+    opts.AddPolicy("PrivateAccess", policy =>
+    {
+        policy.AddRequirements(new AllowPrivatePolicy());
+    });
+});
 
 builder.Services.Configure<IdentityOptions>(opts =>
 {
