@@ -66,6 +66,7 @@ namespace intex2.Models
                     // Log or handle the exception appropriately
                     // For example: Console.WriteLine(ex.Message);
                     return false;
+                
                 }
             }
         }

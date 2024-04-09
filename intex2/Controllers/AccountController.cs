@@ -45,6 +45,11 @@ namespace intex2.Controllers
                     if (result.Succeeded)
                         return Redirect(login.ReturnUrl ?? "/");
                     
+                    if (result.RequiresTwoFactor)
+                    {
+                        return RedirectToAction("LoginTwoStep", new { appUser.Email, login.ReturnUrl });
+                    }
+                    
                     bool emailStatus = await userManager.IsEmailConfirmedAsync(appUser);
                     if (emailStatus == false)
                     {
@@ -108,72 +113,38 @@ namespace intex2.Controllers
              }
          }
          
-        // [AllowAnonymous]
-        // public async Task<IActionResult> LoginTwoStep(string email, string returnUrl)
-        // {
-        //     var user = await userManager.FindByEmailAsync(email);
-        //
-        //     var token = await userManager.GenerateTwoFactorTokenAsync(user, "Email");
-        //
-        //     EmailHelper emailHelper = new EmailHelper();
-        //     bool emailResponse = emailHelper.SendEmailTwoFactorCode(user.Email, token);
-        //
-        //     return View();
-        // }
-        //
-        // [HttpPost]
-        // [AllowAnonymous]
-        // public async Task<IActionResult> LoginTwoStep(TwoFactor twoFactor, string returnUrl)
-        // {
-        //     if (!ModelState.IsValid)
-        //     {
-        //         return View(twoFactor.TwoFactorCode);
-        //     }
-        //
-        //     var result = await signInManager.TwoFactorSignInAsync("Email", twoFactor.TwoFactorCode, false, false);
-        //     if (result.Succeeded)
-        //     {
-        //         return Redirect(returnUrl ?? "/");
-        //     }
-        //     else
-        //     {
-        //         ModelState.AddModelError("", "Invalid Login Attempt");
-        //         return View();
-        //     }
-        // }
+         [AllowAnonymous]
+         public async Task<IActionResult> LoginTwoStep(string email, string returnUrl)
+         {
+             var user = await userManager.FindByEmailAsync(email);
 
-        [AllowAnonymous]
-        public async Task<IActionResult> LoginTwoStep(string email, string returnUrl)
-        {
-            var user = await userManager.FindByEmailAsync(email);
+             var token = await userManager.GenerateTwoFactorTokenAsync(user, "Email");
+             
+             bool emailResponse = _emailHelper.SendEmailTwoFactorCode(user.Email, token);
 
-            var token = await userManager.GenerateTwoFactorTokenAsync(user, "Email");
-            
-            //bool emailResponse = _emailHelper.SendEmailTwoFactorCode(user.Email, token);
+             return View();
+         }
 
-            return View();
-        }
+         [HttpPost]
+         [AllowAnonymous]
+         public async Task<IActionResult> LoginTwoStep(TwoFactor twoFactor, string returnUrl)
+         {
+             if (!ModelState.IsValid)
+             {
+                 return View(twoFactor.TwoFactorCode);
+             }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> LoginTwoStep(TwoFactor twoFactor, string returnUrl)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(twoFactor.TwoFactorCode);
-            }
-
-            var result = await signInManager.TwoFactorSignInAsync("Email", twoFactor.TwoFactorCode, false, false);
-            if (result.Succeeded)
-            {
-                return Redirect(returnUrl ?? "/");
-            }
-            else
-            {
-                ModelState.AddModelError("", "Invalid Login Attempt");
-                return View();
-            }
-        }
+             var result = await signInManager.TwoFactorSignInAsync("Email", twoFactor.TwoFactorCode, false, false);
+             if (result.Succeeded)
+             {
+                 return Redirect(returnUrl ?? "/");
+             }
+             else
+             {
+                 ModelState.AddModelError("", "Invalid Login Attempt");
+                 return View();
+             }
+         }
 
         [AllowAnonymous]
         public IActionResult ForgotPassword()

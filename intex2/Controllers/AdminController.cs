@@ -31,7 +31,8 @@ namespace intex2.Controllers
                 AppUser appUser = new AppUser
                 {
                     UserName = user.Name,
-                    Email = user.Email
+                    Email = user.Email,
+                    TwoFactorEnabled = true
                 };
 
                 IdentityResult result = await userManager.CreateAsync(appUser, user.Password);
