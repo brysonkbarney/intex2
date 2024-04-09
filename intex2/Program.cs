@@ -67,6 +67,7 @@ builder.Services.Configure<IdentityOptions>(opts =>
     opts.Lockout.MaxFailedAccessAttempts = 3;
     opts.Password.RequiredLength = 8;
     opts.Password.RequireLowercase = true;
+    opts.SignIn.RequireConfirmedEmail = true;
 });
 
 /*builder.Services.Configure<IdentityOptions>(opts =>

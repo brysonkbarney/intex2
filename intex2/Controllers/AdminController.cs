@@ -35,7 +35,19 @@ namespace intex2.Controllers
                 IdentityResult result = await userManager.CreateAsync(appUser, user.Password);
 
                 if (result.Succeeded)
-                    return RedirectToAction("Index");
+                {
+                    var token = await userManager.GenerateEmailConfirmationTokenAsync(appUser);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Email", new { token, email = user.Email }, Request.Scheme);
+                    EmailHelper emailHelper = new EmailHelper();
+                    bool emailResponse = emailHelper.SendEmail(user.Email, confirmationLink);
+             
+                    if (emailResponse)
+                        return RedirectToAction("Index");
+                    else
+                    {
+                        // log email failed 
+                    }
+                }
                 else
                 {
                     foreach (IdentityError error in result.Errors)

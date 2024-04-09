@@ -1,88 +1,67 @@
+using System.Net;
 using System.Net.Mail;
-
+ 
 namespace intex2.Models
 {
     public class EmailHelper
     {
-        public bool SendEmailTwoFactorCode(string userEmail, string code)
-        {
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("care@yogihosting.com");
-            mailMessage.To.Add(new MailAddress(userEmail));
-
-            mailMessage.Subject = "Two Factor Code";
-            mailMessage.IsBodyHtml = true;
-            mailMessage.Body = code;
-
-            SmtpClient client = new SmtpClient();
-            client.Credentials = new System.Net.NetworkCredential("care@yogihosting.com", "yourpassword");
-            client.Host = "smtpout.secureserver.net";
-            client.Port = 80;
-
-            try
-            {
-                client.Send(mailMessage);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                // log exception
-            }
-            return false;
-        }
-
         public bool SendEmail(string userEmail, string confirmationLink)
         {
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("care@yogihosting.com");
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress("ASalesLego@outlook.com"),
+                Subject = "Confirm your email",
+                IsBodyHtml = true,
+                Body = confirmationLink
+            };
             mailMessage.To.Add(new MailAddress(userEmail));
 
-            mailMessage.Subject = "Confirm your email";
-            mailMessage.IsBodyHtml = true;
-            mailMessage.Body = confirmationLink;
-
-            SmtpClient client = new SmtpClient();
-            client.Credentials = new System.Net.NetworkCredential("care@yogihosting.com", "yourpassword");
-            client.Host = "smtpout.secureserver.net";
-            client.Port = 80;
-
-            try
+            using (var client = new SmtpClient("smtp-mail.outlook.com", 587))
             {
-                client.Send(mailMessage);
-                return true;
+                client.EnableSsl = true; // Use SSL for security
+                client.Credentials = new NetworkCredential("ASalesLego@outlook.com", "mk9XaFeFhscz44");
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+                try
+                {
+                    client.Send(mailMessage);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle the exception
+                    return false;
+                }
             }
-            catch (Exception ex)
-            {
-                // log exception
-            }
-            return false;
         }
-
-        public bool SendEmailPasswordReset(string userEmail, string link)
+        public bool SendEmailPasswordReset(string userEmail, string resetLink)
         {
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("care@yogihosting.com");
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress("ASalesLego@outlook.com"), // Your Outlook email address
+                Subject = "Password Reset",
+                IsBodyHtml = true, // If your link is embedded in HTML
+                Body = resetLink
+            };
             mailMessage.To.Add(new MailAddress(userEmail));
 
-            mailMessage.Subject = "Password Reset";
-            mailMessage.IsBodyHtml = true;
-            mailMessage.Body = link;
-
-            SmtpClient client = new SmtpClient();
-            client.Credentials = new System.Net.NetworkCredential("care@yogihosting.com", "yourpassword");
-            client.Host = "smtpout.secureserver.net";
-            client.Port = 80;
-
-            try
+            using (var client = new SmtpClient("smtp-mail.outlook.com", 587)) // SMTP server for Outlook.com
             {
-                client.Send(mailMessage);
-                return true;
+                client.EnableSsl = true; // SSL needs to be enabled
+                client.Credentials = new NetworkCredential("ASalesLego@outlook.com.com", "mk9XaFeFhscz44"); // Use your Outlook credentials
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+                try
+                {
+                    client.Send(mailMessage);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle the exception appropriately
+                    return false;
+                }
             }
-            catch (Exception ex)
-            {
-                // log exception
-            }
-            return false;
         }
     }
 }
