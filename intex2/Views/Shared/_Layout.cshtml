@@ -2,6 +2,7 @@
 @{
     var user = await UserManager.GetUserAsync(User);
     var isAdmin = user != null && await UserManager.IsInRoleAsync(user, "Admin");
+    var isAuthenticated = User.Identity != null && User.Identity.IsAuthenticated;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -36,9 +37,12 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
+                    @if (!isAuthenticated)
+                    {
                     <li class="nav-item">
                          <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Create">Register</a>
                      </li>
+                    }
                     @if (isAdmin)
                     {
                         <li class="nav-item">
