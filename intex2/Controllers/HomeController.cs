@@ -42,6 +42,20 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult Cookies()
+    {
+        if (HttpContext.Request.Cookies.ContainsKey("CookieConsent") &&
+            HttpContext.Request.Cookies["CookieConsent"] == "true")
+        {
+            // User has consented to the use of cookies.
+            // It's safe to set non-essential cookies here.
+            HttpContext.Response.Cookies.Append("YourNonEssentialCookie", "YourValue",
+                new CookieOptions { Expires = DateTime.Now.AddDays(30) });
+        }
+
+        return View("Index");
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
