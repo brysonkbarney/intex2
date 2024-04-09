@@ -8,11 +8,13 @@ namespace intex2.Controllers
     {
         private UserManager<AppUser> userManager;
         private IPasswordHasher<AppUser> passwordHasher;
+        private readonly EmailHelper _emailHelper;
  
-        public AdminController(UserManager<AppUser> usrMgr, IPasswordHasher<AppUser> passwordHash)
+        public AdminController(UserManager<AppUser> usrMgr, IPasswordHasher<AppUser> passwordHash, EmailHelper emailHelper)
         {
             userManager = usrMgr;
             passwordHasher = passwordHash;
+            _emailHelper = emailHelper;
         }
  
         public IActionResult Index()
@@ -35,7 +37,18 @@ namespace intex2.Controllers
                 IdentityResult result = await userManager.CreateAsync(appUser, user.Password);
 
                 if (result.Succeeded)
-                    return RedirectToAction("Index");
+                {
+                    var token = await userManager.GenerateEmailConfirmationTokenAsync(appUser);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Email", new { token, email = user.Email }, Request.Scheme);
+                    bool emailResponse = _emailHelper.SendEmail(user.Email, confirmationLink);
+             
+                    if (emailResponse)
+                        return RedirectToAction("Index");
+                    else
+                    {
+                        // log email failed 
+                    }
+                }
                 else
                 {
                     foreach (IdentityError error in result.Errors)

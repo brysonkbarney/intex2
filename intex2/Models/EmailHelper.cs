@@ -1,88 +1,73 @@
+using System.Net;
 using System.Net.Mail;
-
+ 
 namespace intex2.Models
 {
     public class EmailHelper
     {
-        public bool SendEmailTwoFactorCode(string userEmail, string code)
+        private readonly IConfiguration _configuration;
+        public EmailHelper(IConfiguration configuration)
         {
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("care@yogihosting.com");
-            mailMessage.To.Add(new MailAddress(userEmail));
-
-            mailMessage.Subject = "Two Factor Code";
-            mailMessage.IsBodyHtml = true;
-            mailMessage.Body = code;
-
-            SmtpClient client = new SmtpClient();
-            client.Credentials = new System.Net.NetworkCredential("care@yogihosting.com", "yourpassword");
-            client.Host = "smtpout.secureserver.net";
-            client.Port = 80;
-
-            try
-            {
-                client.Send(mailMessage);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                // log exception
-            }
-            return false;
+            _configuration = configuration;
         }
-
         public bool SendEmail(string userEmail, string confirmationLink)
         {
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("care@yogihosting.com");
+            var emailSettings = _configuration.GetSection("EmailSettings");
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(emailSettings["Username"]),
+                Subject = "Confirm your email",
+                IsBodyHtml = true,
+                Body = confirmationLink
+            };
             mailMessage.To.Add(new MailAddress(userEmail));
 
-            mailMessage.Subject = "Confirm your email";
-            mailMessage.IsBodyHtml = true;
-            mailMessage.Body = confirmationLink;
-
-            SmtpClient client = new SmtpClient();
-            client.Credentials = new System.Net.NetworkCredential("care@yogihosting.com", "yourpassword");
-            client.Host = "smtpout.secureserver.net";
-            client.Port = 80;
-
-            try
+            using (var client = new SmtpClient(emailSettings["Host"], int.Parse(emailSettings["Port"])))
             {
-                client.Send(mailMessage);
-                return true;
+                client.EnableSsl = true;
+                client.Credentials = new NetworkCredential(emailSettings["Username"], emailSettings["Password"]);
+
+                try
+                {
+                    client.Send(mailMessage);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    // Handle exception
+                    return false;
+                }
             }
-            catch (Exception ex)
-            {
-                // log exception
-            }
-            return false;
         }
-
-        public bool SendEmailPasswordReset(string userEmail, string link)
+        public bool SendEmailPasswordReset(string userEmail, string resetLink)
         {
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("care@yogihosting.com");
-            mailMessage.To.Add(new MailAddress(userEmail));
-
-            mailMessage.Subject = "Password Reset";
-            mailMessage.IsBodyHtml = true;
-            mailMessage.Body = link;
-
-            SmtpClient client = new SmtpClient();
-            client.Credentials = new System.Net.NetworkCredential("care@yogihosting.com", "yourpassword");
-            client.Host = "smtpout.secureserver.net";
-            client.Port = 80;
-
-            try
+            var emailSettings = _configuration.GetSection("EmailSettings");
+            var mailMessage = new MailMessage
             {
-                client.Send(mailMessage);
-                return true;
-            }
-            catch (Exception ex)
+                From = new MailAddress(emailSettings["Username"]), // Use the email configured in user secrets
+                To = { new MailAddress(userEmail) },
+                Subject = "Password Reset",
+                IsBodyHtml = true, // Assuming the reset link is to be embedded in HTML
+                Body = resetLink
+            };
+
+            using (var client = new SmtpClient(emailSettings["Host"], int.Parse(emailSettings["Port"])))
             {
-                // log exception
+                client.EnableSsl = true; // Most SMTP servers require SSL nowadays
+                client.Credentials = new NetworkCredential(emailSettings["Username"], emailSettings["Password"]);
+
+                try
+                {
+                    client.Send(mailMessage);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle the exception appropriately
+                    // For example: Console.WriteLine(ex.Message);
+                    return false;
+                }
             }
-            return false;
         }
     }
 }

@@ -16,6 +16,9 @@ builder.Services.AddAuthentication()
         opts.SignInScheme = IdentityConstants.ExternalScheme;
     });
 
+services.AddSingleton<IConfiguration>(configuration);
+services.AddTransient<EmailHelper>();
+
 builder.Services.AddDbContext<Lego2IntexContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<Lego2IntexContext>().AddDefaultTokenProviders();
@@ -69,6 +72,7 @@ builder.Services.Configure<IdentityOptions>(opts =>
     opts.Lockout.MaxFailedAccessAttempts = 3;
     opts.Password.RequiredLength = 8;
     opts.Password.RequireLowercase = true;
+    opts.SignIn.RequireConfirmedEmail = true;
 });
 
 /*builder.Services.Configure<IdentityOptions>(opts =>
