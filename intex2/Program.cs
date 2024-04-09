@@ -11,8 +11,9 @@ var configuration = builder.Configuration;
 builder.Services.AddAuthentication()
     .AddGoogle(opts =>
     {
-        opts.ClientId = "1015856324605-ju2f8vgu0bc3k4jp89ptmarp4a0ip0p0.apps.googleusercontent.com";
-        opts.ClientSecret = "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";
+        var googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
+        opts.ClientId = googleAuthNSection["ClientId"];
+        opts.ClientSecret = googleAuthNSection["ClientSecret"];
         opts.SignInScheme = IdentityConstants.ExternalScheme;
     });
 
