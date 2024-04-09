@@ -1,5 +1,6 @@
 using intex2.Models;
 using intex2.CustomPolicy;
+using intex2.wwwroot.Middleware;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -83,6 +84,8 @@ builder.Services.Configure<IdentityOptions>(opts =>
     opts.Password.RequiredLength = 8;
     opts.Password.RequireLowercase = true;
     opts.SignIn.RequireConfirmedEmail = true;
+    opts.Password.RequireDigit = true;
+    opts.Password.RequireNonAlphanumeric = true;
 });
 
 /*builder.Services.Configure<IdentityOptions>(opts =>
@@ -109,6 +112,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<ContentSecurityPolicyMiddleware>(); // Add this line
 
 app.MapControllerRoute(
     name: "default",
