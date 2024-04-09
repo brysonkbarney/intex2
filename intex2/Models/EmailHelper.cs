@@ -5,51 +5,56 @@ namespace intex2.Models
 {
     public class EmailHelper
     {
+        private readonly IConfiguration _configuration;
+        public EmailHelper(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public bool SendEmail(string userEmail, string confirmationLink)
         {
+            var emailSettings = _configuration.GetSection("EmailSettings");
             var mailMessage = new MailMessage
             {
-                From = new MailAddress("ASalesLego@outlook.com"),
+                From = new MailAddress(emailSettings["Username"]),
                 Subject = "Confirm your email",
                 IsBodyHtml = true,
                 Body = confirmationLink
             };
             mailMessage.To.Add(new MailAddress(userEmail));
 
-            using (var client = new SmtpClient("smtp-mail.outlook.com", 587))
+            using (var client = new SmtpClient(emailSettings["Host"], int.Parse(emailSettings["Port"])))
             {
-                client.EnableSsl = true; // Use SSL for security
-                client.Credentials = new NetworkCredential("ASalesLego@outlook.com", "mk9XaFeFhscz44");
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.EnableSsl = true;
+                client.Credentials = new NetworkCredential(emailSettings["Username"], emailSettings["Password"]);
 
                 try
                 {
                     client.Send(mailMessage);
                     return true;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    // Log or handle the exception
+                    // Handle exception
                     return false;
                 }
             }
         }
         public bool SendEmailPasswordReset(string userEmail, string resetLink)
         {
+            var emailSettings = _configuration.GetSection("EmailSettings");
             var mailMessage = new MailMessage
             {
-                From = new MailAddress("ASalesLego@outlook.com"), // Your Outlook email address
+                From = new MailAddress(emailSettings["Username"]), // Use the email configured in user secrets
+                To = { new MailAddress(userEmail) },
                 Subject = "Password Reset",
-                IsBodyHtml = true, // If your link is embedded in HTML
+                IsBodyHtml = true, // Assuming the reset link is to be embedded in HTML
                 Body = resetLink
             };
-            mailMessage.To.Add(new MailAddress(userEmail));
 
-            using (var client = new SmtpClient("smtp-mail.outlook.com", 587)) // SMTP server for Outlook.com
+            using (var client = new SmtpClient(emailSettings["Host"], int.Parse(emailSettings["Port"])))
             {
-                client.EnableSsl = true; // SSL needs to be enabled
-                client.Credentials = new NetworkCredential("ASalesLego@outlook.com.com", "mk9XaFeFhscz44"); // Use your Outlook credentials
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.EnableSsl = true; // Most SMTP servers require SSL nowadays
+                client.Credentials = new NetworkCredential(emailSettings["Username"], emailSettings["Password"]);
 
                 try
                 {
@@ -59,6 +64,7 @@ namespace intex2.Models
                 catch (Exception ex)
                 {
                     // Log or handle the exception appropriately
+                    // For example: Console.WriteLine(ex.Message);
                     return false;
                 }
             }

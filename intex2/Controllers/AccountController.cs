@@ -12,11 +12,13 @@ namespace intex2.Controllers
     {
         private UserManager<AppUser> userManager;
         private SignInManager<AppUser> signInManager;
+        private readonly EmailHelper _emailHelper;
 
-        public AccountController(UserManager<AppUser> userMgr, SignInManager<AppUser> signinMgr)
+        public AccountController(UserManager<AppUser> userMgr, SignInManager<AppUser> signinMgr, EmailHelper emailHelper)
         {
             userManager = userMgr;
             signInManager = signinMgr;
+            _emailHelper = emailHelper;
         }
 
         [AllowAnonymous]
@@ -111,9 +113,8 @@ namespace intex2.Controllers
             var user = await userManager.FindByEmailAsync(email);
 
             var token = await userManager.GenerateTwoFactorTokenAsync(user, "Email");
-
-            EmailHelper emailHelper = new EmailHelper();
-            //bool emailResponse = emailHelper.SendEmailTwoFactorCode(user.Email, token);
+            
+            //bool emailResponse = _emailHelper.SendEmailTwoFactorCode(user.Email, token);
 
             return View();
         }
@@ -158,9 +159,8 @@ namespace intex2.Controllers
  
             var token = await userManager.GeneratePasswordResetTokenAsync(user);
             var link = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme);
- 
-            EmailHelper emailHelper = new EmailHelper();
-            bool emailResponse = emailHelper.SendEmailPasswordReset(user.Email, link);
+            
+            bool emailResponse = _emailHelper.SendEmailPasswordReset(user.Email, link);
  
             if (emailResponse)
                 return RedirectToAction("ForgotPasswordConfirmation");
