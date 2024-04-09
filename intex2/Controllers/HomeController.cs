@@ -1,21 +1,32 @@
+using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using intex2.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace intex2.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    private UserManager<AppUser> userManager;
+    public HomeController(UserManager<AppUser> userMgr,ILogger<HomeController> logger)
     {
         _logger = logger;
+        userManager = userMgr;
+    }
+    [Authorize] 
+    public IActionResult Secured()
+    {
+        return View((object)"Hello");
     }
 
-    public IActionResult Index()
+    [Authorize]
+    public async Task<IActionResult> Index()
     {
-        return View();
+        AppUser user = await userManager.GetUserAsync(HttpContext.User);
+        string message = "Hello " + user.UserName;
+        return View((object)message);
     }
 
     public IActionResult Privacy()
