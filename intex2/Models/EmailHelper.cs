@@ -70,5 +70,35 @@ namespace intex2.Models
                 }
             }
         }
+        public bool SendEmailTwoFactorCode(string userEmail, string code)
+        {
+            var emailSettings = _configuration.GetSection("EmailSettings");
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(emailSettings["Username"]), // Configured email as the "From" address
+                Subject = "Two Factor Code",
+                IsBodyHtml = true,
+                Body = $"<p>Your two-factor authentication code is: <strong>{code}</strong></p>"
+            };
+            mailMessage.To.Add(new MailAddress(userEmail));
+
+            using (var client = new SmtpClient(emailSettings["Host"], int.Parse(emailSettings["Port"])))
+            {
+                client.EnableSsl = true; // Assuming SSL is required
+                client.Credentials = new NetworkCredential(emailSettings["Username"], emailSettings["Password"]);
+
+                try
+                {
+                    client.Send(mailMessage);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle the exception appropriately
+                    // For example: Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
     }
 }
