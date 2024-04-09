@@ -8,11 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
-// services.AddAuthentication().AddGoogle(googleOptions =>
-// {
-//     googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
-//     googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
-// });
+builder.Services.AddAuthentication()
+    .AddGoogle(opts =>
+    {
+        opts.ClientId = "1015856324605-ju2f8vgu0bc3k4jp89ptmarp4a0ip0p0.apps.googleusercontent.com";
+        opts.ClientSecret = "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";
+        opts.SignInScheme = IdentityConstants.ExternalScheme;
+    });
 
 builder.Services.AddDbContext<Lego2IntexContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

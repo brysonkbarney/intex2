@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -58,80 +59,80 @@ namespace intex2.Controllers
             return View();
         }
 
-        /*[AllowAnonymous]
-        public IActionResult GoogleLogin()
-        {
-            string redirectUrl = Url.Action("GoogleResponse", "Account");
-            var properties = signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
-            return new ChallengeResult("Google", properties);
-        }
+         [AllowAnonymous]
+         public IActionResult GoogleLogin()
+         {
+             string redirectUrl = Url.Action("GoogleResponse", "Account");
+             var properties = signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+             return new ChallengeResult("Google", properties);
+         }
+         
+         [AllowAnonymous]
+         public async Task<IActionResult> GoogleResponse()
+         {
+             ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync();
+             if (info == null)
+                 return RedirectToAction(nameof(Login));
+         
+             var result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+             string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
+             if (result.Succeeded)
+                 return View(userInfo);
+             else
+             {
+                 AppUser user = new AppUser
+                 {
+                     Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
+                     UserName = info.Principal.FindFirst(ClaimTypes.Email).Value
+                 };
+         
+                 IdentityResult identResult = await userManager.CreateAsync(user);
+                 if (identResult.Succeeded)
+                 {
+                     identResult = await userManager.AddLoginAsync(user, info);
+                     if (identResult.Succeeded)
+                     {
+                         await signInManager.SignInAsync(user, false);
+                         return View(userInfo);
+                     }
+                 }
+                 return AccessDenied();
+             }
+         }
 
-        [AllowAnonymous]
-        public async Task<IActionResult> GoogleResponse()
-        {
-            ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync();
-            if (info == null)
-                return RedirectToAction(nameof(Login));
-
-            var result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
-            string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
-            if (result.Succeeded)
-                return View(userInfo);
-            else
-            {
-                AppUser user = new AppUser
-                {
-                    Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
-                    UserName = info.Principal.FindFirst(ClaimTypes.Email).Value
-                };
-
-                IdentityResult identResult = await userManager.CreateAsync(user);
-                if (identResult.Succeeded)
-                {
-                    identResult = await userManager.AddLoginAsync(user, info);
-                    if (identResult.Succeeded)
-                    {
-                        await signInManager.SignInAsync(user, false);
-                        return View(userInfo);
-                    }
-                }
-                return AccessDenied();
-            }
-        }*/
-
-        [AllowAnonymous]
-        public async Task<IActionResult> LoginTwoStep(string email, string returnUrl)
-        {
-            var user = await userManager.FindByEmailAsync(email);
-
-            var token = await userManager.GenerateTwoFactorTokenAsync(user, "Email");
-
-            EmailHelper emailHelper = new EmailHelper();
-            bool emailResponse = emailHelper.SendEmailTwoFactorCode(user.Email, token);
-
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> LoginTwoStep(TwoFactor twoFactor, string returnUrl)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(twoFactor.TwoFactorCode);
-            }
-
-            var result = await signInManager.TwoFactorSignInAsync("Email", twoFactor.TwoFactorCode, false, false);
-            if (result.Succeeded)
-            {
-                return Redirect(returnUrl ?? "/");
-            }
-            else
-            {
-                ModelState.AddModelError("", "Invalid Login Attempt");
-                return View();
-            }
-        }
+        // [AllowAnonymous]
+        // public async Task<IActionResult> LoginTwoStep(string email, string returnUrl)
+        // {
+        //     var user = await userManager.FindByEmailAsync(email);
+        //
+        //     var token = await userManager.GenerateTwoFactorTokenAsync(user, "Email");
+        //
+        //     EmailHelper emailHelper = new EmailHelper();
+        //     bool emailResponse = emailHelper.SendEmailTwoFactorCode(user.Email, token);
+        //
+        //     return View();
+        // }
+        //
+        // [HttpPost]
+        // [AllowAnonymous]
+        // public async Task<IActionResult> LoginTwoStep(TwoFactor twoFactor, string returnUrl)
+        // {
+        //     if (!ModelState.IsValid)
+        //     {
+        //         return View(twoFactor.TwoFactorCode);
+        //     }
+        //
+        //     var result = await signInManager.TwoFactorSignInAsync("Email", twoFactor.TwoFactorCode, false, false);
+        //     if (result.Succeeded)
+        //     {
+        //         return Redirect(returnUrl ?? "/");
+        //     }
+        //     else
+        //     {
+        //         ModelState.AddModelError("", "Invalid Login Attempt");
+        //         return View();
+        //     }
+        // }
 
         [AllowAnonymous]
         public IActionResult ForgotPassword()
