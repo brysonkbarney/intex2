@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace intex2.Models;
 
-public partial class Lego2IntexContext : DbContext
+public partial class Lego2IntexContext : IdentityDbContext<AppUser>
 {
     public Lego2IntexContext()
     {
@@ -29,6 +30,8 @@ public partial class Lego2IntexContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.Property(e => e.CustomerId)

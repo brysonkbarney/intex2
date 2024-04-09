@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using intex2.Models;
 
@@ -11,9 +12,11 @@ using intex2.Models;
 namespace intex2.Migrations
 {
     [DbContext(typeof(Lego2IntexContext))]
-    partial class Lego2IntexContextModelSnapshot : ModelSnapshot
+    [Migration("20240408232837_UpdateIdentityRole")]
+    partial class UpdateIdentityRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -49,9 +49,13 @@ builder.Services.AddAuthorization(opts =>
 
 builder.Services.Configure<IdentityOptions>(opts =>
 {
+    opts.User.RequireUniqueEmail = true;
+    opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyz";
     opts.Lockout.AllowedForNewUsers = true;
     opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
     opts.Lockout.MaxFailedAccessAttempts = 3;
+    opts.Password.RequiredLength = 8;
+    opts.Password.RequireLowercase = true;
 });
 
 /*builder.Services.Configure<IdentityOptions>(opts =>
@@ -76,6 +80,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
