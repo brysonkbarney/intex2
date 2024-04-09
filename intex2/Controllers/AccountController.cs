@@ -119,7 +119,7 @@ namespace intex2.Controllers
              var user = await userManager.FindByEmailAsync(email);
 
              var token = await userManager.GenerateTwoFactorTokenAsync(user, "Email");
-             
+             await _emailHelper.InitializeAsync();
              bool emailResponse = _emailHelper.SendEmailTwoFactorCode(user.Email, token);
 
              return View();
@@ -165,7 +165,7 @@ namespace intex2.Controllers
  
             var token = await userManager.GeneratePasswordResetTokenAsync(user);
             var link = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme);
-            
+            await _emailHelper.InitializeAsync();
             bool emailResponse = _emailHelper.SendEmailPasswordReset(user.Email, link);
  
             if (emailResponse)
