@@ -4,17 +4,27 @@ using intex2.wwwroot.Middleware;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Azure.Security.KeyVault.Secrets;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
+var keyVaultUrl = "https://intexsecrets.vault.azure.net/";
+var client = new SecretClient(new Uri(keyVaultUrl), new DefaultAzureCredential());
+
+services.AddSingleton(client);
+
+KeyVaultSecret id = await client.GetSecretAsync("Authentication-Google-ClientId");
+KeyVaultSecret secret = await client.GetSecretAsync("Authentication-Google-ClientSecret");
+KeyVaultSecret connection = await client.GetSecretAsync("ConnectionStrings-DefaultConnection");
+
 builder.Services.AddAuthentication()
     .AddGoogle(opts =>
     {
-        var googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
-        opts.ClientId = googleAuthNSection["ClientId"];
-        opts.ClientSecret = googleAuthNSection["ClientSecret"];
+        opts.ClientId = id.Value;
+        opts.ClientSecret = secret.Value;
         opts.SignInScheme = IdentityConstants.ExternalScheme;
     });
 
@@ -22,7 +32,7 @@ services.AddSingleton<IConfiguration>(configuration);
 services.AddTransient<EmailHelper>();
 
 builder.Services.AddDbContext<Lego2IntexContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connection.Value));
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<Lego2IntexContext>().AddDefaultTokenProviders();
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opts => opts.TokenLifespan = TimeSpan.FromHours(10));
 

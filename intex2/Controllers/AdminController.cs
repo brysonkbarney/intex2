@@ -41,6 +41,7 @@ namespace intex2.Controllers
                 {
                     var token = await userManager.GenerateEmailConfirmationTokenAsync(appUser);
                     var confirmationLink = Url.Action("ConfirmEmail", "Email", new { token, email = user.Email }, Request.Scheme);
+                    await _emailHelper.InitializeAsync();
                     bool emailResponse = _emailHelper.SendEmail(user.Email, confirmationLink);
              
                     if (emailResponse)
