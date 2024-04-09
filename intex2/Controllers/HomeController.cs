@@ -20,7 +20,7 @@ public class HomeController : Controller
     {
         return View((object)"Hello");
     }
-    
+    [Authorize]
     public async Task<IActionResult> Index()
     {
         AppUser user = await userManager.GetUserAsync(HttpContext.User);
