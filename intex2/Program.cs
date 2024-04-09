@@ -18,6 +18,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+//add back to change default login route
+//builder.Services.ConfigureApplicationCookie(opts => opts.LoginPath = "/Authenticate/Login");
+
 builder.Services.AddAuthorization(opts =>
 {
     opts.AddPolicy("AspManager", policy =>

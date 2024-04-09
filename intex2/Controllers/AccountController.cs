@@ -39,26 +39,8 @@ namespace intex2.Controllers
                 {
                     await signInManager.SignOutAsync();
                     Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(appUser, login.Password, login.Remember, false);
-
                     if (result.Succeeded)
                         return Redirect(login.ReturnUrl ?? "/");
-
-                    // uncomment Two Factor Authentication https://www.yogihosting.com/aspnet-core-identity-two-factor-authentication/
-                    /*if (result.RequiresTwoFactor)
-                    {
-                        return RedirectToAction("LoginTwoStep", new { appUser.Email, login.ReturnUrl });
-                    }*/
-
-                    // Uncomment Email confirmation https://www.yogihosting.com/aspnet-core-identity-email-confirmation/
-                    /*bool emailStatus = await userManager.IsEmailConfirmedAsync(appUser);
-                    if (emailStatus == false)
-                    {
-                        ModelState.AddModelError(nameof(login.Email), "Email is unconfirmed, please confirm it first");
-                    }*/
-
-                    // https://www.yogihosting.com/aspnet-core-identity-user-lockout/
-                    /*if (result.IsLockedOut)
-                        ModelState.AddModelError("", "Your account is locked out. Kindly wait for 10 minutes and try again");*/
                 }
                 ModelState.AddModelError(nameof(login.Email), "Login Failed: Invalid Email or password");
             }

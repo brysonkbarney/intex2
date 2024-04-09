@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using intex2.Models;
- 
+using Microsoft.EntityFrameworkCore;
+
 namespace intex2.Controllers
 {
     public class RoleController : Controller
@@ -58,7 +59,11 @@ namespace intex2.Controllers
             IdentityRole role = await _roleManager.FindByIdAsync(id);
             List<AppUser> members = new List<AppUser>();
             List<AppUser> nonMembers = new List<AppUser>();
-            foreach (AppUser user in _userManager.Users)
+
+            // Materialize the user query into a list to avoid concurrent operations on the database.
+            var users = await _userManager.Users.ToListAsync();
+
+            foreach (AppUser user in users)
             {
                 var list = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
                 list.Add(user);
@@ -70,6 +75,7 @@ namespace intex2.Controllers
                 NonMembers = nonMembers
             });
         }
+
  
         [HttpPost]
         public async Task<IActionResult> Update(RoleModification model)
