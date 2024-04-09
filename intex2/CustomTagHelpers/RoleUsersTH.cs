@@ -2,7 +2,7 @@ using intex2.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Identity.CustomTagHelpers
+namespace intex2.CustomTagHelpers
 {
     [HtmlTargetElement("td", Attributes = "i-role")]
     public class RoleUsersTH : TagHelper
@@ -25,7 +25,9 @@ namespace Identity.CustomTagHelpers
             IdentityRole role = await roleManager.FindByIdAsync(Role);
             if (role != null)
             {
-                foreach (var user in userManager.Users)
+                // Materialize the users list first to avoid concurrent operations on the same connection
+                var users = userManager.Users.ToList();
+                foreach (var user in users)
                 {
                     if (user != null && await userManager.IsInRoleAsync(user, role.Name))
                         names.Add(user.UserName);
@@ -33,5 +35,6 @@ namespace Identity.CustomTagHelpers
             }
             output.Content.SetContent(names.Count == 0 ? "No Users" : string.Join(", ", names));
         }
+
     }
 }
