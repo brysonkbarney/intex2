@@ -127,7 +127,7 @@ namespace intex2.Controllers
 
          [HttpPost]
          [AllowAnonymous]
-         public async Task<IActionResult> LoginTwoStep(TwoFactor twoFactor, string returnUrl)
+         public async Task<IActionResult> LoginTwoStep(TwoFactor twoFactor)
          {
              if (!ModelState.IsValid)
              {
@@ -137,7 +137,7 @@ namespace intex2.Controllers
              var result = await signInManager.TwoFactorSignInAsync("Email", twoFactor.TwoFactorCode, false, false);
              if (result.Succeeded)
              {
-                 return Redirect(returnUrl ?? "/");
+                 return Redirect("/");
              }
              else
              {
