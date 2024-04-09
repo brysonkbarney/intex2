@@ -1,8 +1,63 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section id="hero">
+    <img src="@Url.Content("~/images/pileoflegos.jpg")" alt="A pile of Legos" class="edge-to-edge" />
+    <div class="hero-text">
+        <h1>All in one place</h1>
+        <p>Discover our wide range of LEGO® sets and unleash your creativity.</p>
+        <a href="#" class="btn">Shop Now</a>
+    </div>
+</section>
+
+
+<section id="bestsellers">
+    <h2>Bestsellers</h2>
+    <div class="products-grid">
+        <!-- Each product item -->
+        <div class="product-item">
+            <img src="path/to/stormtrooper-image.jpg" alt="Storm Trooper" />
+            <p>Storm Trooper</p>
+            <p>$15</p>
+        </div>
+        <!-- Repeat for each product -->
+    </div>
+    <a href="#" class="btn">View All</a>
+</section>
+
+<section id="star-wars-collection">
+    <h2>New in Star Wars Collection</h2>
+    <div class="products-grid">
+        <!-- Star Wars LEGO® sets -->
+        <!-- Repeat this block for each product -->
+        <div class="product-item">
+            <img src="path/to/lego-starwars-image.jpg" alt="Star Wars LEGO®" />
+            <p>Product Name</p>
+            <p>$Price</p>
+        </div>
+    </div>
+    <a href="#" class="btn">Shop Now</a>
+</section>
+
+<section id="for-you">
+    <h2>For You</h2>
+    <div class="products-grid">
+        <!-- Personalized recommendations -->
+        <!-- Repeat this block for each product -->
+        <div class="product-item">
+            <img src="path/to/personalized-item-image.jpg" alt="Personalized Item" />
+            <p>Product Name</p>
+            <p>$Price</p>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // You can place any additional JavaScript here
+    </script>
+}
+
+
+

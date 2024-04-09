@@ -20,3 +20,33 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#hero {
+  position: relative;
+  text-align: center;
+}
+
+.edge-to-edge {
+  width: 100vw;
+  height: 400px; /* Replace with the desired height */
+  object-fit: cover;
+  display: block;
+  margin-left: calc(-50vw + 50%);
+}
+
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white; /* This makes the text color white */
+  width: 100%; /* Ensures the text container spans the width of the hero section */
+}
+
+.btn {
+  /* ... your existing styles ... */
+  color: white; /* If you want the button text to be white */
+  border: 2px solid white; /* If you want a white border around the button */
+}
+
+
