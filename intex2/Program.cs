@@ -66,7 +66,6 @@ builder.Services.AddAuthorization(opts =>
 builder.Services.Configure<IdentityOptions>(opts =>
 {
     opts.User.RequireUniqueEmail = true;
-    opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyz";
     opts.Lockout.AllowedForNewUsers = true;
     opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
     opts.Lockout.MaxFailedAccessAttempts = 3;
