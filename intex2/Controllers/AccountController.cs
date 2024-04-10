@@ -108,7 +108,12 @@ namespace intex2.Controllers
                      if (identResult.Succeeded)
                      {
                          await signInManager.SignInAsync(user, false);
-                         return View(userInfo);
+                         User newUser = new User()
+                         {
+                             Email = user.Email,
+                             NetUserId = user.Id,
+                         };
+                         return View("AddGoogleDetails", newUser);
                      }
                  }
                  return AccessDenied();
