@@ -40,8 +40,8 @@
         <p id="fullDescription" style="display:none;">@Model.Description <a href="#" id="seeLess">See Less</a></p>
       </div>
       <h3>$@Model.Price</h3>
-      <form method="post" asp-page="/Cart">
-        <input type="hidden" asp-for="@Model.ProductId">
+      <form id=@Model.ProductId method="post" asp-page="/Cart">
+        <input type="hidden" asp-for="ProductId">
         <button type="submit" class="btn btn-primary my-3">Add to Cart</button>
       </form>
       <hr>
