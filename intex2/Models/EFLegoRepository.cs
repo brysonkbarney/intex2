@@ -10,6 +10,8 @@ public class EFLegoRepository : ILegoRepository
     }
     
     public IQueryable<Product> Products => _context.Products;
+    public IQueryable<ProductRecommendations> ProductRecommendations => _context.ProductRecommendations;
+
     public IQueryable<Order> Orders => _context.Orders;
     public void CreateCustomer(Customer customer)
     {
