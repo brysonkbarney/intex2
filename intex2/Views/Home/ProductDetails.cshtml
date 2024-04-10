@@ -1,6 +1,8 @@
 @{
     ViewData["Title"] = "Product Details";
 }
+@using intex2.Infrastructure
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Product
 
 <div class="container my-5">
@@ -42,6 +44,7 @@
       <h3>$@Model.Price</h3>
       <form id=@Model.ProductId method="post" asp-page="/Cart">
         <input type="hidden" asp-for="ProductId">
+        <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()"/>
         <button type="submit" class="btn btn-primary my-3">Add to Cart</button>
       </form>
       <hr>
