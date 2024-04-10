@@ -218,5 +218,9 @@ namespace intex2.Controllers
         {
             return View();
         }
+        public IActionResult MyAccount()
+        {
+            return View();
+        }
     }
 }
