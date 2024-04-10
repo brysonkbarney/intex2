@@ -93,4 +93,11 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    public IActionResult ProductDetails(int id)
+    {
+        Product p = _repo.Products.Where(x => x.ProductId == id).SingleOrDefault();
+        return View("ProductDetails", p);
+    }
+    
 }
