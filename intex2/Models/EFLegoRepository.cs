@@ -41,4 +41,26 @@ public class EFLegoRepository : ILegoRepository
         }
         
     }
+    public bool UpdateProduct(Product p)
+    {
+        try
+        {
+            _context.Products.Update(p);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+        
+    }
+    public void CreateProduct(Product p)
+    {
+        _context.Products.Add(p);
+    }
+
+    public void DeleteProduct(Product p)
+    {
+        _context.Products.Remove(p);
+    }
 }

@@ -41,8 +41,14 @@ public class HomeController : Controller
         return View((object)"Hello");
     }
     
+    [HttpGet]
+    public IActionResult Predict()
+    {
+        return View();
+    }
+    
     [HttpPost]
-    public IActionResult Predict(int time, int amount, int age, int transaction_shipping_match, int residence_transaction_match, 
+    public IActionResult Predict(int time, float amount, int age, int transaction_shipping_match, int residence_transaction_match, 
         int day_of_week_Fri, int day_of_week_Mon, int day_of_week_Sat, int day_of_week_Sun, int day_of_week_Thu, int day_of_week_Tue, 
         int day_of_week_Wed, int entry_mode_CVC, int entry_mode_PIN, int type_of_transaction_POS, int country_of_transaction_China, 
         int country_of_transaction_India, int country_of_transaction_Russia, int country_of_transaction_USA, int shipping_address_China, 
@@ -91,7 +97,7 @@ public class HomeController : Controller
             ViewBag.Prediction = "Error during prediction.";
         }
 
-        return View("Index");
+        return View("Predict");
     }
     public IActionResult Index()
     {

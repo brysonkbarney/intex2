@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/intex2.styles.css" asp-append-version="true"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <header>
@@ -64,6 +65,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Create">Create Role</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ManageProducts">ManageProducts</a>
+                        </li>
                     }
                 </ul>
             </div>
@@ -83,6 +87,7 @@
         &copy; 2024 - Aurora Legos - <a asp-area="" asp-controller="Home" asp-action="Shop">Shop</a> - <a asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a> - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> 
     </div>
 </footer>
+<script src="~/js/site.js" asp-append-version="true"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>

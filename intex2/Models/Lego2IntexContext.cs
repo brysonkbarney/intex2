@@ -100,7 +100,9 @@ public partial class Lego2IntexContext : IdentityDbContext<AppUser>
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.Property(e => e.ProductId).HasColumnName("product_ID");
+            entity.Property(e => e.ProductId)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("product_ID");
             entity.Property(e => e.Category)
                 .HasMaxLength(50)
                 .HasColumnName("category");

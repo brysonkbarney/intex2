@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "MANAGE PRODUCTS";
+}
+@model IQueryable<Product>
+
+<div class="container mt-5">
+    <h2>Manage Products</h2>
+    <a asp-action="AddProduct" class="btn btn-secondary">Add a Product</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+            @foreach (Product p in Model)
+            {
+                <tr>
+                    <td>@p.Name</td>
+                    <td><a class="btn btn-sm btn-primary" asp-action="EditProduct" asp-route-id="@p.ProductId">
+                                            Update
+                                        </a></td>
+                    <td><form asp-action="DeleteProduct" asp-route-id="@p.ProductId" method="post">
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                Delete
+                                            </button>
+                                        </form></td>
+                </tr> 
+            }
+        
+        </tbody>
+    </table>
+</div>
