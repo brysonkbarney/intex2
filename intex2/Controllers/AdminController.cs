@@ -201,7 +201,12 @@ namespace intex2.Controllers
                 ModelState.AddModelError("", "User Not Found");
             return View("Index", userManager.Users);
         }
- 
+
+        public IActionResult ReviewOrders()
+        {
+            IQueryable<Order> orders = _repo.Orders;
+            return View("ReviewOrders", orders);
+        }
         private void Errors(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)
