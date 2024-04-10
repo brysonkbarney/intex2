@@ -120,6 +120,8 @@ public partial class Lego2IntexContext : IdentityDbContext<AppUser>
                 .HasMaxLength(50)
                 .HasColumnName("secondary_color");
             entity.Property(e => e.Year).HasColumnName("year");
+            entity.Property(e => e.Rating).HasColumnName("rating");
+            entity.Property(e => e.ReviewCount).HasColumnName("review_count");
         });
 
         OnModelCreatingPartial(modelBuilder);
