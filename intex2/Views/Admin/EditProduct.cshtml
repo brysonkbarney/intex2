@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "EDIT PRODUCT";
+}
+@model Product
+
+<h1 class="bg-info text-white">Edit Product</h1>
+<a asp-action="ManageProducts" class="btn btn-secondary">Back</a>
+<div asp-validation-summary="All" class="text-danger"></div>
+ 
+<form asp-action="EditProduct" method="post">
+    <input hidden asp-for="ProductId"/>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Year"></label>
+        <input asp-for="Year" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="NumParts"></label>
+        <input asp-for="NumParts" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="ImgLink"></label>
+        <input asp-for="ImgLink" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="PrimaryColor"></label>
+        <input asp-for="PrimaryColor" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="SecondaryColor"></label>
+        <input asp-for="SecondaryColor" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Category"></label>
+        <input asp-for="Category" class="form-control"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

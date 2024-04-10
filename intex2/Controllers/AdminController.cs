@@ -1,5 +1,6 @@
 using Humanizer;
 using intex2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
  
@@ -24,9 +25,11 @@ namespace intex2.Controllers
         {
             return View(userManager.Users);
         }
+        [AllowAnonymous]
         public ViewResult Create() => View();
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Create(User user)
         {
             if (ModelState.IsValid)
@@ -77,6 +80,7 @@ namespace intex2.Controllers
             return View(user);
         }
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> AddGoogleDetails(User user)
         {
             Customer customer = new Customer()
@@ -201,16 +205,55 @@ namespace intex2.Controllers
                 ModelState.AddModelError("", "User Not Found");
             return View("Index", userManager.Users);
         }
-
         public IActionResult ReviewOrders()
         {
-            IQueryable<Order> orders = _repo.Orders;
+            IQueryable<Order> orders = _repo.Orders.Where(x => x.Fraud == 1)
+                .OrderBy(x => x.Date);
             return View("ReviewOrders", orders);
         }
         private void Errors(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)
                 ModelState.AddModelError("", error.Description);
+        }
+        public IActionResult ManageProducts()
+        {
+            IQueryable<Product> ps = _repo.Products;
+            return View(ps);
+        }
+        public IActionResult EditProduct(int id)
+        {
+            Product p = _repo.Products.Where(x => x.ProductId == id).SingleOrDefault();
+            return View(p);
+        }
+
+        [HttpPost]
+        public IActionResult EditProduct(Product p)
+        {
+            _repo.UpdateProduct(p);
+            _repo.Save();
+            return RedirectToAction("ManageProducts");
+        }
+
+        public IActionResult AddProduct()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddProduct(Product p)
+        {
+            _repo.CreateProduct(p);
+            _repo.Save();
+            return RedirectToAction("ManageProducts");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteProduct(int id)
+        {
+            Product p = _repo.Products.Where(x => x.ProductId == id).SingleOrDefault();
+            _repo.DeleteProduct(p);
+            _repo.Save();
+            return RedirectToAction("ManageProducts");
         }
     }
 }

@@ -12,4 +12,7 @@ public interface ILegoRepository
 
     public Customer GetCustomerByNetUserId(string id);
     public bool UpdateCustomer(Customer customer);
+    public bool UpdateProduct(Product p);
+    public void CreateProduct(Product p);
+    public void DeleteProduct(Product p);
 }
