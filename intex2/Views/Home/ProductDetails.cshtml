@@ -22,10 +22,16 @@
       <h2>@Model.Name</h2>
       <p class="text-muted">@Model.Category</p>
       <div class="my-3">
-        <span class="text-warning">★★★★★</span>
-        <span class="ms-2">5</span>
+    <span class="text-warning">
+        @{
+      int rating = Model.Rating ?? 0;
+      string stars = new string('★', rating) + new string('☆', 5 - rating);
+      }
+      @Html.Raw(stars)
+    </span>
+        <span class="ms-2">@Model.Rating</span>
         <span class="ms-1">|</span>
-        <span class="ms-1">120 Comments</span>
+        <span class="ms-1">@Model.ReviewCount Reviews</span>
       </div>
       <p>@Model.Description</p>
       <h3>$@Model.Price</h3>
