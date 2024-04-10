@@ -76,6 +76,24 @@ namespace intex2.Controllers
             }
             return View(user);
         }
+        [HttpPost]
+        public async Task<IActionResult> AddGoogleDetails(User user)
+        {
+            Customer customer = new Customer()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                CountryOfResidence = user.CountryOfResidence,
+                BirthDate = user.BirthDate,
+                Age = user.Age,
+                Gender = user.Gender,
+                NetUserId = user.NetUserId
+            };
+                _repo.CreateCustomer(customer);
+                _repo.Save();
+
+            return RedirectToAction("Index", "Home");
+        }
         public async Task<IActionResult> Update(string id)
         {
             AppUser appUser = await userManager.FindByIdAsync(id);

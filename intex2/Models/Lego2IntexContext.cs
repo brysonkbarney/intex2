@@ -28,7 +28,7 @@ public partial class Lego2IntexContext : IdentityDbContext<AppUser>
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.Property(e => e.CustomerId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd() // This tells EF Core to expect the database to generate this value when a new entity is added.
                 .HasColumnName("customer_ID");
             entity.Property(e => e.Age).HasColumnName("age");
             entity.Property(e => e.BirthDate).HasColumnName("birth_date");
