@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Azure.Security.KeyVault.Secrets;
 
 namespace intex2.Models;
 
 public partial class Lego2IntexContext : IdentityDbContext<AppUser>
 {
-    public Lego2IntexContext()
-    {
-    }
-
     public Lego2IntexContext(DbContextOptions<Lego2IntexContext> options)
         : base(options)
     {
@@ -23,10 +20,6 @@ public partial class Lego2IntexContext : IdentityDbContext<AppUser>
     public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=tcp:myfreesqldbserverintexlego.database.windows.net,1433;Initial Catalog=Lego2Intex;Persist Security Info=False;User ID=groupadmin2-14;Password=mk9XaFeFhscz44;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
