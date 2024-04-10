@@ -8,7 +8,7 @@
 @model Product
 
 <a asp-area="" asp-controller="Home" asp-action="ProductDetails" asp-route-id="@Model.ProductId" style="text-decoration: none; color: inherit;">
-    <div class="card m-2" style="width: 20rem; height: 22rem;">
+    <div class="card m-2" style="height: 22rem;"> <!-- Removed width: 20rem; to let Bootstrap control the width -->
         <div class="card-img-top" style="height: 60%; background: url('@Model.ImgLink') center center / contain no-repeat; margin-top: 20px;"></div>
         <div class="card-body d-flex flex-column justify-content-center">
             <h5 class="card-title text-center">@Model.Name</h5>
