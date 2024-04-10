@@ -70,7 +70,7 @@ namespace intex2.Controllers
         }
  
         [HttpPost]
-        public async Task<IActionResult> Update(string id, string email, string password)
+        public async Task<IActionResult> Update(string id, string email, string password, bool twoFactor)
         {
             AppUser user = await userManager.FindByIdAsync(id);
             if (user != null)
@@ -84,7 +84,9 @@ namespace intex2.Controllers
                     user.PasswordHash = passwordHasher.HashPassword(user, password);
                 else
                     ModelState.AddModelError("", "Password cannot be empty");
- 
+                
+                user.TwoFactorEnabled = twoFactor;
+                
                 if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
                 {
                     IdentityResult result = await userManager.UpdateAsync(user);
