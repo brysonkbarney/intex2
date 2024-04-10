@@ -1,15 +1,35 @@
 @page
-@model intex2.Pages.Cart
+@model intex2.Pages.CartModel
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    <h1>First Razor Page</h1>
-</div>
-</body>
-</html>
+<h1>Your Cart</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th class="text-right">Amount</th>
+        <th class="text-right">Subtotal</th>
+        <th></th>
+    </tr>
+    </thead>
+    
+    <tbody>
+    @foreach (var l in Model.Cart?.Lines ?? Enumerable.Empty<Cart.CartLine>())
+    {
+        <tr>
+            <td class="text-left">@l.Product.Name</td>
+            <td class="text-center">@l.Quantity</td>
+            <td class="text-right">@l.Product.Price</td>
+            <td class="text-right">@((l.Quantity* 25).ToString())</td>
+        </tr>
+    }
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="3" class="text-right">Total:</td>
+        <td class="text-right">@Model.Cart?.CalculateTotal().ToString("c")</td>
+    </tr>
+    </tfoot>
+</table>
