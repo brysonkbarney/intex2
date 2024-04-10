@@ -8,6 +8,7 @@ using Azure.Security.KeyVault.Secrets;
 using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRazorPages();
 var services = builder.Services;
 var configuration = builder.Configuration;
 
@@ -120,5 +121,7 @@ app.UseMiddleware<ContentSecurityPolicyMiddleware>(); // Add this line
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();
