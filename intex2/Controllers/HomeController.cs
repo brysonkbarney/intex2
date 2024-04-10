@@ -165,8 +165,31 @@ public class HomeController : Controller
 
     public IActionResult ProductDetails(int id)
     {
-        Product p = _repo.Products.Where(x => x.ProductId == id).SingleOrDefault();
-        return View("ProductDetails", p);
+        var product = _repo.Products.FirstOrDefault(p => p.ProductId == id);
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        var recommendations = _repo.ProductRecommendations.FirstOrDefault(r => r.ProductId == id);
+        if (recommendations != null)
+        {
+            var recommendedProductIds = new List<int>();
+
+            // Add the recommendation IDs to the list if they are not null
+            if (recommendations.Rec1.HasValue) recommendedProductIds.Add(recommendations.Rec1.Value);
+            if (recommendations.Rec2.HasValue) recommendedProductIds.Add(recommendations.Rec2.Value);
+            if (recommendations.Rec3.HasValue) recommendedProductIds.Add(recommendations.Rec3.Value);
+            if (recommendations.Rec4.HasValue) recommendedProductIds.Add(recommendations.Rec4.Value);
+            if (recommendations.Rec5.HasValue) recommendedProductIds.Add(recommendations.Rec5.Value);
+
+            var recommendedProducts = _repo.Products.Where(p => recommendedProductIds.Contains(p.ProductId)).ToList();
+
+            // Pass the recommended products to the view
+            ViewBag.RecommendedProducts = recommendedProducts;
+        }
+
+        return View(product);
     }
     
 }

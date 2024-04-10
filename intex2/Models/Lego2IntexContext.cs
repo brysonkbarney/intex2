@@ -20,6 +20,8 @@ public partial class Lego2IntexContext : IdentityDbContext<AppUser>
     public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
+    public DbSet<ProductRecommendations> ProductRecommendations { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -123,6 +125,20 @@ public partial class Lego2IntexContext : IdentityDbContext<AppUser>
             entity.Property(e => e.Rating).HasColumnName("rating");
             entity.Property(e => e.ReviewCount).HasColumnName("review_count");
         });
+        
+        modelBuilder.Entity<ProductRecommendations>(entity =>
+        {
+            entity.ToTable("product_recommendations");
+
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.Rec1).HasColumnName("rec_1");
+            entity.Property(e => e.Rec2).HasColumnName("rec_2");
+            entity.Property(e => e.Rec3).HasColumnName("rec_3");
+            entity.Property(e => e.Rec4).HasColumnName("rec_4");
+            entity.Property(e => e.Rec5).HasColumnName("rec_5");
+        });
+
+
 
         OnModelCreatingPartial(modelBuilder);
     }
