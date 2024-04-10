@@ -49,6 +49,23 @@
           <i class="bi bi-truck"></i> Free Shipping & Returns
         </div>
       </div>
+
+      <section id="for-you">
+        <div class="row justify-content-center mb-3">
+          <div class="col-12 text-center">
+            <br/>
+            <h2>Other items you may like</h2>
+            <br/>
+          </div>
+          <br/>
+          @foreach (var recommendation in ViewBag.RecommendedProducts)
+          {
+            <div class="col-12 col-md-3">
+              <partial name="ProductSummary" model="recommendation"/>
+            </div>
+          }
+        </div>
+      </section>
     </div>
   </div>
 </div>

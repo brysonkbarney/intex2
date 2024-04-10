@@ -5,7 +5,7 @@ namespace intex2.Models;
 
 public partial class Product
 {
-    public byte ProductId { get; set; }
+    public int ProductId { get; set; }
 
     public string? Name { get; set; }
 
