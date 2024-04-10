@@ -1,3 +1,4 @@
+using intex2.Infrastructure;
 using intex2.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
@@ -15,15 +16,19 @@ public class CartModel : PageModel
 
     public void OnGet()
     {
+        Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
     }
     public void OnPost(int productId)
     {
         Product prod = _repo.Products
             .FirstOrDefault(x => x.ProductId == productId);
 
-        Cart = new Cart();
-        
-        Cart.AddItem(prod,1);
+        if (prod != null)
+        {
+            Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
+            Cart.AddItem(prod,1);
+            HttpContext.Session.SetJson("cart", Cart);
+        }
         
     }
 }
