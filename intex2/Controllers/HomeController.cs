@@ -26,10 +26,13 @@ public class HomeController : Controller
     
     public IActionResult Index()
     {
-        var productIds = new List<int> { 23, 19, 21, 22 }; // specify the product IDs you want to display
+        var productIds = new List<int> { 34, 9, 24, 37 }; // specify the product IDs you want to display
+        var bestProductIds = new List<int> { 23, 19, 21, 22 }; // specify the other product IDs you want to display
+
         var model = new ProductsListViewModel
         {
-            Products = _repo.Products.Where(p => productIds.Contains(p.ProductId))
+            Products = _repo.Products.Where(p => productIds.Contains(p.ProductId)),
+            BestProducts = _repo.Products.Where(p => bestProductIds.Contains(p.ProductId))
         };
 
         return View(model);

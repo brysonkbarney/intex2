@@ -7,8 +7,7 @@
 @model intex2.Models.ViewModels.ProductsListViewModel
 
 <section id="hero">
-    <img src="@Url.Content("~/images/pileoflegos.jpg")" alt="A pile of Legos" class="edge-to-edge" />
-    <div class="hero-text">
+    <img src="@Url.Content("~/images/pileoflegos.jpg")" alt="A pile of Legos" style="width: 100vw; height: 200px; object-fit: cover;" />    <div class="hero-text">
         <h1>All in one place</h1>
         <p>Discover our wide range of LEGO® sets and unleash your creativity.</p>
         <a href="#" class="btn">Shop Now</a>
@@ -19,7 +18,7 @@
 <div class="row justify-content-center mb-3">
     <div class="col-12 text-center">
         <br/>
-        <h2>BESTSELLERS</h2>
+        <h2>AURORA'S FAVORITES</h2>
         <a href="@Url.Action("Shop", "Home")" class="btn" style="background-color: white; color: black; border: 1px solid black;">View All</a>
 
         <br/>
@@ -37,8 +36,7 @@
 <br/>
 
 <section id="star-wars-collection">
-    <img src="@Url.Content("~/images/jedi.jpg")" alt="A pile of Legos" class="edge-to-edge" />
-    <div class="col-12 text-center">
+    <img src="@Url.Content("~/images/jedi.jpg")" alt="jedi" class="img-fluid" />    <div class="col-12 text-center">
         <br/>
         <h2>NEW STAR WARS COLLLECTION</h2>
         <a href="@Url.Action("Shop", "Home")" class="btn" style="background-color: white; color: black; border: 1px solid black;">Shop Now</a>
@@ -54,11 +52,11 @@
     <div class="row justify-content-center mb-3">
         <div class="col-12 text-center">
             <br/>
-            <h2>FOR YOU</h2>
+            <h2>BESTSELLERS</h2>
             <br/>
         </div>
         <br/>
-        @foreach (Product p in Model.Products)
+        @foreach (Product p in Model.BestProducts)
         {
         <div class="col-12 col-md-3">
             <partial name="ProductSummary" model="p"/>
