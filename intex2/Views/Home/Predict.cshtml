@@ -1,0 +1,101 @@
+@{
+    ViewData["Title"] = "Home Page";
+    ViewBag.Title = "Index";
+}
+
+
+<style>
+    .form-box {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .form-group {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .form-group label {
+        text-align: right;
+    }
+
+    .form-group input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-group input[type="submit"] {
+        grid-column: 2 / 3;
+        width: auto;
+        padding: 10px 20px;
+        margin-top: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .form-group input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="text-center">
+    <h2>Decision Tree Animal Prediction</h2>
+
+    <div class="form-box">
+        <form action="/Home/Predict#predictionResult" method="post">
+            <div class="form-group"><label>Time:</label><input type="number" name="time" /></div>
+            <div class="form-group"><label>Amount:</label><input type="number" name="amount" /></div>
+            <div class="form-group"><label>Age:</label><input type="number" name="age" /></div>
+            <div class="form-group"><label>Transaction Shipping Match:</label><input type="number" name="transaction_shipping_match" /></div>
+            <div class="form-group"><label>Residence Transaction Match:</label><input type="number" name="residence_transaction_match" /></div>
+            <div class="form-group"><label>Day of Week (Friday):</label><input type="number" name="day_of_week_Fri" /></div>
+            <div class="form-group"><label>Day of Week (Monday):</label><input type="number" name="day_of_week_Mon" /></div>
+            <div class="form-group"><label>Day of Week (Saturday):</label><input type="number" name="day_of_week_Sat" /></div>
+            <div class="form-group"><label>Day of Week (Sunday):</label><input type="number" name="day_of_week_Sun" /></div>
+            <div class="form-group"><label>Day of Week (Thursday):</label><input type="number" name="day_of_week_Thu" /></div>
+            <div class="form-group"><label>Day of Week (Tuesday):</label><input type="number" name="day_of_week_Tue" /></div>
+            <div class="form-group"><label>Day of Week (Wednesday):</label><input type="number" name="day_of_week_Wed" /></div>
+            <div class="form-group"><label>Entry Mode (CVC):</label><input type="number" name="entry_mode_CVC" /></div>
+            <div class="form-group"><label>Entry Mode (PIN):</label><input type="number" name="entry_mode_PIN" /></div>
+            <div class="form-group"><label>Type of Transaction (POS):</label><input type="number" name="type_of_transaction_POS" /></div>
+            <div class="form-group"><label>Country of Transaction (China):</label><input type="number" name="country_of_transaction_China" /></div>
+            <div class="form-group"><label>Country of Transaction (India):</label><input type="number" name="country_of_transaction_India" /></div>
+            <div class="form-group"><label>Country of Transaction (Russia):</label><input type="number" name="country_of_transaction_Russia" /></div>
+            <div class="form-group"><label>Country of Transaction (USA):</label><input type="number" name="country_of_transaction_USA" /></div>
+            <div class="form-group"><label>Shipping Address (China):</label><input type="number" name="shipping_address_China" /></div>
+            <div class="form-group"><label>Shipping Address (India):</label><input type="number" name="shipping_address_India" /></div>
+            <div class="form-group"><label>Shipping Address (Russia):</label><input type="number" name="shipping_address_Russia" /></div>
+            <div class="form-group"><label>Shipping Address (USA):</label><input type="number" name="shipping_address_USA" /></div>
+            <div class="form-group"><label>Bank (Barclays):</label><input type="number" name="bank_Barclays" /></div>
+            <div class="form-group"><label>Bank (HSBC):</label><input type="number" name="bank_HSBC" /></div>
+            <div class="form-group"><label>Bank (Halifax):</label><input type="number" name="bank_Halifax" /></div>
+            <div class="form-group"><label>Bank (Lloyds):</label><input type="number" name="bank_Lloyds" /></div>
+            <div class="form-group"><label>Bank (Metro):</label><input type="number" name="bank_Metro" /></div>
+            <div class="form-group"><label>Bank (Monzo):</label><input type="number" name="bank_Monzo" /></div>
+            <div class="form-group"><label>Bank (RBS):</label><input type="number" name="bank_RBS" /></div>
+            <div class="form-group"><label>Type of Card (MasterCard):</label><input type="number" name="type_of_card_MasterCard" /></div>
+            <div class="form-group"><label>Type of Card (Visa):</label><input type="number" name="type_of_card_Visa" /></div>
+            <div class="form-group"><label>Gender (Female):</label><input type="number" name="gender_F" /></div>
+            <div class="form-group"><input type="submit" value="Predict" /></div>
+        </form>
+    </div>
+    <div class="text-center" id="predictionResult">
+        @if (ViewBag.Prediction != null)
+        {
+            <h2>Prediction: @ViewBag.Prediction</h2>
+        }
+    </div>
+
+</div>
