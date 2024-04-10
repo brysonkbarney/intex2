@@ -18,4 +18,5 @@ public partial class Customer
     public string? Gender { get; set; }
 
     public double? Age { get; set; }
+    public string? NetUserId { get; set; }
 }
