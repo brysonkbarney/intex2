@@ -2,15 +2,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
+@{
+    ViewData["Title"] = "Home Page";
+}
 
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
-</div>
-</body>
-</html>
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model intex2.Models.ViewModels.ProductsListViewModel
+
+<h1>All Products</h1>
+
+    @foreach (Product p in Model.Products)
+    {
+        <partial name="ProductSummary" model="p"/>
+    }
+    
+    <div page-model="@Model.PaginationInfo" page-action="Index" page-classes-enabled="true" page-class="btn"
+         page-class-normal="btn-outline-dark" page-class-selected="btn-primary"
+         paeg-url-projectType="@Model.CurrentProductType" class = "btn-group pull-right m-1"></div>
+
