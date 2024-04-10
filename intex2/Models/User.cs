@@ -13,5 +13,7 @@ namespace intex2.Models
 
         [Required]
         public string Password { get; set; }
+
+        public bool TwoFactor { get; set; } = false;
     }
 }

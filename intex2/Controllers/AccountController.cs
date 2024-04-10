@@ -23,10 +23,10 @@ namespace intex2.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl)
+        public IActionResult Login(string? returnUrl)
         {
             Login login = new Login();
-            login.ReturnUrl = returnUrl;
+            login.ReturnUrl = returnUrl ?? "/";
             return View(login);
         }
 
@@ -215,6 +215,10 @@ namespace intex2.Controllers
         }
  
         public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
+        public IActionResult MyAccount()
         {
             return View();
         }

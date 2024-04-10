@@ -31,8 +31,9 @@ namespace intex2.Controllers
                 AppUser appUser = new AppUser
                 {
                     UserName = user.Name,
-                    Email = user.Email,
-                    TwoFactorEnabled = true
+                    Email = user.Email, 
+                    TwoFactorEnabled = user.TwoFactor
+                   
                 };
 
                 IdentityResult result = await userManager.CreateAsync(appUser, user.Password);
@@ -45,7 +46,7 @@ namespace intex2.Controllers
                     bool emailResponse = _emailHelper.SendEmail(user.Email, confirmationLink);
              
                     if (emailResponse)
-                        return RedirectToAction("Index");
+                        return View("../Email/GoConfirm");
                     else
                     {
                         // log email failed 
@@ -69,7 +70,7 @@ namespace intex2.Controllers
         }
  
         [HttpPost]
-        public async Task<IActionResult> Update(string id, string email, string password)
+        public async Task<IActionResult> Update(string id, string email, string password, bool twoFactor)
         {
             AppUser user = await userManager.FindByIdAsync(id);
             if (user != null)
@@ -83,7 +84,9 @@ namespace intex2.Controllers
                     user.PasswordHash = passwordHasher.HashPassword(user, password);
                 else
                     ModelState.AddModelError("", "Password cannot be empty");
- 
+                
+                user.TwoFactorEnabled = twoFactor;
+                
                 if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
                 {
                     IdentityResult result = await userManager.UpdateAsync(user);

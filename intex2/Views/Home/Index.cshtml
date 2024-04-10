@@ -12,19 +12,65 @@
 </section>
 
 
-<section id="bestsellers">
-    <h2>Bestsellers</h2>
-    <div class="products-grid">
-        <!-- Each product item -->
-        <div class="product-item">
-            <img src="path/to/stormtrooper-image.jpg" alt="Storm Trooper" />
-            <p>Storm Trooper</p>
-            <p>$15</p>
+<div class="container mt-5">
+    <!-- Bestsellers header with centered text and button aligned to the right -->
+    <div class="row justify-content-center mb-3">
+        <div class="col-12 col-md-6 text-center">
+            <h2>BESTSELLERS</h2>
         </div>
-        <!-- Repeat for each product -->
     </div>
-    <a href="#" class="btn">View All</a>
-</section>
+
+    <!-- Cards row -->
+    <div class="row mt-4">
+        <!-- Storm Trooper Card -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <img src="path_to_storm_trooper_image" class="card-img-top" alt="Storm Trooper">
+                <div class="card-body text-center">
+                    <h5 class="card-title">STORM TROOPER</h5>
+                    <p class="card-text">$15</p>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Birthday Party Card -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <img src="path_to_birthday_party_image" class="card-img-top" alt="Birthday Party">
+                <div class="card-body text-center">
+                    <h5 class="card-title">BIRTHDAY PARTY</h5>
+                    <p class="card-text">$45</p>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Record Store Set Card -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <img src="path_to_record_store_set_image" class="card-img-top" alt="Record Store Set">
+                <div class="card-body text-center">
+                    <h5 class="card-title">RECORD STORE SET</h5>
+                    <p class="card-text">$650</p>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mona Lisa Portrait Card -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <img src="path_to_mona_lisa_portrait_image" class="card-img-top" alt="Mona Lisa Portrait">
+                <div class="card-body text-center">
+                    <h5 class="card-title">MONA LISA PORTRAIT</h5>
+                    <p class="card-text">$150</p>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <section id="star-wars-collection">
     <h2>New in Star Wars Collection</h2>
@@ -64,11 +110,4 @@
 @{
     ViewData["Title"] = "Authentication";
 }
- 
-<h1 class="bg-info text-white">Index</h1>
-@Model
- 
-@if (User?.Identity?.IsAuthenticated ?? false)
-{
-    <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Logout</a>
-}
+

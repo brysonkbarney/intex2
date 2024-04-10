@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using intex2.Models;
+using intex2.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace intex2.Controllers;
@@ -10,10 +11,12 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private UserManager<AppUser> userManager;
-    public HomeController(UserManager<AppUser> userMgr,ILogger<HomeController> logger)
+    private ILegoRepository _repo;
+    public HomeController(UserManager<AppUser> userMgr,ILogger<HomeController> logger, ILegoRepository temp)
     {
         _logger = logger;
         userManager = userMgr;
+        _repo = temp;
     }
     [Authorize] 
     public IActionResult Secured()
@@ -32,9 +35,33 @@ public class HomeController : Controller
     {
         return View();
     }
-    public IActionResult Shop()
+    public IActionResult Shop(int pageNum, string? productType)
     {
-        return View();
+        if (pageNum <= 0)
+        {
+            pageNum = 1;
+        }
+            
+        int pageSize = 5;
+
+        var blah = new ProductsListViewModel
+        {
+            Products = _repo.Products
+                .OrderBy(x => x.Name)
+                .Skip((pageNum - 1) * (pageSize))
+                .Take(pageSize),
+
+            PaginationInfo = new PaginationInfo
+            {
+                CurrentPage = pageNum,
+                ItemsPerPage = pageSize,
+                TotalItems = productType == null ? _repo.Products.Count() : _repo.Products.Count()
+            },
+                
+            CurrentProductType = productType
+        };
+
+        return View(blah);
     }
     public IActionResult AboutUs()
     {
@@ -54,7 +81,6 @@ public class HomeController : Controller
 
         return View("Index");
     }
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
