@@ -31,8 +31,9 @@ namespace intex2.Controllers
                 AppUser appUser = new AppUser
                 {
                     UserName = user.Name,
-                    Email = user.Email,
-                    TwoFactorEnabled = true
+                    Email = user.Email, 
+                    TwoFactorEnabled = user.TwoFactor
+                   
                 };
 
                 IdentityResult result = await userManager.CreateAsync(appUser, user.Password);
@@ -45,7 +46,7 @@ namespace intex2.Controllers
                     bool emailResponse = _emailHelper.SendEmail(user.Email, confirmationLink);
              
                     if (emailResponse)
-                        return RedirectToAction("Index");
+                        return View("../Email/GoConfirm");
                     else
                     {
                         // log email failed 
