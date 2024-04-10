@@ -11,10 +11,14 @@
 <br/><br/><br/>
 <h1>All Products</h1>
 
+<div class="row">
     @foreach (Product p in Model.Products)
     {
-        <partial name="ProductSummary" model="p"/>
+        <div class="col-12 col-md-3">
+            <partial name="ProductSummary" model="p"/>
+        </div>
     }
+</div>
     
     <div page-model="@Model.PaginationInfo" page-action="Index" page-classes-enabled="true" page-class="btn"
          page-class-normal="btn-outline-dark" page-class-selected="btn-primary"

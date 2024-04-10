@@ -2,9 +2,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@using intex2.Models
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model intex2.Models.ViewModels.ProductsListViewModel
+
 <section id="hero">
-    <img src="@Url.Content("~/images/pileoflegos.jpg")" alt="A pile of Legos" class="edge-to-edge" />
-    <div class="hero-text">
+    <img src="@Url.Content("~/images/pileoflegos.jpg")" alt="A pile of Legos" style="width: 100vw; height: 200px; object-fit: cover;" />    <div class="hero-text">
         <h1>All in one place</h1>
         <p>Discover our wide range of LEGO® sets and unleash your creativity.</p>
         <a href="#" class="btn">Shop Now</a>
@@ -12,90 +15,53 @@
 </section>
 
 
-<div class="container mt-5">
-    <!-- Bestsellers header with centered text and button aligned to the right -->
-    <div class="row justify-content-center mb-3">
-        <div class="col-12 col-md-6 text-center">
-            <h2>BESTSELLERS</h2>
-        </div>
+<div class="row justify-content-center mb-3">
+    <div class="col-12 text-center">
+        <br/>
+        <h2>AURORA'S FAVORITES</h2>
+        <a href="@Url.Action("Shop", "Home")" class="btn" style="background-color: white; color: black; border: 1px solid black;">View All</a>
+
+        <br/>
+        <br/>
     </div>
-
-    <!-- Cards row -->
-    <div class="row mt-4">
-        <!-- Storm Trooper Card -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card">
-                <img src="path_to_storm_trooper_image" class="card-img-top" alt="Storm Trooper">
-                <div class="card-body text-center">
-                    <h5 class="card-title">STORM TROOPER</h5>
-                    <p class="card-text">$15</p>
-                    <a href="#" class="btn btn-primary">Add to Cart</a>
-                </div>
-            </div>
+    <br/>
+    @foreach (Product p in Model.Products)
+    {
+        <div class="col-12 col-md-3">
+            <partial name="ProductSummary" model="p"/>
         </div>
-
-        <!-- Birthday Party Card -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card">
-                <img src="path_to_birthday_party_image" class="card-img-top" alt="Birthday Party">
-                <div class="card-body text-center">
-                    <h5 class="card-title">BIRTHDAY PARTY</h5>
-                    <p class="card-text">$45</p>
-                    <a href="#" class="btn btn-primary">Add to Cart</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Record Store Set Card -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card">
-                <img src="path_to_record_store_set_image" class="card-img-top" alt="Record Store Set">
-                <div class="card-body text-center">
-                    <h5 class="card-title">RECORD STORE SET</h5>
-                    <p class="card-text">$650</p>
-                    <a href="#" class="btn btn-primary">Add to Cart</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mona Lisa Portrait Card -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card">
-                <img src="path_to_mona_lisa_portrait_image" class="card-img-top" alt="Mona Lisa Portrait">
-                <div class="card-body text-center">
-                    <h5 class="card-title">MONA LISA PORTRAIT</h5>
-                    <p class="card-text">$150</p>
-                    <a href="#" class="btn btn-primary">Add to Cart</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    }
 </div>
+<br/>
+<br/>
 
 <section id="star-wars-collection">
-    <h2>New in Star Wars Collection</h2>
-    <div class="products-grid">
-        <!-- Star Wars LEGO® sets -->
-        <!-- Repeat this block for each product -->
-        <div class="product-item">
-            <img src="path/to/lego-starwars-image.jpg" alt="Star Wars LEGO®" />
-            <p>Product Name</p>
-            <p>$Price</p>
-        </div>
+    <img src="@Url.Content("~/images/jedi.jpg")" alt="jedi" class="img-fluid" />    <div class="col-12 text-center">
+        <br/>
+        <h2>NEW STAR WARS COLLLECTION</h2>
+        <a href="@Url.Action("Shop", "Home")" class="btn" style="background-color: white; color: black; border: 1px solid black;">Shop Now</a>
+
+        <br/>
     </div>
-    <a href="#" class="btn">Shop Now</a>
 </section>
 
+<br/>
+<br/>
+
 <section id="for-you">
-    <h2>For You</h2>
-    <div class="products-grid">
-        <!-- Personalized recommendations -->
-        <!-- Repeat this block for each product -->
-        <div class="product-item">
-            <img src="path/to/personalized-item-image.jpg" alt="Personalized Item" />
-            <p>Product Name</p>
-            <p>$Price</p>
+    <div class="row justify-content-center mb-3">
+        <div class="col-12 text-center">
+            <br/>
+            <h2>BESTSELLERS</h2>
+            <br/>
         </div>
+        <br/>
+        @foreach (Product p in Model.BestProducts)
+        {
+        <div class="col-12 col-md-3">
+            <partial name="ProductSummary" model="p"/>
+        </div>
+        }
     </div>
 </section>
 
@@ -104,8 +70,6 @@
         // You can place any additional JavaScript here
     </script>
 }
-
-@model string
  
 @{
     ViewData["Title"] = "Authentication";

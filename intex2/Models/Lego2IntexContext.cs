@@ -44,6 +44,9 @@ public partial class Lego2IntexContext : IdentityDbContext<AppUser>
             entity.Property(e => e.LastName)
                 .HasMaxLength(50)
                 .HasColumnName("last_name");
+            entity.Property(e => e.NetUserId)
+                .HasMaxLength(50)
+                .HasColumnName("net_user_id");
         });
 
         modelBuilder.Entity<LineItem>(entity =>

@@ -23,12 +23,19 @@ public class HomeController : Controller
     {
         return View((object)"Hello");
     }
-    [Authorize]
-    public async Task<IActionResult> Index()
+    
+    public IActionResult Index()
     {
-        AppUser user = await userManager.GetUserAsync(HttpContext.User);
-        string message = "Hello " + user.UserName;
-        return View((object)message);
+        var productIds = new List<int> { 34, 9, 24, 37 }; // specify the product IDs you want to display
+        var bestProductIds = new List<int> { 23, 19, 21, 22 }; // specify the other product IDs you want to display
+
+        var model = new ProductsListViewModel
+        {
+            Products = _repo.Products.Where(p => productIds.Contains(p.ProductId)),
+            BestProducts = _repo.Products.Where(p => bestProductIds.Contains(p.ProductId))
+        };
+
+        return View(model);
     }
 
     public IActionResult Privacy()
