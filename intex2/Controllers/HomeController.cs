@@ -139,14 +139,12 @@ public class HomeController : Controller
     {
         return View();
     }
-    public IActionResult Shop(int pageNum, string? productType, List<string> productTypes, int pageSize = 5)
+    public IActionResult Shop(int pageNum, string? productType, List<string> productTypes, List<string> colors, int pageSize = 5)
     {
         if (pageNum <= 0)
         {
             pageNum = 1;
         }
-
-        // int pageSize = 37;
 
         // Get all products if no filters are applied
         IQueryable<Product> products = _repo.Products;
@@ -156,9 +154,15 @@ public class HomeController : Controller
             products = products.Where(p => productTypes.Any(pt => p.Category.ToLower().Contains(pt.ToLower())));
         }
 
+        // If colors are specified, filter products based on colors
+        if (colors != null && colors.Count > 0)
+        {
+            products = products.Where(p => colors.Any(c => p.PrimaryColor.ToLower().Contains(c.ToLower())));
+        }
+
         var model = new ProductsListViewModel
         {
-            Products = _repo.Products
+            Products = products
                 .OrderBy(x => x.Name)
                 .Skip((pageNum - 1) * (pageSize))
                 .Take(pageSize),
@@ -167,42 +171,43 @@ public class HomeController : Controller
             {
                 CurrentPage = pageNum,
                 ItemsPerPage = pageSize,
-                TotalItems = productType == null ? _repo.Products.Count() : _repo.Products.Count()
+                TotalItems = productType == null ? products.Count() : products.Count()
             },
 
             CurrentProductType = productType
         };
-       
-        var filteredProducts = model.Products.Where(p => productTypes.Select(pt => pt.ToLower()).Contains(p.Category.ToLower())).ToList();
+   
+        var filteredProducts = model.Products.ToList();
         Console.WriteLine($"Filtered products: {filteredProducts.Count}");
-            
 
-// If the request is an AJAX request, return the partial view with the filtered products
+        // If the request is an AJAX request, return the partial view with the filtered products
         if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
         {
             return PartialView("_Products", filteredProducts);
         }
-        
-        
+    
         return View(model);
-
     }
     
     [HttpPost]
-    public IActionResult Shop([FromBody] ProductTypesViewModel productTypes)
+    public IActionResult Shop([FromBody] ProductTypesViewModel filters)
     {
-        // If no product types are specified, return all products
-        if (productTypes == null || productTypes.ProductTypes == null || productTypes.ProductTypes.Count == 0)
+        // Get all products if no filters are applied
+        IQueryable<Product> products = _repo.Products;
+
+        // Filter products based on product types
+        if (filters.ProductTypes != null && filters.ProductTypes.Count > 0)
         {
-            var allProducts = _repo.Products.ToList();
-            return PartialView("_Products", allProducts);
+            products = products.Where(p => filters.ProductTypes.Any(pt => p.Category.ToLower().Contains(pt.ToLower())));
         }
 
-        // Otherwise, filter the products based on the specified product types
-        var filteredProducts = _repo.Products
-            .Where(p => productTypes.ProductTypes
-                .Any(pt => p.Category.ToLower().Contains(pt.ToLower())))
-            .ToList();
+        // Filter products based on colors
+        if (filters.Colors != null && filters.Colors.Count > 0)
+        {
+            products = products.Where(p => filters.Colors.Any(c => p.PrimaryColor.ToLower().Contains(c.ToLower())));
+        }
+
+        var filteredProducts = products.ToList();
 
         // Return the partial view with the filtered products
         return PartialView("_Products", filteredProducts);
