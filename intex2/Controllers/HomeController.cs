@@ -262,7 +262,8 @@ public class HomeController : Controller
         return View(product);
     }
     
-    public IActionResult CheckoutConfirmation()
+    [HttpPost]
+    public IActionResult CheckoutConfirmationStart(decimal amount)
     {
         // Assuming the user is logged in and their ID is stored in User.Identity.Name
         var appUser = userManager.FindByNameAsync(User.Identity.Name).Result;
@@ -271,11 +272,18 @@ public class HomeController : Controller
         {
             return NotFound();
         }
+        int intAmount = (int)amount;
         var order = _repo.Orders.FirstOrDefault(o => o.CustomerId == customer.CustomerId);
         if (order == null)
         {
-            return View("CheckoutConfirmation");
+            Order newOrder = new Order()
+            {
+                Amount = intAmount
+            };
+            return View("CheckoutConfirmation", newOrder);
         }
+
+        order.Amount = intAmount;
         return View("CheckoutConfirmation", order);
     }
 
