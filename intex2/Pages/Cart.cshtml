@@ -54,6 +54,14 @@
                 <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
             </form>
     }
+    <a class="btn btn-primary" asp-controller="Home" asp-action="Shop">Continue Shopping</a>
+</div>
+
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <form asp-controller="Home" asp-action="CheckoutConfirmationStart" method="post">
+        <input type="hidden" name="amount" value="@Model.Cart?.CalculateTotal()" />
+        <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+    </form>
 </div>
 
 
