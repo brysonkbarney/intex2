@@ -30,7 +30,7 @@ builder.Services.AddAuthentication()
     });
 
 services.AddSingleton<IConfiguration>(configuration);
-services.AddSingleton<PredictionService>();
+services.AddScoped<PredictionService>();
 services.AddTransient<EmailHelper>();
 
 builder.Services.AddDbContext<Lego2IntexContext>(options =>
