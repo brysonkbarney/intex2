@@ -76,11 +76,11 @@
 </style>
 
 
-<div class="container h-100">
-    <div class="row h-100">
-        <!-- Order Details Column centered vertically -->
-        <div class="col-md-6 my-auto">
-            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin: auto; display: flex; flex-direction: column; justify-content: center;">
+<div class="container" style="height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <div class="row" style="width: 100%;">
+        <!-- Order Details Column centered vertically and horizontally -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center" style="height: 100%;">
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); max-width: 600px; width: 100%; margin: auto; display: flex; flex-direction: column; justify-content: center;">
                 <p style="font-size: 18px; color: #27ae60; margin-bottom: 20px;">Your order was successful and will be shipped soon.</p>
 
                 <div style="background: #f7f7f7; padding: 15px; border-left: 5px solid #27ae60; margin-bottom: 20px;">
@@ -95,15 +95,17 @@
             </div>
         </div>
 
-        <!-- Image Column -->
-        <div class="col-md-6 my-auto">
-            <h1>Are you satisfied ?</h1>
+        <!-- Image Column centered vertically and horizontally -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center" style="height: 100%;">
+            <div style="max-width: 600px; width: 100%; margin: auto;">
+                <h1>Are you satisfied ?</h1>
 
-            <div class="lego-head"></div>
+                <div class="lego-head"></div>
 
-            <div class="input">
-                <label>Satisfaction: <span class="js-satisfaction">10</span>/20</label>
-                <input class="js-satisfaction-slider" type="range" min="0" max="20" step="1" value="10" >
+                <div class="input">
+                    <label>Satisfaction: <span class="js-satisfaction">10</span>/20</label>
+                    <input class="js-satisfaction-slider" type="range" min="0" max="20" step="1" value="10" >
+                </div>
             </div>
         </div>
     </div>
@@ -111,25 +113,19 @@
 
 
 @section Scripts {
-    <script src="https://unpkg.com/rxjs/bundles/rxjs.umd.min.js"></script>
-    <script>
-        const { fromEvent } = rxjs;
-        const { map } = rxjs.operators;
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var slider = document.querySelector('.js-satisfaction-slider');
+        var satisfactionDisplay = document.querySelector('.js-satisfaction');
+        var legoHead = document.querySelector('.lego-head');
 
-        var $input = document.querySelector('.js-satisfaction-slider');
-        var $satisfaction = document.querySelector('.js-satisfaction');
-        var $legoHead = document.querySelector('.lego-head');
-
-        var inputStream$ = fromEvent($input, 'input')
-            .pipe(
-                map(event => event.target.value),
-                map(val => val / $input.max)
-            );
-
-        inputStream$.subscribe(per => {
-            document.documentElement.style.setProperty('--smile-rotation', `${180 - 180 * per}deg`);
-            $satisfaction.textContent = `${Math.round(per * 20)}`;
-            $legoHead.style.background = `linear-gradient(to top, rgba(248,80,50,${1 - per}) 0%, var(--lego-yellow) ${100 - 100 * per}%)`;
+        slider.addEventListener('input', function () {
+            var per = slider.value / slider.max;
+            var deg = 180 - 180 * per;
+            satisfactionDisplay.textContent = Math.round(per * 20);
+            legoHead.style.background = `linear-gradient(to top, rgba(248,80,50,${1 - per}) 0%, var(--lego-yellow) ${100 - 100 * per}%)`;
+            document.documentElement.style.setProperty('--smile-rotation', `${deg}deg`);
         });
-    </script>
+    });
+</script>
 }
