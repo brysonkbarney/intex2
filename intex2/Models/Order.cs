@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace intex2.Models;
 
 public partial class Order
 {
+    [Key]
     public int TransactionId { get; set; }
 
     public int CustomerId { get; set; }
@@ -13,7 +15,7 @@ public partial class Order
 
     public string? DayOfWeek { get; set; }
 
-    public byte? Time { get; set; }
+    public int? Time { get; set; }
 
     public string? EntryMode { get; set; }
 
@@ -29,5 +31,5 @@ public partial class Order
 
     public string? TypeOfCard { get; set; }
 
-    public byte? Fraud { get; set; }
+    public int? Fraud { get; set; }
 }

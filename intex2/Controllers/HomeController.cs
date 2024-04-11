@@ -9,13 +9,13 @@ using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
 
 namespace intex2.Controllers;
-
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private UserManager<AppUser> userManager;
     private ILegoRepository _repo;
     private readonly InferenceSession _session;
+    private readonly PredictionService _prediction;
     public HomeController(UserManager<AppUser> userMgr,ILogger<HomeController> logger, ILegoRepository temp)
     {
         _logger = logger;
@@ -243,10 +243,21 @@ public class HomeController : Controller
             return View("CheckoutConfirmation");
         }
         
+        order = _prediction.PredictFraud(order);
+        
         _repo.CreateOrder(order);
         _repo.Save();
-
-        return View("CheckoutSuccess", order);
+        
+        if (order.Fraud == 0)
+        {
+            return View("CheckoutSuccess", order);
+        }
+        else
+        {
+            return View("OrderPending", order);
+        }
+        
+        
     }
     
 }
