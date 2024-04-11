@@ -16,3 +16,21 @@ $(document).ready(function(){
         $("#shortDescription").show(); // Show the short description
     });
 });
+
+
+$('.product-type').on('change', function() {
+    var selectedProductTypes = $('.product-type:checked').map(function() {
+        return this.value;
+    }).get();
+
+    $.ajax({
+        url: '/Home/Shop',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ productTypes: selectedProductTypes }),
+        success: function(data) {
+            console.log('Data returned from server:', data);
+            $('#products-section').html(data);
+        }
+    });
+});

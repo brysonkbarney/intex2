@@ -1,4 +1,6 @@
+using intex2.Controllers;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
 namespace intex2.Models;
@@ -18,6 +20,7 @@ public class PredictionService
         _session = new InferenceSession(
             modelPath);
     }
+    
 
     public int PredictFraud(Order order)
     {
