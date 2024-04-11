@@ -16,6 +16,9 @@ public class PredictionService
         // Direct assignment for numeric values
         int? time = order.Time;
         float? amount = order.Amount;
+        
+        //Customer cust = _repo.
+        
         //need to age somehow
         int transaction_shipping_match = 0;
         int residence_transaction_match = 0;
