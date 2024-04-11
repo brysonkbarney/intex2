@@ -228,9 +228,8 @@ namespace intex2.Controllers
         [Authorize]
         public async Task<IActionResult> MyAccount()
         {
-            var id = userManager.GetUserId(User);
-            AppUser user = await userManager.FindByIdAsync(id);
-            Customer cust = _repo.GetCustomerByNetUserId(id);
+            var user = await userManager.GetUserAsync(User);
+            Customer cust = _repo.GetCustomerByNetUserId(user.Id);
             User userModel = new User()
             {
                 Name = user.UserName,

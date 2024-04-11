@@ -7,7 +7,7 @@
 
 <h1>@ViewData["Title"]</h1>
 <h2>Congrats! You are almost there. We need a few more details to complete your purchase.</h2>
-
+<div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="CheckoutConfirmation" method="post">
     <input type="hidden" asp-for="CustomerId"/>
     <input type="hidden" asp-for="Date" value="@DateTime.Now.ToString("yyyy-MM-dd")"/>
