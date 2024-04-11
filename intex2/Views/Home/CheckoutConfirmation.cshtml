@@ -9,16 +9,17 @@
 <h2>Congrats! You are almost there. We need a few more details to complete your purchase.</h2>
 
 <form asp-action="CheckoutConfirmation" method="post">
-    <input type="hidden" asp-for="CustomerId" />
+    <input type="hidden" asp-for="CustomerId"/>
     <input type="hidden" asp-for="Date" value="@DateTime.Now.ToString("yyyy-MM-dd")"/>
     <input type="hidden" asp-for="DayOfWeek" value="@DateTime.Today.ToString("ddd")"/>
     <input type="hidden" asp-for="Time" value="@DateTime.Now.Hour"/>
-    <input type="hidden" asp-for="EntryMode" value="CVC" />
-    <input type="hidden" asp-for="TypeOfTransaction" value="Online" />
-    <input type="hidden" asp-for="Amount" value="@Model.Amount" />
-    <p>Amount: @Model.Amount</p>
+    <input type="hidden" asp-for="EntryMode" value="CVC"/>
+    <input type="hidden" asp-for="TypeOfTransaction" value="Online"/>
+    <input type="hidden" asp-for="Amount" value="@Model.Amount"/>
+    <p>Amount: $@Model.Amount</p>
     <div class="form-group">
         <label asp-for="CountryOfTransaction">Country Of Billing Address</label>
+        <br/>
         <select asp-for="CountryOfTransaction" class="form-control">
             <option value="">Select a country</option>
             <option value="USA">USA</option>
@@ -28,8 +29,10 @@
             <option value="United Kingdom">United Kingdom</option>
         </select>
     </div>
+    <br/>
     <div class="form-group">
         <label asp-for="ShippingAddress">Country of Shipping Address</label>
+        <br/>
         <select asp-for="ShippingAddress" class="form-control">
             <option value="">Select a country</option>
             <option value="USA">USA</option>
@@ -39,8 +42,10 @@
             <option value="United Kingdom">United Kingdom</option>
         </select>
     </div>
+    <br/>
     <div class="form-group">
-        <label asp-for="Bank"></label>
+        <label asp-for="Bank">Bank</label>
+        <br/>
         <select asp-for="Bank" class="form-control">
             <option value="">Select Bank</option>
             <option value="Barclays">Barclays</option>
@@ -51,13 +56,15 @@
             <option value="Monzo">Monzo</option>
         </select>
     </div>
+    <br/>
     <div class="form-group">
-        <label asp-for="TypeOfCard"></label>
+        <label asp-for="TypeOfCard">Type of Card</label>
         <select asp-for="TypeOfCard" class="form-control">
             <option value="">Select Card Type</option>
             <option value="Visa">Visa</option>
             <option value="MasterCard">MasterCard</option>
         </select>
     </div>
+    <br/>
     <button type="submit" class="btn btn-primary">Confirm</button>
 </form>
