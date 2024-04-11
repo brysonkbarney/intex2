@@ -221,26 +221,28 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult CheckoutConfirmation(Order order)
     {
-        // if (!ModelState.IsValid)
-        // {
-        //     return View("CheckoutConfirmation");
-        // }
-        
-        int fraud = _prediction.PredictFraud(order);
-        order.Fraud = fraud;
-        _repo.CreateOrder(order);
-        _repo.Save();
-        
-        if (fraud == 0)
+        if (ModelState.IsValid)
         {
-            return View("CheckoutSuccess", order);
+            int fraud = _prediction.PredictFraud(order);
+            order.Fraud = fraud;
+            _repo.CreateOrder(order);
+            _repo.Save();
+
+            if (fraud == 0)
+            {
+                return View("CheckoutSuccess", order);
+            }
+            else
+            {
+                return View("OrderPending", order);
+            }
         }
         else
         {
-            return View("OrderPending", order);
+            return View(order);
         }
-        
-        
+
+
     }
     
 }
