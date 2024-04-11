@@ -158,16 +158,16 @@ public class HomeController : Controller
 
         var model = new ProductsListViewModel
         {
-            Products = products
+            Products = _repo.Products
                 .OrderBy(x => x.Name)
-                .Skip((pageNum - 1) * pageSize)
+                .Skip((pageNum - 1) * (pageSize))
                 .Take(pageSize),
 
             PaginationInfo = new PaginationInfo
             {
                 CurrentPage = pageNum,
                 ItemsPerPage = pageSize,
-                TotalItems = productType == null ? products.Count() : products.Count()
+                TotalItems = productType == null ? _repo.Products.Count() : _repo.Products.Count()
             },
 
             CurrentProductType = productType
