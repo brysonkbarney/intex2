@@ -59,6 +59,14 @@ public class EFLegoRepository : ILegoRepository
     {
         _context.Products.Add(p);
     }
+    public void CreateOrder(Order o)
+    {
+        _context.Orders.Add(o);
+    }
+    public void CreateLineItems(List<LineItem> items)
+    {
+        _context.LineItems.AddRange(items);
+    }
 
     public void DeleteProduct(Product p)
     {

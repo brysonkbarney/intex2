@@ -66,10 +66,10 @@ public partial class Lego2IntexContext : IdentityDbContext<AppUser>
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable(" Orders");
-
+            entity.ToTable(" Orders");
+            entity.Property(e => e.TransactionId)
+                .HasColumnName("transaction_ID")
+                .ValueGeneratedOnAdd();
             entity.Property(e => e.Amount).HasColumnName("amount");
             entity.Property(e => e.Bank)
                 .HasMaxLength(50)
@@ -90,7 +90,6 @@ public partial class Lego2IntexContext : IdentityDbContext<AppUser>
                 .HasMaxLength(50)
                 .HasColumnName("shipping_address");
             entity.Property(e => e.Time).HasColumnName("time");
-            entity.Property(e => e.TransactionId).HasColumnName("transaction_ID");
             entity.Property(e => e.TypeOfCard)
                 .HasMaxLength(50)
                 .HasColumnName("type_of_card");

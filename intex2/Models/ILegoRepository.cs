@@ -16,4 +16,6 @@ public interface ILegoRepository
     public bool UpdateProduct(Product p);
     public void CreateProduct(Product p);
     public void DeleteProduct(Product p);
+    public void CreateLineItems(List<LineItem> items);
+    public void CreateOrder(Order o);
 }

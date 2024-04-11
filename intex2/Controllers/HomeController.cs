@@ -227,30 +227,12 @@ public class HomeController : Controller
         {
             return NotFound();
         }
-
         var order = _repo.Orders.FirstOrDefault(o => o.CustomerId == customer.CustomerId);
         if (order == null)
         {
-            return NotFound();
+            return View("CheckoutConfirmation");
         }
-        var orderViewModel = new OrderViewModel
-        {
-            TransactionId = order.TransactionId,
-            CustomerId = order.CustomerId,
-            Date = order.Date,
-            DayOfWeek = order.DayOfWeek,
-            Time = order.Time,
-            EntryMode = order.EntryMode,
-            Amount = order.Amount,
-            TypeOfTransaction = order.TypeOfTransaction,
-            CountryOfTransaction = order.CountryOfTransaction,
-            ShippingAddress = order.ShippingAddress,
-            Bank = order.Bank,
-            TypeOfCard = order.TypeOfCard,
-            Fraud = order.Fraud
-        };
-
-        return View("CheckoutConfirmation", orderViewModel);
+        return View("CheckoutConfirmation", order);
     }
 
     [HttpPost]
@@ -260,38 +242,11 @@ public class HomeController : Controller
         {
             return View("CheckoutConfirmation");
         }
-
-        var existingOrder = _repo.Orders.FirstOrDefault(o => o.TransactionId == order.TransactionId);
-        if (existingOrder == null)
-        {
-            return NotFound();
-        }
-
-        existingOrder.Date = order.Date;
-        existingOrder.DayOfWeek = order.DayOfWeek;
-        existingOrder.Time = order.Time;
-        existingOrder.EntryMode = order.EntryMode;
-        existingOrder.Amount = order.Amount;
-        existingOrder.TypeOfTransaction = order.TypeOfTransaction;
-        existingOrder.CountryOfTransaction = order.CountryOfTransaction;
-        existingOrder.ShippingAddress = order.ShippingAddress;
-        existingOrder.Bank = order.Bank;
-        existingOrder.TypeOfCard = order.TypeOfCard;
-        existingOrder.Fraud = order.Fraud;
-
+        
+        _repo.CreateOrder(order);
         _repo.Save();
 
-        var orderViewModel = new OrderViewModel
-        {
-            TransactionId = existingOrder.TransactionId,
-            CustomerId = existingOrder.CustomerId,
-            Date = existingOrder.Date,
-            Amount = existingOrder.Amount,
-            TypeOfTransaction = existingOrder.TypeOfTransaction,
-            ShippingAddress = existingOrder.ShippingAddress
-        };
-
-        return View("CheckoutSuccess", orderViewModel);
+        return View("CheckoutSuccess", order);
     }
     
 }
