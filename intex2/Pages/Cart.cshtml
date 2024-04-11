@@ -56,21 +56,20 @@
                 <p class="mb-2">$@total.ToString("N2")</p>
             </div>
 
-            <!-- Proceed to checkout button -->
-            @if (total > 0)
-            {
-                <div class="text-center">
-                    <form asp-controller="Home" asp-action="CheckoutConfirmationStart" method="post">
-                        <input type="hidden" name="amount" value="@total"/>
-                        <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
-                    </form>
-                </div>
-            }
-
-            <!-- Continue shopping button -->
-            <div class="text-center mt-4">
-                <a class="btn btn-outline-primary" asp-controller="Home" asp-action="Shop">Continue Shopping</a>
-            </div>
+           <div class="text-center my-4">
+               <div style="display: inline-block; margin-right: 10px;">
+                   <a class="btn btn-primary" asp-controller="Home" asp-action="Shop" style="background-color: #FFD500; border-color: #FFD500; color: black;">Continue Shopping</a>
+               </div>
+               @if (total > 0)
+               {
+                   <div style="display: inline-block;">
+                       <form asp-controller="Home" asp-action="CheckoutConfirmationStart" method="post" style="margin: 0;">
+                           <input type="hidden" name="amount" value="@Model.Cart?.CalculateTotal()"/>
+                           <button type="submit" class="btn btn-primary" style="background-color: #008f39; border-color: #008f39; color: white;">Proceed to Checkout</button>
+                       </form>
+                   </div>
+               }
+           </div>
 
           </div>
         </div>
