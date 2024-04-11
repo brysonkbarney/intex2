@@ -175,18 +175,20 @@ public class HomeController : Controller
                 TotalItems = productType == null ? products.Count() : products.Count()
             },
 
-            CurrentProductType = productType
+            CurrentProductType = productType,
+            
+            ProductTypes = productTypes,
+            Colors = colors
         };
-   
+
         var filteredProducts = model.Products.ToList();
-        Console.WriteLine($"Filtered products: {filteredProducts.Count}");
 
         // If the request is an AJAX request, return the partial view with the filtered products
         if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
         {
             return PartialView("_Products", filteredProducts);
         }
-    
+
         return View(model);
     }
     

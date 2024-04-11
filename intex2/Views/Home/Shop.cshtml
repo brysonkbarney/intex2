@@ -115,36 +115,48 @@ var selected20 = Model.PaginationInfo.ItemsPerPage == 20 ? "selected" : "";
 
 
 <div style="display: flex; justify-content: center; gap: 20px; align-items: center;">
-    <form method="get" style="margin: 0;">        
-        <select name="pageSize" onchange="this.form.submit();">
+    <form id="pageSizeForm" onsubmit="return updatePageSizeAction(this);">
+        <select name="pageSize" onchange="this.form.submit();">         
             @if (Model.PaginationInfo.ItemsPerPage == 5)
             {
-            <option value="5" selected>5</option>
+                <option value="5" selected>5</option>
             }
             else
             {
-            <option value="5">5</option>
+                <option value="5">5</option>
             }
 
             @if (Model.PaginationInfo.ItemsPerPage == 10)
             {
-            <option value="10" selected>10</option>
+                <option value="10" selected>10</option>
             }
             else
             {
-            <option value="10">10</option>
+                <option value="10">10</option>
             }
 
             @if (Model.PaginationInfo.ItemsPerPage == 20)
             {
-            <option value="20" selected>20</option>
+                <option value="20" selected>20</option>
             }
             else
             {
-            <option value="20">20</option>
+                <option value="20">20</option>
             }
         </select>
+        
+        @foreach (var productType in Model.ProductTypes)
+        {
+            <input type="hidden" name="productTypes" value="@productType" id="@productType" />
+        }
+        @foreach (var color in Model.Colors)
+        {
+            <input type="hidden" name="colors" value="@color" id="@color"/>
+        }
     </form>
+
+
+
 
     <div style="display: flex; justify-content: center;">
         <div page-model="@Model.PaginationInfo" page-action="Shop" page-classes-enabled="true" page-class="btn"
