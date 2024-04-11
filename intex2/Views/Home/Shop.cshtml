@@ -16,37 +16,6 @@ var selected20 = Model.PaginationInfo.ItemsPerPage == 20 ? "selected" : "";
 
 <h1>All Products</h1>
 
-<form method="get">
-    <select name="pageSize" onchange="this.form.submit();">
-        @if (Model.PaginationInfo.ItemsPerPage == 5)
-        {
-        <option value="5" selected>5</option>
-        }
-        else
-        {
-        <option value="5">5</option>
-        }
-
-        @if (Model.PaginationInfo.ItemsPerPage == 10)
-        {
-        <option value="10" selected>10</option>
-        }
-        else
-        {
-        <option value="10">10</option>
-        }
-
-        @if (Model.PaginationInfo.ItemsPerPage == 20)
-        {
-        <option value="20" selected>20</option>
-        }
-        else
-        {
-        <option value="20">20</option>
-        }
-    </select>
-</form>
-
 <div class="row">
     <!-- Filter Column -->
     <div class="col-md-3">
@@ -54,6 +23,10 @@ var selected20 = Model.PaginationInfo.ItemsPerPage == 20 ? "selected" : "";
         <div class="form-check">
             <input class="form-check-input product-type"  type="checkbox" value="star wars" id="star wars">
             <label class="form-check-label" for="starWars">STAR WARS</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input product-type"  type="checkbox" value="harry potter" id="harry potter">
+            <label class="form-check-label" for="starWars">HARRY POTTER</label>
         </div>
         <div class="form-check">
             <input class="form-check-input product-type" onchange="filter()" type="checkbox" value="dc" id="dc">
@@ -102,27 +75,27 @@ var selected20 = Model.PaginationInfo.ItemsPerPage == 20 ? "selected" : "";
 
         <h5 class="mt-4">Color</h5>
         <div class="form-check">
-            <input class="form-check-input product-type" type="checkbox" value="black" id="black">
+            <input class="form-check-input" type="checkbox" name="colors" value="black" id="black">
             <label class="form-check-label" for="black">BLACK</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input product-type" type="checkbox" value="blue" id="blue">
+            <input class="form-check-input" type="checkbox" name="colors" value="blue" id="blue">
             <label class="form-check-label" for="blue">BLUE</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input product-type" type="checkbox" value="brown" id="brown">
+            <input class="form-check-input" type="checkbox" name="colors" value="brown" id="brown">
             <label class="form-check-label" for="brown">BROWN</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input product-type" type="checkbox" value="red" id="red">
+            <input class="form-check-input" type="checkbox" name="colors" value="red" id="red">
             <label class="form-check-label" for="red">RED</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input product-type" type="checkbox" value="grey" id="grey">
+            <input class="form-check-input" type="checkbox" name="colors" value="grey" id="grey">
             <label class="form-check-label" for="grey">GREY</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input product-type" type="checkbox" value="white" id="white">
+            <input class="form-check-input" type="checkbox" name="colors" value="white" id="white">
             <label class="form-check-label" for="white">WHITE</label>
         </div>
     </div>
@@ -141,11 +114,43 @@ var selected20 = Model.PaginationInfo.ItemsPerPage == 20 ? "selected" : "";
 </div>
 
 
+<div style="display: flex; justify-content: center; gap: 20px; align-items: center;">
+    <form method="get" style="margin: 0;">        
+        <select name="pageSize" onchange="this.form.submit();">
+            @if (Model.PaginationInfo.ItemsPerPage == 5)
+            {
+            <option value="5" selected>5</option>
+            }
+            else
+            {
+            <option value="5">5</option>
+            }
 
-<div style="display: flex; justify-content: center;">
-    <div page-model="@Model.PaginationInfo" page-action="Shop" page-classes-enabled="true" page-class="btn"
-         page-class-normal="btn-outline-dark" page-class-selected="btn-primary"
-         page-url-projectType="@Model.CurrentProductType" class = "btn-group pull-right m-1"
-         style="display: inline-block;"></div>
+            @if (Model.PaginationInfo.ItemsPerPage == 10)
+            {
+            <option value="10" selected>10</option>
+            }
+            else
+            {
+            <option value="10">10</option>
+            }
+
+            @if (Model.PaginationInfo.ItemsPerPage == 20)
+            {
+            <option value="20" selected>20</option>
+            }
+            else
+            {
+            <option value="20">20</option>
+            }
+        </select>
+    </form>
+
+    <div style="display: flex; justify-content: center;">
+        <div page-model="@Model.PaginationInfo" page-action="Shop" page-classes-enabled="true" page-class="btn"
+             page-class-normal="btn-outline-dark" page-class-selected="btn-primary"
+             page-url-projectType="@Model.CurrentProductType" class="btn-group pull-right m-1"
+             style="display: inline-block;">
+        </div>
+    </div>
 </div>
-

@@ -18,18 +18,17 @@ $(document).ready(function(){
 });
 
 
-$('.product-type').on('change', function() {
+$('input[type=checkbox]').on('change', function() {
     var selectedProductTypes = $('.product-type:checked').map(function() {
         return this.value;
     }).get();
 
-    var url = '/Home/Shop';
-    var data = {};
+    var selectedColors = $('input[name="colors"]:checked').map(function() {
+        return this.value;
+    }).get();
 
-    // If no checkboxes are selected, don't send any filter parameters
-    if (selectedProductTypes.length > 0) {
-        data = JSON.stringify({ productTypes: selectedProductTypes });
-    }
+    var url = '/Home/Shop';
+    var data = JSON.stringify({ productTypes: selectedProductTypes, colors: selectedColors });
 
     $.ajax({
         url: url,
