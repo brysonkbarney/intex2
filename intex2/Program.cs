@@ -93,11 +93,6 @@ builder.Services.Configure<IdentityOptions>(opts =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddMemoryCache();
-builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
-builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"));
-builder.Services.AddInMemoryRateLimiting();
-builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
 builder.Services.AddScoped<ILegoRepository, EFLegoRepository>();
 
@@ -122,8 +117,6 @@ app.UseStaticFiles();
 app.UseSession();
 
 app.UseRouting();
-
-app.UseIpRateLimiting();
 
 app.UseAuthentication();
 app.UseAuthorization();
