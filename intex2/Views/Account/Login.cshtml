@@ -10,7 +10,7 @@
         align-items: center;
         height: 100vh;
     }
-    
+ 
     .login-card {
         width: 350px;
         padding: 2rem;
@@ -131,45 +131,74 @@
         justify-content: center;
         align-items: center;
     }
+    .field-icon {
+        float: right;
+        margin-right: 10px;
+        margin-top: -25px;
+        position: relative;
+        z-index: 2;
+        cursor: pointer;
+    }
+    .form-control {
+        position: relative;
+    }
+
 </style>
-    <div class="split-screen">
-        <div class="left-side">
-             <img src="@Url.Content("~/images/StarWars.jpg")" alt="Star Wars Image" class="responsive-image" />
-        </div>
+
+<script>
+    function myshowp() {
+        ckbox = $('#ckShowPass')
+        txtBox = $('#txtPass')
+
+        if (ckbox.is(':checked')) {
+           txtBox.attr("Type", "Text");
+        }
+        else {
+           txtBox.attr("Type", "Password");
+        }
+    }
+</script>
+<div class="split-screen">
+    <div class="left-side">
+        <img src="@Url.Content("~/images/StarWars.jpg")" alt="Star Wars Image" class="responsive-image" />
+    </div>
         
-        <div class="right-side">
-            <div class="login-container">
-                <div class="login-card">
-                    <div class="login-header">
-                        <h2>Login</h2>
+    <div class="right-side">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h2>Login</h2>
+                </div>
+                <form asp-action="Login" method="post" class="login-form">
+                    <input type="hidden" asp-for="ReturnUrl"/>
+                    <div class="form-group">
+                        <input asp-for="Email" class="form-control" placeholder="Email Address"/>
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                    <form asp-action="Login" method="post" class="login-form">
-                        <input type="hidden" asp-for="ReturnUrl"/>
-                        <div class="form-group">
-                            <input asp-for="Email" class="form-control" placeholder="Email Address"/>
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <input asp-for="Password" class="form-control" placeholder="Password"/>
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <div class="form-group form-check">
-                            <input asp-for="Remember" type="checkbox" class="form-check-input" id="RememberCheck"/>
-                            <label class="form-check-label" for="RememberCheck">Keep me logged in</label>
-                        </div>
-                        <button class="btn btn-primary btn-block" type="submit">Log in</button>
-                        <br/>
-                        <a class="btn btn-secondary btn-block" asp-controller="Admin" asp-action="Create">Register</a>
-                        <a asp-action="ForgotPassword">Forgot password?</a>
-                    </form>
-                    <div class="social-login">
-                        <p>Or continue with</p>
-                        <a asp-action="GoogleLogin" class="btn-google">
-                            <img src="~/images/GoogleCircleLogo.png" alt="Google sign-in"/>
-                            Sign in with Google
-                        </a>
+                    <div class="form-group">
+                        <input asp-for="Password" class="form-control" placeholder="Password" type="password" id="password-field"/>
+                        @* <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password" onclick="password()"></span> *@
+                        <CheckBox ID="ckShowPass" runat="server" Text="Show password" onclick="myshowp()" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
+                    <div class="form-group form-check">
+                        <input asp-for="Remember" type="checkbox" class="form-check-input" id="RememberCheck"/>
+                        <label class="form-check-label" for="RememberCheck">Keep me logged in</label>
+                    </div>
+                    <button class="btn btn-primary btn-block" type="submit">Log in</button>
+                    <br/>
+                    <a class="btn btn-secondary btn-block" asp-controller="Admin" asp-action="Create">Register</a>
+                    <a asp-action="ForgotPassword">Forgot password?</a>
+                </form>
+                <div class="social-login">
+                    <p>Or continue with</p>
+                    <a asp-action="GoogleLogin" class="btn-google">
+                        <img src="~/images/GoogleCircleLogo.png" alt="Google sign-in"/>
+                        Sign in with Google
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
