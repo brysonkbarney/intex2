@@ -4,43 +4,50 @@
 @model IQueryable<Order>
 <div class="container mt-5">
     <h2>Review Possibly Fraudulent Orders</h2>
-    <table class="table table-striped table-hover table-responsive-sm">
-        <thead class="thead-dark">
-        <tr>
-            <th>Transaction_ID</th>
-            <th>Customer_ID</th>
-            <th>Date</th>
-            <th>Day_Of_Week</th>
-            <th>Time</th>
-            <th>Entry_Mode</th>
-            <th>Amount</th>
-            <th>Type_Of_Transaction</th>
-            <th>Country_Of_Transaction</th>
-            <th>Shipping_Address</th>
-            <th>Bank</th>
-            <th>Type_Of_Card</th>
-            <th>Predicted Fraud?</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (Order o in Model)
-        {
-            <tr>
-                <td>@o.TransactionId</td>
-                <td>@o.CustomerId</td>
-                <td>@o.Date</td>
-                <td>@o.DayOfWeek</td>
-                <td>@o.Time</td>
-                <td>@o.EntryMode</td>
-                <td>@o.Amount</td>
-                <td>@o.TypeOfTransaction</td>
-                <td>@o.CountryOfTransaction</td>
-                <td>@o.ShippingAddress</td>
-                <td>@o.Bank</td>
-                <td>@o.TypeOfCard</td>
-                <td>@o.Fraud</td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <!-- Added "table-responsive" to make the table scroll horizontally on small devices -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Transaction<br>ID</th>
+                    <th>Customer<br>ID</th>
+                    <th>Date</th>
+                    <th>Day Of<br>Week</th>
+                    <th>Time</th>
+                    <th>Entry<br>Mode</th>
+                    <th>Amount</th>
+                    <th>Type Of<br>Transaction</th>
+                    <th>Country Of<br>Transaction</th>
+                    <th>Shipping<br>Address</th>
+                    <th>Bank</th>
+                    <th>Type Of<br>Card</th>
+                    <th>Likely<br>Fraud</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Order o in Model)
+                {
+                    <tr>
+                        <td>@o.TransactionId</td>
+                        <td>@o.CustomerId</td>
+                        <td>@o.Date</td>
+                        <td>@o.DayOfWeek</td>
+                        <td>@o.Time</td>
+                        <td>@o.EntryMode</td>
+                        <td>@o.Amount</td>
+                        <td>@o.TypeOfTransaction</td>
+                        <td>@o.CountryOfTransaction</td>
+                        <td>@o.ShippingAddress</td>
+                        <td>@o.Bank</td>
+                        <td>@o.TypeOfCard</td>
+                        <td>
+                            <span class="badge" style="background-color: @(o.Fraud == 1 ? "#dc3545" : "#28a745"); color: white;">
+                                @(o.Fraud == 1 ? "Yes" : "No")
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
