@@ -41,3 +41,5 @@ $('input[type=checkbox]').on('change', function() {
         }
     });
 });
+
+

@@ -2,16 +2,134 @@
     ViewData["Title"] = "Checkout Success";
 }
 @model Order
-<h1>@ViewData["Title"]</h1>
 
-<p>Your order was successful and will be shipped soon.</p>
+<style>
+    :root {
+        --lego-yellow: #f9df1c;
+        --lego-yellow-darker: #ecd107;
+        --lego-black: #303030;
 
-<div>
-    <h2>Order Details:</h2>
-    <p>Transaction ID: @Model.TransactionId</p>
-    <p>Customer ID: @Model.CustomerId</p>
-    <p>Date: @Model.Date</p>
-    <p>Amount: @Model.Amount</p>
-    <p>Type of Transaction: @Model.TypeOfTransaction</p>
-    <p>Shipping Address: @Model.ShippingAddress</p>
+        --size-eye: 12px;
+        --size-hair: 15px;
+        --size-neck: 10px;
+
+        --smile-rotation: 0deg;
+    }
+
+    /* Head */
+    .lego-head {
+        position: relative;
+        width: 103px;
+        height: 83px;
+        background: var(--lego-yellow);
+        margin: 50px auto 0;
+        border-radius: 20px;
+        /* Neck and hair */
+        box-shadow: 0 calc(-25px - var(--size-hair)) 0 -25px var(--lego-yellow-darker),
+        0 calc(25px + var(--size-neck)) 0 -25px var(--lego-yellow-darker);
+    }
+    /* Eyes */
+    .lego-head::before {
+        content: "";
+        position: absolute;
+        top: 25px;
+        left: 50%;
+        transform: translateX(-175%);
+        width: var(--size-eye);
+        height: var(--size-eye);
+        border-radius: 100%;
+        background: var(--lego-black);
+        /* Second eye */
+        box-shadow: 30px 0 0 0 var(--lego-black);
+    }
+
+    /* Mouth */
+    .lego-head::after {
+        content: "";
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%) rotateX(var(--smile-rotation));
+        width: 35px;
+        height: 10px;
+        border: 5px solid var(--lego-black);
+        border-top: 0;
+        border-radius: 0 0 20px 20px / 0 0 10px 10px;
+    }
+
+    h1 {
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    .input {
+        margin: 50px auto 0;
+        text-align: center;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 1rem;
+    }
+
+</style>
+
+
+<div class="container h-100">
+    <div class="row h-100">
+        <!-- Order Details Column centered vertically -->
+        <div class="col-md-6 my-auto">
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin: auto; display: flex; flex-direction: column; justify-content: center;">
+                <p style="font-size: 18px; color: #27ae60; margin-bottom: 20px;">Your order was successful and will be shipped soon.</p>
+
+                <div style="background: #f7f7f7; padding: 15px; border-left: 5px solid #27ae60; margin-bottom: 20px;">
+                    <h2 style="color: #333; margin-top: 0;">Order Details:</h2>
+                    <p><strong>Transaction ID:</strong> @Model.TransactionId</p>
+                    <p><strong>Customer ID:</strong> @Model.CustomerId</p>
+                    <p><strong>Date:</strong> @Model.Date</p>
+                    <p><strong>Amount:</strong> @Model.Amount</p>
+                    <p><strong>Type of Transaction:</strong> @Model.TypeOfTransaction</p>
+                    <p><strong>Shipping Address:</strong> @Model.ShippingAddress</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Column -->
+        <div class="col-md-6 my-auto">
+            <h1>Are you satisfied ?</h1>
+
+            <div class="lego-head"></div>
+
+            <div class="input">
+                <label>Satisfaction: <span class="js-satisfaction">10</span>/20</label>
+                <input class="js-satisfaction-slider" type="range" min="0" max="20" step="1" value="10" >
+            </div>
+        </div>
+    </div>
 </div>
+
+
+@section Scripts {
+    <script src="https://unpkg.com/rxjs/bundles/rxjs.umd.min.js"></script>
+    <script>
+        const { fromEvent } = rxjs;
+        const { map } = rxjs.operators;
+
+        var $input = document.querySelector('.js-satisfaction-slider');
+        var $satisfaction = document.querySelector('.js-satisfaction');
+        var $legoHead = document.querySelector('.lego-head');
+
+        var inputStream$ = fromEvent($input, 'input')
+            .pipe(
+                map(event => event.target.value),
+                map(val => val / $input.max)
+            );
+
+        inputStream$.subscribe(per => {
+            document.documentElement.style.setProperty('--smile-rotation', `${180 - 180 * per}deg`);
+            $satisfaction.textContent = `${Math.round(per * 20)}`;
+            $legoHead.style.background = `linear-gradient(to top, rgba(248,80,50,${1 - per}) 0%, var(--lego-yellow) ${100 - 100 * per}%)`;
+        });
+    </script>
+}
