@@ -40,6 +40,9 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
                 </ul>
+                <div class="col-6 navbar-text text-end">
+                    @await Component.InvokeAsync("CartSummary")
+                    </div>
                 <div class="ms-auto">
                     @if (!isAuthenticated)
                     {
