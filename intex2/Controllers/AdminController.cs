@@ -210,7 +210,7 @@ namespace intex2.Controllers
             return View("Index", userManager.Users);
         }
         [Authorize(Roles = "Admin")]
-        public IActionResult ReviewOrders()
+        
         public IActionResult ReviewOrders(int pageNum = 1, int pageSize = 1000)
         {
             IQueryable<Order> orders = _repo.Orders.Where(x => x.Fraud == 1)
