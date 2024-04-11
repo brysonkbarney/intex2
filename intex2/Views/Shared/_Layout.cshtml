@@ -56,12 +56,14 @@
                             </ul>
                         </div>
                     }
-                </ul>
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                            @await Component.InvokeAsync("CartSummary")
-                    </li>
-                </ul>
+                    </ul>
+                    <div class="ms-auto">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                @await Component.InvokeAsync("CartSummary")
+                            </li>
+                        </ul>
+                        </div>
                 <div class="ms-auto">
                     @if (!isAuthenticated)
                     {
@@ -78,7 +80,7 @@
                     }
                     else
                     {
-                        <a class="btn btn-outline-secondary" asp-area="" asp-controller="Account" asp-action="MyAccount">
+                        <a class="btn btn-outline-secondary" asp-area="" asp-controller="Account" asp-action="MyAccount" style="margin-left: 20px;">
                             Account <img src="~/images/head.svg" alt="Account" style="width: 20px; height: 20px;">
                         </a>
                     }
