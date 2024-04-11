@@ -48,6 +48,26 @@
 <br/>
 <br/>
 
+
+@if ((User?.Identity?.IsAuthenticated ?? false) && ViewBag.RecommendedProducts != null && ViewBag.RecommendedProducts.Count > 0)
+{
+    <section id="recommendation">
+        <div class="container" style="padding-left: 5px; padding-right: 5px;">
+            <div class="row justify-content-center mb-3">
+                <div class="col-12 text-center">
+                    <h2>Other items you may like</h2>
+                </div>
+                @foreach (var recommendation in ViewBag.RecommendedProducts)
+                {
+                    <div class="col my-2" style="flex: 0 0 20%; max-width: 20%;">
+                        <partial name="ProductSummary" model="recommendation"/>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+else{
 <section id="for-you">
     <div class="row justify-content-center mb-3">
         <div class="col-12 text-center">
@@ -64,6 +84,8 @@
         }
     </div>
 </section>
+}
+
 
 @section Scripts {
     <script>

@@ -109,6 +109,26 @@ public class HomeController : Controller
             Products = _repo.Products.Where(p => productIds.Contains(p.ProductId)),
             BestProducts = _repo.Products.Where(p => bestProductIds.Contains(p.ProductId))
         };
+        
+        var userId = userManager.GetUserId(User);
+        var customerId = _repo.GetCustomerByNetUserId(userId).CustomerId;
+        
+        var recommendations = _repo.UserRecommendations.FirstOrDefault(r => r.ProductId == customerId);
+        if (recommendations != null)
+        {
+            var recommendedProductIds = new List<int>();
+
+            // Add the recommendation IDs to the list if they are not null
+            if (recommendations.Rec1.HasValue) recommendedProductIds.Add(recommendations.Rec1.Value);
+            if (recommendations.Rec2.HasValue) recommendedProductIds.Add(recommendations.Rec2.Value);
+            if (recommendations.Rec3.HasValue) recommendedProductIds.Add(recommendations.Rec3.Value);
+            if (recommendations.Rec4.HasValue) recommendedProductIds.Add(recommendations.Rec4.Value);
+
+            var recommendedProducts = _repo.Products.Where(p => recommendedProductIds.Contains(p.ProductId)).ToList();
+
+            // Pass the recommended products to the view
+            ViewBag.RecommendedProducts = recommendedProducts;
+        }
 
         return View(model);
     }
