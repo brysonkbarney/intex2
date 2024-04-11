@@ -233,19 +233,22 @@ namespace intex2.Controllers
 
             return View("ReviewOrders", model);
         }
-        [Authorize(Roles = "Admin")]
-        public IActionResult ReviewOrdersAll()
+        [Authorize(Roles = "Admin")] 
+        public IActionResult ReviewOrdersAll(int pageNum = 1, int pageSize = 5000)
         {
-            IQueryable<Order> orders = _repo.Orders.OrderByDescending(x => x.Date);
+            IQueryable<Order> orders = _repo.Orders
+                .OrderByDescending(x => x.Date)
+                .Skip((pageNum - 1) * pageSize)
+                .Take(pageSize);
 
             var model = new ReviewOrdersViewModel
             {
                 Orders = orders,
                 PaginationInfo = new PaginationInfo
                 {
-                    CurrentPage = 1,
-                    ItemsPerPage = orders.Count(),
-                    TotalItems = orders.Count()
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _repo.Orders.Count()
                 }
             };
 
