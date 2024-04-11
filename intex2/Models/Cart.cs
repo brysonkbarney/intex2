@@ -23,9 +23,9 @@ public class Cart
         }
     }
     
-    public void RemoveLine(Product prod) => Lines.RemoveAll(x => x.Product.ProductId == prod.ProductId);
+    public virtual void RemoveLine(Product prod) => Lines.RemoveAll(x => x.Product.ProductId == prod.ProductId);
 
-    public void Clear() => Lines.Clear();
+    public virtual void Clear() => Lines.Clear();
     
     public decimal CalculateTotal() => Lines.Sum(x => 25 * x.Quantity);
     

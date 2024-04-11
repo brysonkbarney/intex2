@@ -124,7 +124,7 @@ public class HomeController : Controller
             pageNum = 1;
         }
             
-        int pageSize = 5;
+        int pageSize = 37;
 
         var blah = new ProductsListViewModel
         {
