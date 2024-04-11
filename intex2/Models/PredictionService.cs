@@ -6,20 +6,30 @@ namespace intex2.Models;
 public class PredictionService
 {
     private readonly ILegoRepository _repo;
+    private readonly InferenceSession _session;
     public PredictionService(ILegoRepository repo)
     {
         _repo = repo;
+        
+        // Get the absolute path to the directory containing the executable
+        var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+        // Construct the path to the model file relative to the base directory
+        var modelPath = Path.Combine(baseDir, "decision_tree_model.onnx");
+        _session = new InferenceSession(
+            modelPath);
     }
 
-    public Order PredictFraud(Order order)
+    public int PredictFraud(Order order)
     {
         // Direct assignment for numeric values
-        int? time = order.Time;
-        float? amount = order.Amount;
+        int time = order.Time ?? 0;
+        float amount = order.Amount ?? 0;
 
         Customer cust = _repo.GetCustomerByID(order.CustomerId);
         
-        //need to age somehow
+        //age
+        int age = (int)Math.Round(cust.Age ?? 0);
+        
         int transaction_shipping_match = order.CountryOfTransaction == order.ShippingAddress ? 1 : 0;
         int residence_transaction_match = order.CountryOfTransaction == cust.CountryOfResidence ? 1 : 0;
         
@@ -62,6 +72,37 @@ public class PredictionService
         int bank_Monzo = order.Bank == "Monzo" ? 1 : 0;
         int bank_RBS = order.Bank == "RBS" ? 1 : 0;
         
-        return order;
+        //type of card
+        int type_of_card_MasterCard = order.TypeOfCard == "MasterCard" ? 1 : 0;
+        int type_of_card_Visa = order.TypeOfCard == "Visa" ? 1 : 0;
+        
+        //gender
+        int gender_F = cust.Gender == "F" ? 1 : 0;
+        
+        // Dictionary mapping the numeric prediction to an animal type
+        var class_type_dict = new Dictionary<int, string>
+        {
+            { 0, "non-fraudulent" },
+            { 1, "fraudulent" }
+        };
+        var input = new List<float> { time, amount, age, transaction_shipping_match, residence_transaction_match, day_of_week_Fri, day_of_week_Mon, day_of_week_Sat, day_of_week_Sun, day_of_week_Thu, day_of_week_Tue, day_of_week_Wed, entry_mode_CVC, entry_mode_PIN, type_of_transaction_POS, country_of_transaction_China, country_of_transaction_India, country_of_transaction_Russia, country_of_transaction_USA, shipping_address_China, shipping_address_India, shipping_address_Russia, shipping_address_USA, bank_Barclays, bank_HSBC, bank_Halifax, bank_Lloyds, bank_Metro, bank_Monzo, bank_RBS, type_of_card_MasterCard, type_of_card_Visa, gender_F
+        };
+        var inputTensor = new DenseTensor<float>(input.ToArray(), new[] { 1, input.Count });
+
+        var inputs = new List<NamedOnnxValue>
+        {
+            NamedOnnxValue.CreateFromTensor("float_input", inputTensor)
+        };
+
+        using (var results = _session.Run(inputs)) // makes the prediction with the inputs from the form
+        {
+            var prediction = results.FirstOrDefault(item => item.Name == "output_label")?.AsTensor<long>().ToArray();
+            if (prediction != null && prediction.Length > 0)
+            {
+                // Use the prediction to get the animal type from the dictionary
+                var fraudPrediction = class_type_dict.GetValueOrDefault((int)prediction[0], "Unknown");
+            }
+            return (int)prediction[0];
+        }
     }
 }

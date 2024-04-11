@@ -16,11 +16,12 @@ public class HomeController : Controller
     private ILegoRepository _repo;
     private readonly InferenceSession _session;
     private readonly PredictionService _prediction;
-    public HomeController(UserManager<AppUser> userMgr,ILogger<HomeController> logger, ILegoRepository temp)
+    public HomeController(UserManager<AppUser> userMgr,ILogger<HomeController> logger, ILegoRepository temp, PredictionService prediction)
     {
         _logger = logger;
         userManager = userMgr;
         _repo = temp;
+        _prediction = prediction;
         
         //initialize InferenceSession, ensure the path is correct
         try
@@ -238,17 +239,17 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult CheckoutConfirmation(Order order)
     {
-        if (!ModelState.IsValid)
-        {
-            return View("CheckoutConfirmation");
-        }
+        // if (!ModelState.IsValid)
+        // {
+        //     return View("CheckoutConfirmation");
+        // }
         
-        order = _prediction.PredictFraud(order);
-        
+        int fraud = _prediction.PredictFraud(order);
+        order.Fraud = fraud;
         _repo.CreateOrder(order);
         _repo.Save();
         
-        if (order.Fraud == 0)
+        if (fraud == 0)
         {
             return View("CheckoutSuccess", order);
         }

@@ -90,10 +90,6 @@ builder.Services.Configure<IdentityOptions>(opts =>
     opts.Password.RequireNonAlphanumeric = true;
 });
 
-/*builder.Services.Configure<IdentityOptions>(opts =>
-{
-    opts.SignIn.RequireConfirmedEmail = true;
-});*/
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

@@ -32,4 +32,10 @@
       <Compile Include="wwwroot\Middleware\ContentSecurityPolicyMiddleware.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="decision_tree_model.onnx">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
