@@ -1,5 +1,6 @@
 using Humanizer;
 using intex2.Models;
+using intex2.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -209,18 +210,46 @@ namespace intex2.Controllers
             return View("Index", userManager.Users);
         }
         [Authorize(Roles = "Admin")]
-        public IActionResult ReviewOrders()
+        
+        public IActionResult ReviewOrders(int pageNum = 1, int pageSize = 1000)
         {
             IQueryable<Order> orders = _repo.Orders.Where(x => x.Fraud == 1)
-                .OrderByDescending(x => x.Date);
-            return View("ReviewOrders", orders);
+                .OrderByDescending(x => x.Date)
+                .Skip((pageNum - 1) * pageSize)
+                .Take(pageSize);
+
+            var paginationInfo = new PaginationInfo
+            {
+                CurrentPage = pageNum,
+                ItemsPerPage = pageSize,
+                TotalItems = _repo.Orders.Count(x => x.Fraud == 1)
+            };
+
+            var model = new ReviewOrdersViewModel
+            {
+                Orders = orders,
+                PaginationInfo = paginationInfo
+            };
+
+            return View("ReviewOrders", model);
         }
         [Authorize(Roles = "Admin")]
         public IActionResult ReviewOrdersAll()
         {
-            IQueryable<Order> orders = _repo.Orders
-                .OrderByDescending(x => x.Date);
-            return View("ReviewOrders", orders);
+            IQueryable<Order> orders = _repo.Orders.OrderByDescending(x => x.Date);
+
+            var model = new ReviewOrdersViewModel
+            {
+                Orders = orders,
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = 1,
+                    ItemsPerPage = orders.Count(),
+                    TotalItems = orders.Count()
+                }
+            };
+
+            return View("ReviewOrders", model);
         }
         private void Errors(IdentityResult result)
         {
