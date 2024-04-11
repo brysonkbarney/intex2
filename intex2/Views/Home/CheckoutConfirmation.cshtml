@@ -18,20 +18,46 @@
     <input type="hidden" asp-for="Amount" value="@Model.Amount" />
     <p>Amount: @Model.Amount</p>
     <div class="form-group">
-        <label asp-for="CountryOfTransaction"></label>
-        <input asp-for="CountryOfTransaction" class="form-control" />
+        <label asp-for="CountryOfTransaction">Country Of Billing Address</label>
+        <select asp-for="CountryOfTransaction" class="form-control">
+            <option value="">Select a country</option>
+            <option value="USA">USA</option>
+            <option value="China">China</option>
+            <option value="India">India</option>
+            <option value="Russia">Russia</option>
+            <option value="United Kingdom">United Kingdom</option>
+        </select>
     </div>
     <div class="form-group">
-        <label asp-for="ShippingAddress"></label>
-        <input asp-for="ShippingAddress" class="form-control" />
+        <label asp-for="ShippingAddress">Country of Shipping Address</label>
+        <select asp-for="ShippingAddress" class="form-control">
+            <option value="">Select a country</option>
+            <option value="USA">USA</option>
+            <option value="China">China</option>
+            <option value="India">India</option>
+            <option value="Russia">Russia</option>
+            <option value="United Kingdom">United Kingdom</option>
+        </select>
     </div>
     <div class="form-group">
         <label asp-for="Bank"></label>
-        <input asp-for="Bank" class="form-control" />
+        <select asp-for="Bank" class="form-control">
+            <option value="">Select Bank</option>
+            <option value="Barclays">Barclays</option>
+            <option value="RBS">RBS</option>
+            <option value="Metro">Metro</option>
+            <option value="HSBC">HSBC</option>
+            <option value="Lloyds">Lloyds</option>
+            <option value="Monzo">Monzo</option>
+        </select>
     </div>
     <div class="form-group">
         <label asp-for="TypeOfCard"></label>
-        <input asp-for="TypeOfCard" class="form-control" />
+        <select asp-for="TypeOfCard" class="form-control">
+            <option value="">Select Card Type</option>
+            <option value="Visa">Visa</option>
+            <option value="MasterCard">MasterCard</option>
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Confirm</button>
 </form>
