@@ -10,10 +10,10 @@
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th class="text-right">Amount</th>
-        <th class="text-right">Subtotal</th>
+        <th class="text-center">Product</th>
+        <th class="text-center">Quantity</th>
+        <th class="text-center">Amount</th>
+        <th class="text-center">Subtotal</th>
         <th></th>
     </tr>
     </thead>
@@ -22,10 +22,10 @@
     @foreach (var l in Model.Cart?.Lines ?? Enumerable.Empty<Cart.CartLine>())
     {
         <tr>
-            <td class="text-left">@l.Product.Name</td>
+            <td class="text-center">@l.Product.Name</td>
             <td class="text-center">@l.Quantity</td>
-            <td class="text-right">@l.Product.Price</td>
-            <td class="text-right">@((l.Quantity* l.Product.Price).ToString())</td>
+            <td class="text-center">$@l.Product.Price</td>
+            <td class="text-center">$@((l.Quantity* l.Product.Price).ToString())</td>
             <td class="text-center">
                 <form asp-page-handler="Remove" method="post">
                     <input type="hidden" name="ProductId" value="@l.Product.ProductId"/>
@@ -39,7 +39,7 @@
     <tfoot>
     <tr>
         <td colspan="3" class="text-right">Total:</td>
-        <td class="text-right">@total.ToString("c")</td>
+        <td class="text-center">@total.ToString("c")</td>
     </tr>
     </tfoot>
 </table>
@@ -53,6 +53,7 @@
                 <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
             </form>
     }
+    <br></br>
     <a class="btn btn-primary" asp-controller="Home" asp-action="Shop">Continue Shopping</a>
 </div>
 
