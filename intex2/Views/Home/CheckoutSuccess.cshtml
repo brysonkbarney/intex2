@@ -1,16 +1,17 @@
 @{
-    Layout = null;
+    ViewData["Title"] = "Checkout Success";
 }
+@model Order
+<h1>@ViewData["Title"]</h1>
 
-<!DOCTYPE html>
+<p>Your order was successful and will be shipped soon.</p>
 
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
 <div>
-      
+    <h2>Order Details:</h2>
+    <p>Transaction ID: @Model.TransactionId</p>
+    <p>Customer ID: @Model.CustomerId</p>
+    <p>Date: @Model.Date</p>
+    <p>Amount: @Model.Amount</p>
+    <p>Type of Transaction: @Model.TypeOfTransaction</p>
+    <p>Shipping Address: @Model.ShippingAddress</p>
 </div>
-</body>
-</html>

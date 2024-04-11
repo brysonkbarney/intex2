@@ -11,6 +11,7 @@ public class EFLegoRepository : ILegoRepository
     
     public IQueryable<Product> Products => _context.Products;
     public IQueryable<ProductRecommendations> ProductRecommendations => _context.ProductRecommendations;
+    public IQueryable<UserRecommendations> UserRecommendations => _context.UserRecommendations;
 
     public IQueryable<Order> Orders => _context.Orders;
     public void CreateCustomer(Customer customer)
@@ -24,7 +25,7 @@ public class EFLegoRepository : ILegoRepository
 
     public Customer GetCustomerByNetUserId(string id)
     {
-        Customer customer = _context.Customers.Where(x => x.NetUserId == id).SingleOrDefault();
+        Customer customer = _context.Customers.Where(x => x.NetUserId == id).FirstOrDefault();
         return customer;
     }
 
@@ -57,6 +58,14 @@ public class EFLegoRepository : ILegoRepository
     public void CreateProduct(Product p)
     {
         _context.Products.Add(p);
+    }
+    public void CreateOrder(Order o)
+    {
+        _context.Orders.Add(o);
+    }
+    public void CreateLineItems(List<LineItem> items)
+    {
+        _context.LineItems.AddRange(items);
     }
 
     public void DeleteProduct(Product p)

@@ -33,11 +33,18 @@
     }
     
     .btn-primary {
+        margin-bottom: 10px;
         border-radius: 20px;
         padding: 0.5rem 1rem;
         width: 100%;
         background-color: #0056b3;
         border: none;
+    }
+    .btn-secondary {
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            border: none;
     }
     
     .btn-social {
@@ -151,6 +158,8 @@
                             <label class="form-check-label" for="RememberCheck">Keep me logged in</label>
                         </div>
                         <button class="btn btn-primary btn-block" type="submit">Log in</button>
+                        <br/>
+                        <a class="btn btn-secondary btn-block" asp-controller="Admin" asp-action="Create">Register</a>
                         <a asp-action="ForgotPassword">Forgot password?</a>
                     </form>
                     <div class="social-login">

@@ -5,6 +5,7 @@ public interface ILegoRepository
     public IQueryable<Product> Products { get; }
     public IQueryable<Order> Orders { get; }
     IQueryable<ProductRecommendations> ProductRecommendations { get; }
+    IQueryable<UserRecommendations> UserRecommendations { get; }
 
     public void CreateCustomer(Customer customer);
 
@@ -15,4 +16,6 @@ public interface ILegoRepository
     public bool UpdateProduct(Product p);
     public void CreateProduct(Product p);
     public void DeleteProduct(Product p);
+    public void CreateLineItems(List<LineItem> items);
+    public void CreateOrder(Order o);
 }

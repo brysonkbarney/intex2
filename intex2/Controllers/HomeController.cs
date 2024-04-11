@@ -109,6 +109,26 @@ public class HomeController : Controller
             Products = _repo.Products.Where(p => productIds.Contains(p.ProductId)),
             BestProducts = _repo.Products.Where(p => bestProductIds.Contains(p.ProductId))
         };
+        
+        var userId = userManager.GetUserId(User);
+        var customerId = _repo.GetCustomerByNetUserId(userId).CustomerId;
+        
+        var recommendations = _repo.UserRecommendations.FirstOrDefault(r => r.ProductId == customerId);
+        if (recommendations != null)
+        {
+            var recommendedProductIds = new List<int>();
+
+            // Add the recommendation IDs to the list if they are not null
+            if (recommendations.Rec1.HasValue) recommendedProductIds.Add(recommendations.Rec1.Value);
+            if (recommendations.Rec2.HasValue) recommendedProductIds.Add(recommendations.Rec2.Value);
+            if (recommendations.Rec3.HasValue) recommendedProductIds.Add(recommendations.Rec3.Value);
+            if (recommendations.Rec4.HasValue) recommendedProductIds.Add(recommendations.Rec4.Value);
+
+            var recommendedProducts = _repo.Products.Where(p => recommendedProductIds.Contains(p.ProductId)).ToList();
+
+            // Pass the recommended products to the view
+            ViewBag.RecommendedProducts = recommendedProducts;
+        }
 
         return View(model);
     }
@@ -196,6 +216,37 @@ public class HomeController : Controller
         }
 
         return View(product);
+    }
+    
+    public IActionResult CheckoutConfirmation()
+    {
+        // Assuming the user is logged in and their ID is stored in User.Identity.Name
+        var appUser = userManager.FindByNameAsync(User.Identity.Name).Result;
+        var customer = _repo.GetCustomerByNetUserId(appUser.Id);
+        if (customer == null)
+        {
+            return NotFound();
+        }
+        var order = _repo.Orders.FirstOrDefault(o => o.CustomerId == customer.CustomerId);
+        if (order == null)
+        {
+            return View("CheckoutConfirmation");
+        }
+        return View("CheckoutConfirmation", order);
+    }
+
+    [HttpPost]
+    public IActionResult CheckoutConfirmation(Order order)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View("CheckoutConfirmation");
+        }
+        
+        _repo.CreateOrder(order);
+        _repo.Save();
+
+        return View("CheckoutSuccess", order);
     }
     
 }
