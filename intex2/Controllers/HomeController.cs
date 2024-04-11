@@ -139,14 +139,14 @@ public class HomeController : Controller
     {
         return View();
     }
-    public IActionResult Shop(int pageNum, string? productType, List<string> productTypes)
+    public IActionResult Shop(int pageNum, string? productType, List<string> productTypes, int pageSize = 5)
     {
         if (pageNum <= 0)
         {
             pageNum = 1;
         }
 
-        int pageSize = 37;
+        // int pageSize = 37;
 
         // Get all products if no filters are applied
         IQueryable<Product> products = _repo.Products;

@@ -7,7 +7,45 @@
 @{
     ViewData["Title"] = "Products";
 }
+
+@{
+var selected5 = Model.PaginationInfo.ItemsPerPage == 5 ? "selected" : "";
+var selected10 = Model.PaginationInfo.ItemsPerPage == 10 ? "selected" : "";
+var selected20 = Model.PaginationInfo.ItemsPerPage == 20 ? "selected" : "";
+}
+
 <h1>All Products</h1>
+
+<form method="get">
+    <select name="pageSize" onchange="this.form.submit();">
+        @if (Model.PaginationInfo.ItemsPerPage == 5)
+        {
+        <option value="5" selected>5</option>
+        }
+        else
+        {
+        <option value="5">5</option>
+        }
+
+        @if (Model.PaginationInfo.ItemsPerPage == 10)
+        {
+        <option value="10" selected>10</option>
+        }
+        else
+        {
+        <option value="10">10</option>
+        }
+
+        @if (Model.PaginationInfo.ItemsPerPage == 20)
+        {
+        <option value="20" selected>20</option>
+        }
+        else
+        {
+        <option value="20">20</option>
+        }
+    </select>
+</form>
 
 <div class="row">
     <!-- Filter Column -->
@@ -103,8 +141,11 @@
 </div>
 
 
-    
+
+<div style="display: flex; justify-content: center;">
     <div page-model="@Model.PaginationInfo" page-action="Shop" page-classes-enabled="true" page-class="btn"
          page-class-normal="btn-outline-dark" page-class-selected="btn-primary"
-         page-url-projectType="@Model.CurrentProductType" class = "btn-group pull-right m-1"></div>
+         page-url-projectType="@Model.CurrentProductType" class = "btn-group pull-right m-1"
+         style="display: inline-block;"></div>
+</div>
 
