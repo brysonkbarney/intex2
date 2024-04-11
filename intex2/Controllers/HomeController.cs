@@ -139,7 +139,7 @@ public class HomeController : Controller
     {
         return View();
     }
-    public IActionResult Shop(int pageNum, string? productType, List<string> productTypes, int pageSize = 5)
+    public IActionResult Shop(int pageNum, string? productType, List<string> productTypes, int pageSize = 20)
     {
         if (pageNum <= 0)
         {
