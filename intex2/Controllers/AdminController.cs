@@ -208,7 +208,13 @@ namespace intex2.Controllers
         public IActionResult ReviewOrders()
         {
             IQueryable<Order> orders = _repo.Orders.Where(x => x.Fraud == 1)
-                .OrderBy(x => x.Date);
+                .OrderByDescending(x => x.Date);
+            return View("ReviewOrders", orders);
+        }
+        public IActionResult ReviewOrdersAll()
+        {
+            IQueryable<Order> orders = _repo.Orders
+                .OrderByDescending(x => x.Date);
             return View("ReviewOrders", orders);
         }
         private void Errors(IdentityResult result)
