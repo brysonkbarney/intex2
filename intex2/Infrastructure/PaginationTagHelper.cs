@@ -46,6 +46,7 @@ public class PaginationTagHelper : TagHelper
             {
                 TagBuilder tag = new TagBuilder("a");
                 PageUrlValues["pageNum"] = i;
+                PageUrlValues["pageSize"] = PageModel.ItemsPerPage; // Add this line
                 tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
 
                 if (PageClassesEnabled)
