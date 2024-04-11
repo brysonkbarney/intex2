@@ -192,6 +192,7 @@ public class HomeController : Controller
     }
     
     [HttpPost]
+    [Authorize]
     public IActionResult CheckoutConfirmationStart(decimal amount)
     {
         // Assuming the user is logged in and their ID is stored in User.Identity.Name
@@ -217,6 +218,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
+    [Authorize]
     public IActionResult CheckoutConfirmation(Order order)
     {
         // if (!ModelState.IsValid)
