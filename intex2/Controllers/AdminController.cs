@@ -21,7 +21,7 @@ namespace intex2.Controllers
             _emailHelper = emailHelper;
             _repo = temp;
         }
- 
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View(userManager.Users);
@@ -99,6 +99,7 @@ namespace intex2.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        [Authorize]
         public async Task<IActionResult> Update(string id)
         {
             AppUser appUser = await userManager.FindByIdAsync(id);
@@ -124,6 +125,7 @@ namespace intex2.Controllers
         }
  
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Update(string id, string email, string password, 
             bool twoFactor, string gender, int age, string firstName, string lastName, DateOnly birthdate,
             string countryOfResidence, string name)
@@ -191,6 +193,7 @@ namespace intex2.Controllers
             return View();
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Delete(string id)
         {
             AppUser user = await userManager.FindByIdAsync(id);
@@ -206,6 +209,8 @@ namespace intex2.Controllers
                 ModelState.AddModelError("", "User Not Found");
             return View("Index", userManager.Users);
         }
+        [Authorize(Roles = "Admin")]
+        public IActionResult ReviewOrders()
         public IActionResult ReviewOrders(int pageNum = 1, int pageSize = 1000)
         {
             IQueryable<Order> orders = _repo.Orders.Where(x => x.Fraud == 1)
@@ -228,6 +233,7 @@ namespace intex2.Controllers
 
             return View("ReviewOrders", model);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult ReviewOrdersAll()
         {
             IQueryable<Order> orders = _repo.Orders.OrderByDescending(x => x.Date);
@@ -250,11 +256,13 @@ namespace intex2.Controllers
             foreach (IdentityError error in result.Errors)
                 ModelState.AddModelError("", error.Description);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult ManageProducts()
         {
             IQueryable<Product> ps = _repo.Products;
             return View(ps);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult EditProduct(int id)
         {
             Product p = _repo.Products.Where(x => x.ProductId == id).SingleOrDefault();
@@ -262,6 +270,7 @@ namespace intex2.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult EditProduct(Product p)
         {
             _repo.UpdateProduct(p);
@@ -269,11 +278,13 @@ namespace intex2.Controllers
             return RedirectToAction("ManageProducts");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult AddProduct()
         {
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddProduct(Product p)
         {
             _repo.CreateProduct(p);
@@ -282,6 +293,7 @@ namespace intex2.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteProduct(int id)
         {
             Product p = _repo.Products.Where(x => x.ProductId == id).SingleOrDefault();

@@ -60,13 +60,13 @@ namespace intex2.Controllers
             }
             return View(login);
         }
-
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-
+        [AllowAnonymous]
         public IActionResult AccessDenied()
         {
             return View();
@@ -218,11 +218,12 @@ namespace intex2.Controllers
  
             return RedirectToAction("ResetPasswordConfirmation");
         }
- 
+        [AllowAnonymous]
         public IActionResult ResetPasswordConfirmation()
         {
             return View();
         }
+        [Authorize]
         public IActionResult MyAccount()
         {
             return View();
