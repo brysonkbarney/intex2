@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
+using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
 using intex2.Models;
 using intex2.Models.ViewModels;
@@ -137,34 +138,68 @@ public class HomeController : Controller
     {
         return View();
     }
-    public IActionResult Shop(int pageNum, string? productType)
+    public IActionResult Shop(int pageNum, string? productType, List<string> productTypes)
     {
         if (pageNum <= 0)
         {
             pageNum = 1;
         }
-            
+
         int pageSize = 37;
 
-        var blah = new ProductsListViewModel
+        // Get all products if no filters are applied
+        IQueryable<Product> products = _repo.Products;
+        if (productTypes != null && productTypes.Count > 0)
         {
-            Products = _repo.Products
+            // Filter products based on product types
+            products = products.Where(p => productTypes.Any(pt => p.Category.ToLower().Contains(pt.ToLower())));
+        }
+
+        var model = new ProductsListViewModel
+        {
+            Products = products
                 .OrderBy(x => x.Name)
-                .Skip((pageNum - 1) * (pageSize))
+                .Skip((pageNum - 1) * pageSize)
                 .Take(pageSize),
 
             PaginationInfo = new PaginationInfo
             {
                 CurrentPage = pageNum,
                 ItemsPerPage = pageSize,
-                TotalItems = productType == null ? _repo.Products.Count() : _repo.Products.Count()
+                TotalItems = productType == null ? products.Count() : products.Count()
             },
-                
+
             CurrentProductType = productType
         };
+       
+        var filteredProducts = model.Products.Where(p => productTypes.Select(pt => pt.ToLower()).Contains(p.Category.ToLower())).ToList();
+        Console.WriteLine($"Filtered products: {filteredProducts.Count}");
+            
 
-        return View(blah);
+// If the request is an AJAX request, return the partial view with the filtered products
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        {
+            return PartialView("_Products", filteredProducts);
+        }
+        
+        
+        return View(model);
+
     }
+    
+    [HttpPost]
+    public IActionResult Shop([FromBody] ProductTypesViewModel productTypes)
+    {
+        var filteredProducts = _repo.Products
+            .Where(p => productTypes.ProductTypes
+                .Any(pt => p.Category.ToLower().Contains(pt.ToLower())))
+            .ToList();
+
+        // Return the partial view with the filtered products
+        return PartialView("_Products", filteredProducts);
+    }
+    
+    
     public IActionResult AboutUs()
     {
         return View();
