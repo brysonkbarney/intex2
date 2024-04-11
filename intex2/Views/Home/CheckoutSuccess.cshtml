@@ -77,39 +77,33 @@
 
 
 <div class="container" style="height: 100vh; display: flex; align-items: center; justify-content: center;">
-    <div class="row" style="width: 100%;">
-        <!-- Order Details Column centered vertically and horizontally -->
-        <div class="col-md-6 d-flex align-items-center justify-content-center" style="height: 100%;">
-            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); max-width: 600px; width: 100%; margin: auto; display: flex; flex-direction: column; justify-content: center;">
-                <p style="font-size: 18px; color: #27ae60; margin-bottom: 20px;">Your order was successful and will be shipped soon.</p>
-
-                <div style="background: #f7f7f7; padding: 15px; border-left: 5px solid #27ae60; margin-bottom: 20px;">
-                    <h2 style="color: #333; margin-top: 0;">Order Details:</h2>
-                    <p><strong>Transaction ID:</strong> @Model.TransactionId</p>
-                    <p><strong>Customer ID:</strong> @Model.CustomerId</p>
-                    <p><strong>Date:</strong> @Model.Date</p>
-                    <p><strong>Amount:</strong> @Model.Amount</p>
-                    <p><strong>Type of Transaction:</strong> @Model.TypeOfTransaction</p>
-                    <p><strong>Shipping Address:</strong> @Model.ShippingAddress</p>
-                </div>
-            </div>
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); max-width: 1200px; width: 100%; background: #f7f7f7; display: flex; align-items: center;">
+        <!-- Order Details Section -->
+        <div style="flex-grow: 2; padding: 20px; margin-right: 20px;">
+            <p style="font-size: 18px; color: #27ae60; margin-bottom: 20px;">Your order was successful and will be shipped soon.</p>
+            <h2 style="color: #333; margin-top: 0;">Order Details:</h2>
+            <p><strong>Transaction ID:</strong> @Model.TransactionId</p>
+            <p><strong>Customer ID:</strong> @Model.CustomerId</p>
+            <p><strong>Date:</strong> @Model.Date</p>
+            <p><strong>Amount:</strong> @Model.Amount</p>
+            <p><strong>Type of Transaction:</strong> @Model.TypeOfTransaction</p>
+            <p><strong>Shipping Address:</strong> @Model.ShippingAddress</p>
         </div>
 
-        <!-- Image Column centered vertically and horizontally -->
-        <div class="col-md-6 d-flex align-items-center justify-content-center" style="height: 100%;">
-            <div style="max-width: 600px; width: 100%; margin: auto;">
-                <h1>Are you satisfied ?</h1>
-
-                <div class="lego-head"></div>
-
-                <div class="input">
-                    <label>Satisfaction: <span class="js-satisfaction">10</span>/20</label>
-                    <input class="js-satisfaction-slider" type="range" min="0" max="20" step="1" value="10" >
-                </div>
+        <!-- Satisfaction Section -->
+        <div style="flex-shrink: 0; flex-basis: 30%; padding: 20px;">
+            <h1 style="margin-top: 0; color: #333;">Are you satisfied?</h1>
+            <div class="lego-head" style="margin: 20px 0;"></div>
+            <div class="input">
+                <label for="satisfaction-slider" style="display: block; margin-bottom: 10px;">Satisfaction: <span class="js-satisfaction">10</span>/20</label>
+                <input id="satisfaction-slider" class="js-satisfaction-slider" type="range" min="0" max="20" step="1" value="10" style="width: 100%;">
             </div>
         </div>
     </div>
 </div>
+
+
+
 
 
 @section Scripts {
