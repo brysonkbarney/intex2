@@ -72,4 +72,10 @@ public class EFLegoRepository : ILegoRepository
     {
         _context.Products.Remove(p);
     }
+
+    public Customer GetCustomerByID(int id)
+    {
+        var customer = _context.Customers.Find(id);
+        return customer;
+    }
 }

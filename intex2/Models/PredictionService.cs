@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Localization;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
 namespace intex2.Models;
@@ -5,7 +6,6 @@ namespace intex2.Models;
 public class PredictionService
 {
     private readonly ILegoRepository _repo;
-    
     public PredictionService(ILegoRepository repo)
     {
         _repo = repo;
@@ -16,12 +16,12 @@ public class PredictionService
         // Direct assignment for numeric values
         int? time = order.Time;
         float? amount = order.Amount;
-        
-        //Customer cust = _repo.
+
+        Customer cust = _repo.GetCustomerByID(order.CustomerId);
         
         //need to age somehow
-        int transaction_shipping_match = 0;
-        int residence_transaction_match = 0;
+        int transaction_shipping_match = order.CountryOfTransaction == order.ShippingAddress ? 1 : 0;
+        int residence_transaction_match = order.CountryOfTransaction == cust.CountryOfResidence ? 1 : 0;
         
         // One-hot encoding for categorical variables
         // Day of week

@@ -18,4 +18,5 @@ public interface ILegoRepository
     public void DeleteProduct(Product p);
     public void CreateLineItems(List<LineItem> items);
     public void CreateOrder(Order o);
+    public Customer GetCustomerByID(int id);
 }
