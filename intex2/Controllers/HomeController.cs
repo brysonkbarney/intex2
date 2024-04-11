@@ -191,6 +191,14 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult Shop([FromBody] ProductTypesViewModel productTypes)
     {
+        // If no product types are specified, return all products
+        if (productTypes == null || productTypes.ProductTypes == null || productTypes.ProductTypes.Count == 0)
+        {
+            var allProducts = _repo.Products.ToList();
+            return PartialView("_Products", allProducts);
+        }
+
+        // Otherwise, filter the products based on the specified product types
         var filteredProducts = _repo.Products
             .Where(p => productTypes.ProductTypes
                 .Any(pt => p.Category.ToLower().Contains(pt.ToLower())))

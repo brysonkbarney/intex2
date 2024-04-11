@@ -23,11 +23,19 @@ $('.product-type').on('change', function() {
         return this.value;
     }).get();
 
+    var url = '/Home/Shop';
+    var data = {};
+
+    // If no checkboxes are selected, don't send any filter parameters
+    if (selectedProductTypes.length > 0) {
+        data = JSON.stringify({ productTypes: selectedProductTypes });
+    }
+
     $.ajax({
-        url: '/Home/Shop',
+        url: url,
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({ productTypes: selectedProductTypes }),
+        data: data,
         success: function(data) {
             console.log('Data returned from server:', data);
             $('#products-section').html(data);
