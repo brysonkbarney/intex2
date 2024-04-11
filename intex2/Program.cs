@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Azure.Security.KeyVault.Secrets;
 using Azure.Identity;
-using AspNetCoreRateLimit;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
