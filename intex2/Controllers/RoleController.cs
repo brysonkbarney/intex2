@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using intex2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace intex2.Controllers
@@ -15,17 +16,21 @@ namespace intex2.Controllers
             _roleManager = roleMgr;
             _userManager = userMrg;
         }
- 
+        
+        [Authorize(Roles = "Admin")]
         public ViewResult Index() => View(_roleManager.Roles);
  
+        [Authorize(Roles = "Admin")]
         private void Errors(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)
                 ModelState.AddModelError("", error.Description);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Create() => View();
  
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Required] string name)
         {
             if (ModelState.IsValid)
@@ -39,6 +44,7 @@ namespace intex2.Controllers
             return View(name);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             IdentityRole role = await _roleManager.FindByIdAsync(id);
@@ -54,6 +60,7 @@ namespace intex2.Controllers
                 ModelState.AddModelError("", "No role found");
             return View("Index", _roleManager.Roles);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(string id)
         {
             IdentityRole role = await _roleManager.FindByIdAsync(id);
@@ -78,6 +85,7 @@ namespace intex2.Controllers
 
  
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(RoleModification model)
         {
             IdentityResult result;
