@@ -1,9 +1,10 @@
-
 @if (!Context.Request.Cookies.ContainsKey("CookieConsent"))
 {
-    <div id="cookieConsentContainer" class="cookie-consent-container">
-        <p>We use cookies to improve your experience on our site. By continuing, you agree to our use of cookies.</p>
-        <button id="acceptCookieConsent">Accept</button>
+    <div id="cookieConsentContainer" class="cookie-consent-container" style="position: fixed; bottom: 0; left: 0; width: 100%; background-color: #353535; color: white; text-align: center; padding: 5px 20px; border-top: 1px solid #ccc; z-index: 1000; font-family: 'Arial';">
+        <p style="margin: 8px 0; font-size: 14px;">We use cookies to improve your experience on our site. By continuing, you agree to our use of cookies.</p>
+        <button id="acceptCookieConsent" style="padding: 5px 15px; font-size: 14px; color: #fff; background-color: #007bff; border: none; border-radius: 5px; cursor: pointer;">
+            Accept
+        </button>
     </div>
     <script>
         document.getElementById("acceptCookieConsent").onclick = function() {
@@ -12,3 +13,9 @@
         };
     </script>
 }
+
+
+
+
+
+
