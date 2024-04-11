@@ -7,9 +7,9 @@
 <div class="container my-5">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Shop">Shop</a></li>
       <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-      <li class="breadcrumb-item active" aria-current="page">My Account</li>
+      <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Shop">Shop</a></li>
+      <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
     </ol>
   </nav>
   
@@ -36,7 +36,14 @@
       </div>
       <div>
         <!-- Shortened description with "See More" button -->
+        @if (Model.Description.Length <= 100)
+        {
+        <p id="shortDescription">@Model.Description</p>
+        }
+        else
+        {
         <p id="shortDescription">@Model.Description.Substring(0, 100) <a href="#" id="seeMore">See More</a></p>
+        }
         <!-- Hidden full description -->
         <p id="fullDescription" style="display:none;">@Model.Description <a href="#" id="seeLess">See Less</a></p>
       </div>
