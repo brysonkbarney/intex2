@@ -1,10 +1,12 @@
 using intex2.Infrastructure;
 using intex2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace intex2.Pages;
 
+[Authorize]
 public class CartModel : PageModel
 {
     private ILegoRepository _repo;
@@ -16,7 +18,6 @@ public class CartModel : PageModel
     }
     public string ReturnUrl { get; set; } = "/";
     
-
     public void OnGet(string returnUrl)
     {
         ReturnUrl = returnUrl ?? "/";
