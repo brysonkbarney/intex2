@@ -1,7 +1,12 @@
 @{
     var user = await UserManager.GetUserAsync(User);
 }
-<p>Email: @user.Email</p>
+@model User;
+<p>Username: @Model.Name</p>
+<p>Email: @Model.Email</p>
+<p>BirthDate: @Model.BirthDate</p>
+<p>Country Of Residence: @Model.CountryOfResidence</p>
+<p>Gender: @Model.Gender</p>
 <p>To change any details about your account, including to enable two factor authentication, click the button below.</p>
 <a class="btn btn-sm btn-primary" asp-controller="Admin" asp-action="Update" asp-route-id="@user.Id">
     Update
