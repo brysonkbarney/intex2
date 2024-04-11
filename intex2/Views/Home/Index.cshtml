@@ -1,12 +1,15 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
     ViewData["Title"] = "Aurora Bricks";
 }
 
 @using intex2.Models
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model intex2.Models.ViewModels.ProductsListViewModel
-
+<title>Aurora Bricks</title>
 <section id="hero">
     <img src="@Url.Content("~/images/pileoflegos.jpg")" alt="A pile of Legos" style="width: 100vw; height: 200px; object-fit: cover;" />    <div class="hero-text">
         <h1>All in one place</h1>
@@ -93,8 +96,3 @@ else{
         // You can place any additional JavaScript here
     </script>
 }
- 
-@{
-    ViewData["Title"] = "Authentication";
-}
-
