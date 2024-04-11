@@ -1,18 +1,64 @@
-@model TModel
+@model intex2.Models.ViewModels.OrderViewModel
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Checkout Confirmation";
 }
 
-<!DOCTYPE html>
+<h1>@ViewData["Title"]</h1>
 
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
-</div>
-</body>
-</html>
+<form asp-action="CheckoutConfirmation" method="post">
+    <input type="hidden" asp-for="TransactionId" />
+    <input type="hidden" asp-for="CustomerId" />
+
+    <div class="form-group">
+        <label asp-for="Date"></label>
+        <input asp-for="Date" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DayOfWeek"></label>
+        <input asp-for="DayOfWeek" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Time"></label>
+        <input asp-for="Time" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EntryMode"></label>
+        <input asp-for="EntryMode" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Amount"></label>
+        <input asp-for="Amount" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TypeOfTransaction"></label>
+        <input asp-for="TypeOfTransaction" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CountryOfTransaction"></label>
+        <input asp-for="CountryOfTransaction" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ShippingAddress"></label>
+        <input asp-for="ShippingAddress" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Bank"></label>
+        <input asp-for="Bank" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TypeOfCard"></label>
+        <input asp-for="TypeOfCard" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Confirm</button>
+</form>
