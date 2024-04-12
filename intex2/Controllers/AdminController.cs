@@ -67,10 +67,6 @@ namespace intex2.Controllers
                     
                     if (emailResponse)
                         return View("../Email/GoConfirm");
-                    else
-                    {
-                        // log email failed 
-                    }
                 }
                 else
                 {
