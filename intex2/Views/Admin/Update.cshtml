@@ -10,8 +10,9 @@
                 <div class="card text-black" style="border-radius: 25px;">
                     <div class="card-body p-md-5">
                         <h2 class="text-center fw-bold mb-5">Update Your Account</h2>
+                        <div asp-validation-summary="All" class="text-danger"></div>
                         <form asp-action="Update" method="post">
-                            <input type="hidden" name="id" />
+                            <input type="hidden" name="id" value="@Model.NetUserId"/>
                             <div class="row">
                                 <!-- Left column -->
                                 <div class="col-md-6">
@@ -28,8 +29,8 @@
                                         <input asp-for="LastName" class="form-control" />
                                     </div>
                                     <div class="form-outline mb-4">
-                                        <label asp-for="Email" class="form-label"></label>
-                                        <input asp-for="Email" class="form-control" disabled />
+                                        <P>Email: @Model.Email</p>
+                                        <input asp-for="Email" class="form-control" type="hidden"/>
                                     </div>
                                     <div class="form-outline mb-4">
                                         <label for="Password" class="form-label">New Password</label>
@@ -58,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="form-check d-flex justify-content-center mb-4">
-                                <input value="true "id="twoFactor" name="twoFactor" type="checkbox" class="form-check-input" />
+                                <input value="true" id="twoFactor" name="twoFactor" type="checkbox" class="form-check-input" />
                                 <label for="twoFactor" class="form-check-label">Two-Factor Authentication</label>
                             </div>
                             <div class="text-center">
