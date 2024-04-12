@@ -17,17 +17,17 @@ namespace intex2.Models
         public bool TwoFactor { get; set; } = false;
         
         public int CustomerId { get; set; }
-
+        [Required]
         public string? FirstName { get; set; }
-
+        [Required]
         public string? LastName { get; set; }
-
+        [Required]
         public DateOnly? BirthDate { get; set; }
-
+        [Required]
         public string? CountryOfResidence { get; set; }
-
+        [Required]
         public string? Gender { get; set; }
-
+        [Required]
         public double? Age { get; set; }
     
         public string? NetUserId { get; set; }

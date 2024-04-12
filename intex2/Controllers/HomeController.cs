@@ -72,10 +72,21 @@ public class HomeController : Controller
 
         // Get all products if no filters are applied
         IQueryable<Product> products = _repo.Products;
-        if (productTypes != null && productTypes.Count > 0)
+        if (!string.IsNullOrEmpty(productType))
+        {
+            // Filter products based on product type
+            products = products.Where(p => p.Category.ToLower().Contains(productType.ToLower()));
+        }
+        else if (productTypes != null && productTypes.Count > 0)
         {
             // Filter products based on product types
             products = products.Where(p => productTypes.Any(pt => p.Category.ToLower().Contains(pt.ToLower())));
+        }
+
+        // If colors are specified, filter products based on colors
+        if (colors != null && colors.Count > 0)
+        {
+            products = products.Where(p => colors.Any(c => p.PrimaryColor.ToLower().Contains(c.ToLower())));
         }
 
         // If colors are specified, filter products based on colors
@@ -221,26 +232,28 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult CheckoutConfirmation(Order order)
     {
-        // if (!ModelState.IsValid)
-        // {
-        //     return View("CheckoutConfirmation");
-        // }
-        
-        int fraud = _prediction.PredictFraud(order);
-        order.Fraud = fraud;
-        _repo.CreateOrder(order);
-        _repo.Save();
-        
-        if (fraud == 0)
+        if (ModelState.IsValid)
         {
-            return View("CheckoutSuccess", order);
+            int fraud = _prediction.PredictFraud(order);
+            order.Fraud = fraud;
+            _repo.CreateOrder(order);
+            _repo.Save();
+
+            if (fraud == 0)
+            {
+                return View("CheckoutSuccess", order);
+            }
+            else
+            {
+                return View("OrderPending", order);
+            }
         }
         else
         {
-            return View("OrderPending", order);
+            return View(order);
         }
-        
-        
+
+
     }
     
 }

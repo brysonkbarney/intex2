@@ -14,12 +14,14 @@ namespace intex2.Controllers
         private UserManager<AppUser> userManager;
         private SignInManager<AppUser> signInManager;
         private readonly EmailHelper _emailHelper;
+        private readonly ILegoRepository _repo;
 
-        public AccountController(UserManager<AppUser> userMgr, SignInManager<AppUser> signinMgr, EmailHelper emailHelper)
+        public AccountController(UserManager<AppUser> userMgr, SignInManager<AppUser> signinMgr, EmailHelper emailHelper, ILegoRepository repo)
         {
             userManager = userMgr;
             signInManager = signinMgr;
             _emailHelper = emailHelper;
+            _repo = repo;
         }
 
         [AllowAnonymous]
@@ -224,9 +226,19 @@ namespace intex2.Controllers
             return View();
         }
         [Authorize]
-        public IActionResult MyAccount()
+        public async Task<IActionResult> MyAccount()
         {
-            return View();
+            var user = await userManager.GetUserAsync(User);
+            Customer cust = _repo.GetCustomerByNetUserId(user.Id);
+            User userModel = new User()
+            {
+                Name = user.UserName,
+                Email = user.Email,
+                BirthDate = cust.BirthDate,
+                CountryOfResidence = cust.CountryOfResidence,
+                Gender = cust.Gender
+            };
+            return View(userModel);
         }
     }
 }
