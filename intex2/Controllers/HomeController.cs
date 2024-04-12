@@ -262,6 +262,11 @@ public class HomeController : Controller
             _repo.CreateLineItems(items);
             _repo.Save();
 
+            foreach (var item in _cart.Lines)
+            {
+                _cart.RemoveLine(item.Product);
+            }
+
             if (fraud == 0)
             {
                 return View("CheckoutSuccess", order);
