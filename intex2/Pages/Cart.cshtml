@@ -1,4 +1,8 @@
 @page
+@using Microsoft.AspNetCore.Razor.Language
+@using Microsoft.CodeAnalysis.Elfie.Model.Map
+@using Microsoft.EntityFrameworkCore.Storage
+@using Microsoft.AspNetCore.Http.Features
 @model intex2.Pages.CartModel
 @{
     ViewData["Title"] = "Cart";
@@ -64,7 +68,14 @@
                {
                    <div style="display: inline-block;">
                        <form asp-controller="Home" asp-action="CheckoutConfirmationStart" method="post" style="margin: 0;">
-                           <input type="hidden" name="amount" value="@Model.Cart?.CalculateTotal()"/>
+                           <input type="hidden" asp-for="@Model.Cart"/>
+                           @foreach(Cart.CartLine item in Model.Cart.Lines)
+                           {
+                               var i = 0;
+                               <input type="hidden" asp-for="@item.Product.ProductId"/>
+                               <input type="hidden" asp-for="@item.Quantity"/>
+                               i += 1;
+                           }
                            <button type="submit" class="btn btn-primary" style="background-color: #008f39; border-color: #008f39; color: white;">Proceed to Checkout</button>
                        </form>
                    </div>
