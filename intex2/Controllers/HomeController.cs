@@ -225,8 +225,15 @@ public class HomeController : Controller
             };
             return View("CheckoutConfirmation", newOrder);
         }
-        order.Amount = (int)_cart.CalculateTotal();
-        return View("CheckoutConfirmation", order);
+        Order newOrder1 = new Order()
+        {
+            ShippingAddress = order.ShippingAddress,
+            Amount = (int)_cart.CalculateTotal(),
+            CountryOfTransaction = order.CountryOfTransaction,
+            Bank = order.Bank,
+            TypeOfCard = order.TypeOfCard
+        };
+        return View("CheckoutConfirmation", newOrder1);
     }
 
     [HttpPost]
