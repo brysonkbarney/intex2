@@ -216,7 +216,6 @@ public class HomeController : Controller
         {
             return NotFound();
         }
-        //int intAmount = (int)amount;
         var order = _repo.Orders.FirstOrDefault(o => o.CustomerId == customer.CustomerId);
         if (order == null)
         {
