@@ -103,8 +103,7 @@
                 <label for="satisfaction-slider" style="display: block; margin-bottom: 10px;">Satisfaction: <span class="js-satisfaction">10</span>/20</label>
                 <input id="satisfaction-slider" class="js-satisfaction-slider" type="range" min="0" max="20" step="1" value="10" style="width: 80%;">
             </div>
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="btn" role="button" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; color: white; background-color: #27ae60; border: none; cursor: pointer; border-radius: 5px;">Submit</a>
-
+            <a href="@Url.Action("Index", "Home")" class="btn" role="button" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; color: white; background-color: #27ae60; border: none; cursor: pointer; border-radius: 5px;">Home</a>
         </div>
     </div>
 </div>
