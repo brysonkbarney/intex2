@@ -130,8 +130,8 @@ var selected20 = Model.PaginationInfo.ItemsPerPage == 20 ? "selected" : "";
 
 
 <div style="display: flex; justify-content: center; gap: 20px; align-items: center;">
-    <form method="get" style="margin: 0;">        
-        <select name="pageSize" onchange="this.form.submit();">
+    <form id="pageSizeForm" method="get" style="margin: 0;">
+        <select id="pageSizeSelect" name="pageSize">
             @if (Model.PaginationInfo.ItemsPerPage == 5)
             {
             <option value="5" selected>5</option>
@@ -169,3 +169,8 @@ var selected20 = Model.PaginationInfo.ItemsPerPage == 20 ? "selected" : "";
         </div>
     </div>
 </div>
+
+@section Scripts {
+<script src="~/js/shop.js" asp-append-version="true"></script>
+}
+
