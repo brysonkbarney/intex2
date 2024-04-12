@@ -72,10 +72,21 @@ public class HomeController : Controller
 
         // Get all products if no filters are applied
         IQueryable<Product> products = _repo.Products;
-        if (productTypes != null && productTypes.Count > 0)
+        if (!string.IsNullOrEmpty(productType))
+        {
+            // Filter products based on product type
+            products = products.Where(p => p.Category.ToLower().Contains(productType.ToLower()));
+        }
+        else if (productTypes != null && productTypes.Count > 0)
         {
             // Filter products based on product types
             products = products.Where(p => productTypes.Any(pt => p.Category.ToLower().Contains(pt.ToLower())));
+        }
+
+        // If colors are specified, filter products based on colors
+        if (colors != null && colors.Count > 0)
+        {
+            products = products.Where(p => colors.Any(c => p.PrimaryColor.ToLower().Contains(c.ToLower())));
         }
 
         // If colors are specified, filter products based on colors
