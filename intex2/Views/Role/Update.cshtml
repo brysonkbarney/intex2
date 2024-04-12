@@ -2,53 +2,53 @@
 @{
     ViewData["Title"] = "UPDATE ROLE";
 }
-  
-<h1 class="bg-info text-white">Update Role</h1>
-<a asp-action="Index" class="btn btn-secondary">Back</a>
+
+<h1 style="background-color: #343a40; color: white; padding: 12px 20px; border-radius: 0.25rem; text-align: center; margin-bottom: 1rem;">Update Role</h1>
+<a asp-action="Index" class="btn btn-secondary" style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 0.25rem; text-decoration: none; transition: background-color 0.2s ease-in-out;">Back</a>
 <div asp-validation-summary="All" class="text-danger"></div>
-  
-<form method="post">
+
+<form method="post" style="max-width: 600px; margin-top: 2rem;">
     <input type="hidden" name="roleName" value="@Model.Role.Name" />
     <input type="hidden" name="roleId" value="@Model.Role.Id" />
-      
-    <h2 class="bg-info p-1 text-white">Add To @Model.Role.Name</h2>
-    <table class="table table-bordered table-sm">
+
+    <h2 style="background-color: #17a2b8; color: white; padding: 10px; border-radius: 0.25rem; text-align: center;">Add To @Model.Role.Name</h2>
+    <table class="table table-bordered table-sm" style="margin-bottom: 1rem;">
         @if (Model.NonMembers.Count() == 0)
         {
-            <tr><td colspan="2">All Users Are Members</td></tr>
+        <tr><td colspan="2" style="text-align: center;">All Users Are Members</td></tr>
         }
         else
         {
-            @foreach (AppUser user in Model.NonMembers)
-            {
-                <tr>
-                    <td>@user.UserName</td>
-                    <td>
-                        <input type="checkbox" name="AddIds" value="@user.Id">
-                    </td>
-                </tr>
-            }
+        @foreach (AppUser user in Model.NonMembers)
+        {
+        <tr>
+            <td>@user.UserName</td>
+            <td style="text-align: center;">
+                <input type="checkbox" name="AddIds" value="@user.Id">
+            </td>
+        </tr>
+        }
         }
     </table>
-  
-    <h2 class="bg-info p-1 text-white">Remove From @Model.Role.Name</h2>
-    <table class="table table-bordered table-sm">
+
+    <h2 style="background-color: #17a2b8; color: white; padding: 10px; border-radius: 0.25rem; text-align: center;">Remove From @Model.Role.Name</h2>
+    <table class="table table-bordered table-sm" style="margin-bottom: 1rem;">
         @if (Model.Members.Count() == 0)
         {
-            <tr><td colspan="2">No Users Are Members</td></tr>
+        <tr><td colspan="2" style="text-align: center;">No Users Are Members</td></tr>
         }
         else
         {
-            @foreach (AppUser user in Model.Members)
-            {
-                <tr>
-                    <td>@user.UserName</td>
-                    <td>
-                        <input type="checkbox" name="DeleteIds" value="@user.Id">
-                    </td>
-                </tr>
-            }
+        @foreach (AppUser user in Model.Members)
+        {
+        <tr>
+            <td>@user.UserName</td>
+            <td style="text-align: center;">
+                <input type="checkbox" name="DeleteIds" value="@user.Id">
+            </td>
+        </tr>
+        }
         }
     </table>
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s ease-in-out;">Save</button>
 </form>

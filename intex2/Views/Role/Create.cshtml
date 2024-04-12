@@ -2,15 +2,15 @@
 @{
     ViewData["Title"] = "CREATE ROLE";
 }
-  
-<h1 class="bg-info text-white">Create a Role</h1>
-<a asp-action="Index" class="btn btn-secondary">Back</a>
+
+<h1 style="background-color: #343a40; color: white; padding: 12px 20px; border-radius: 0.25rem; text-align: center; margin-bottom: 1rem;">Create a Role</h1>
+<a asp-action="Index" class="btn btn-secondary" style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 0.25rem; text-decoration: none; transition: background-color 0.2s ease-in-out;">Back</a>
 <div asp-validation-summary="All" class="text-danger"></div>
-  
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label for="name">Name:</label>
-        <input name="name" class="form-control" />
+
+<form asp-action="Create" method="post" style="max-width: 500px; margin-top: 2rem;">
+    <div class="form-group" style="margin-bottom: 1rem;">
+        <label for="name" style="display: block; margin-bottom: 0.5rem;">Name:</label>
+        <input name="name" class="form-control" style="padding: 0.5rem; border-radius: 0.25rem; border: 1px solid #ced4da;"/>
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s ease-in-out;">Create</button>
 </form>
