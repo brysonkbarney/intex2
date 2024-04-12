@@ -216,7 +216,6 @@ public class HomeController : Controller
         {
             return NotFound();
         }
-        //int intAmount = (int)amount;
         var order = _repo.Orders.FirstOrDefault(o => o.CustomerId == customer.CustomerId);
         if (order == null)
         {
@@ -226,9 +225,15 @@ public class HomeController : Controller
             };
             return View("CheckoutConfirmation", newOrder);
         }
-
-        //order.Amount = intAmount;
-        return View("CheckoutConfirmation", order);
+        Order newOrder1 = new Order()
+        {
+            ShippingAddress = order.ShippingAddress,
+            Amount = (int)_cart.CalculateTotal(),
+            CountryOfTransaction = order.CountryOfTransaction,
+            Bank = order.Bank,
+            TypeOfCard = order.TypeOfCard
+        };
+        return View("CheckoutConfirmation", newOrder1);
     }
 
     [HttpPost]
