@@ -14,7 +14,7 @@ public class ContentSecurityPolicyMiddleware
         context.Response.Headers["Content-Security-Policy"] =
             "default-src 'self'; " +
             "img-src 'self' https:; " +
-            "script-src 'self' 'unsafe-inline'; " +
+            "script-src 'self';" +
             "style-src 'self' 'unsafe-inline';";
         // Add more directives as needed
 

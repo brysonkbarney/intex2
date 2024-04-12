@@ -102,14 +102,6 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 
-app.Use(async (context, next) =>
-{
-    var nonce = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-    context.Response.Headers.Append("Content-Security-Policy", $"script-src 'self' 'nonce-{nonce}';");
-    context.Items["CSPNonce"] = nonce; // Make nonce available to views
-    await next();
-});
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -128,7 +120,15 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseMiddleware<ContentSecurityPolicyMiddleware>(); // Add this line
+app.UseMiddleware<ContentSecurityPolicyMiddleware>(); 
+
+app.Use(async (context, next) =>
+{
+    var nonce = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+    context.Response.Headers.Append("Content-Security-Policy", $"script-src 'self' 'nonce-{nonce}';");
+    context.Items["CSPNonce"] = nonce; // Make nonce available to views
+    await next();
+});
 
 app.MapControllerRoute(
     name: "default",
