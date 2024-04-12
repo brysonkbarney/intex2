@@ -288,5 +288,9 @@ public class HomeController : Controller
 
 
     }
+    public IActionResult LegoBuilder()
+    {
+        return View();
+    }
     
 }
