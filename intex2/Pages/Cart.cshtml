@@ -44,6 +44,7 @@
                             <h5 class="mb-0">$@line.Product.Price</h5>
                         </div>
                         <form asp-page-handler="Remove" method="post" class="ms-2">
+                            @Html.AntiForgeryToken()
                             <input type="hidden" name="ProductId" value="@line.Product.ProductId"/>
                             <button type="submit" class="btn btn-link p-0" style="color: black;">
                                 <i class="fa-regular fa-trash-can" style="font-size: 1.5em;"></i>
@@ -68,8 +69,9 @@
                {
                    <div style="display: inline-block;">
                        <form asp-controller="Home" asp-action="CheckoutConfirmationStart" method="post" style="margin: 0;">
+                           @Html.AntiForgeryToken()
                            <input type="hidden" asp-for="@Model.Cart"/>
-                           @foreach(Cart.CartLine item in Model.Cart.Lines)
+                           @foreach (Cart.CartLine item in Model.Cart.Lines)
                            {
                                <input type="hidden" asp-for="@item"/>
                                <input type="hidden" asp-for="@item.Product.ProductId"/>
