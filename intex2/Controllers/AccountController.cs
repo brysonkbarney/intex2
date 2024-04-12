@@ -233,10 +233,13 @@ namespace intex2.Controllers
             User userModel = new User()
             {
                 Name = user.UserName,
+                FirstName = cust.FirstName,
+                LastName = cust.LastName,
                 Email = user.Email,
                 BirthDate = cust.BirthDate,
                 CountryOfResidence = cust.CountryOfResidence,
-                Gender = cust.Gender
+                Gender = cust.Gender,
+                Age = cust.Age,
             };
             return View(userModel);
         }
