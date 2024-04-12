@@ -18,12 +18,14 @@ public class HomeController : Controller
     private ILegoRepository _repo;
     private readonly InferenceSession _session;
     private readonly PredictionService _prediction;
-    public HomeController(UserManager<AppUser> userMgr,ILogger<HomeController> logger, ILegoRepository temp, PredictionService prediction)
+    private readonly SessionCart _cart;
+    public HomeController(UserManager<AppUser> userMgr,ILogger<HomeController> logger, ILegoRepository temp, PredictionService prediction, SessionCart cart)
     {
         _logger = logger;
         userManager = userMgr;
         _repo = temp;
         _prediction = prediction;
+        _cart = cart;
     }
     public IActionResult Index()
     {
@@ -205,7 +207,7 @@ public class HomeController : Controller
     
     [HttpPost]
     [Authorize]
-    public IActionResult CheckoutConfirmationStart(Cart cart)
+    public IActionResult CheckoutConfirmationStart()
     {
         // Assuming the user is logged in and their ID is stored in User.Identity.Name
         var appUser = userManager.FindByNameAsync(User.Identity.Name).Result;

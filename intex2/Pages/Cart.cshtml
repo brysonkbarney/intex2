@@ -71,10 +71,9 @@
                            <input type="hidden" asp-for="@Model.Cart"/>
                            @foreach(Cart.CartLine item in Model.Cart.Lines)
                            {
-                               var i = 0;
+                               <input type="hidden" asp-for="@item"/>
                                <input type="hidden" asp-for="@item.Product.ProductId"/>
                                <input type="hidden" asp-for="@item.Quantity"/>
-                               i += 1;
                            }
                            <button type="submit" class="btn btn-primary" style="background-color: #008f39; border-color: #008f39; color: white;">Proceed to Checkout</button>
                        </form>
