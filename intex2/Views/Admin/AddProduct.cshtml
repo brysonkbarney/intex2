@@ -2,47 +2,48 @@
     ViewData["Title"] = "ADD PRODUCT";
 }
 @model Product
-<h1 class="bg-info text-white">Add Product</h1>
-<a asp-action="ManageProducts" class="btn btn-secondary">Manage Products</a>
+<h1 style="background-color: #343a40; color: white; padding: 12px 20px; border-radius: 0.25rem; text-align: center; margin-bottom: 1rem;">Add Product</h1>
+<a asp-action="ManageProducts" class="btn btn-secondary" style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 0.25rem; text-decoration: none; transition: background-color 0.2s ease-in-out; margin-bottom: 20px;">Manage Products</a>
 
-<div asp-validation-summary="All" class="text-danger"></div>
- 
-<form asp-action="AddProduct" method="post">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
+<div asp-validation-summary="All" class="text-danger" style="margin-bottom: 20px;"></div>
+
+<form asp-action="AddProduct" method="post" style="max-width: 600px; margin-top: 2rem;">
+    <div class="form-group" style="margin-bottom: 1rem;">
+        <label asp-for="Name" style="display: block; margin-bottom: 0.5rem;">Name</label>
+        <input asp-for="Name" class="form-control" style="padding: 0.5rem; border-radius: 0.25rem; border: 1px solid #ced4da;"/>
     </div>
     <div class="form-group">
-        <label asp-for="Year"></label>
+        <label asp-for="Year">Year</label>
         <input asp-for="Year" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="NumParts"></label>
+        <label asp-for="NumParts">NumParts</label>
         <input asp-for="NumParts" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Price"></label>
+        <label asp-for="Price">Price</label>
         <input asp-for="Price" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="ImgLink"></label>
+        <label asp-for="ImgLink">ImgLink</label>
         <input asp-for="ImgLink" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="PrimaryColor"></label>
+        <label asp-for="PrimaryColor">PrimaryColor</label>
         <input asp-for="PrimaryColor" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="SecondaryColor"></label>
+        <label asp-for="SecondaryColor">SecondaryColor</label>
         <input asp-for="SecondaryColor" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Description"></label>
+        <label asp-for="Description">Description</label>
         <input asp-for="Description" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="Category"></label>
+        <label asp-for="Category">Category</label>
         <input asp-for="Category" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary">Add Product</button>
+    <br/>
+    <button type="submit" class="btn btn-primary" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s ease-in-out;">Add Product</button>
 </form>
