@@ -7,88 +7,75 @@
   <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-lg-12 col-xl-11">
-        <div class="text-center h1 fw-bold mb-3">Sign up</div> <!-- Title centered above the form -->
-        <div class="card text-black" style="border-radius: 25px;">
-          <div class="card-body p-md-5">
-            <div class="row justify-content-center">
-              
-              <div class="col-md-6 order-1 order-lg-1">
-                <form class="mx-1 mx-md-4" method="post">
-                  <!-- First column with labels aligned above inputs -->
+        <h2 class="text-center fw-bold mb-5">Sign up</h2>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <form method="post">
+          <div class="card text-black" style="border-radius: 25px;">
+            <div class="card-body p-md-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- Left column -->
                   <div class="form-outline mb-4">
-                    <label class="form-label" for="form3Example1c">User Name</label>
+                    <label class="form-label" for="form3Example1c">UserName</label>
                     <input asp-for="Name" type="text" id="form3Example1c" class="form-control" />
                   </div>
-
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example1d">First Name</label>
                     <input asp-for="FirstName" type="text" id="form3Example1d" class="form-control" />
                   </div>
-
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example1e">Last Name</label>
                     <input asp-for="LastName" type="text" id="form3Example1e" class="form-control" />
                   </div>
-
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example3c">Your Email</label>
                     <input asp-for="Email" type="email" id="form3Example3c" class="form-control" />
                   </div>
-
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example4c">Password</label>
                     <input asp-for="Password" type="password" id="form3Example4c" class="form-control" />
                   </div>
-                </form>
-              </div>
-
-              <div class="col-md-6 order-2 order-lg-2">
-                <!-- Second column -->
-                <form class="mx-1 mx-md-4">
+                </div>
+                <div class="col-md-6">
+                  <!-- Right column -->
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example4d">Birth Date</label>
                     <input asp-for="BirthDate" type="date" id="form3Example4d" class="form-control" />
                   </div>
-
                   <div class="mb-4">
                     <label class="form-label" for="form3Example4e">Country Of Residence</label>
                     <select asp-for="CountryOfResidence" id="form3Example4e" class="form-select">
-                      <option value="">Select a country</option>
-                      <option value="USA">USA</option>
-                      <option value="China">China</option>
-                      <option value="India">India</option>
-                      <option value="Russia">Russia</option>
-                      <option value="United Kingdom">United Kingdom</option>
+                        <option value="">Select a country</option>
+                        <option value="USA">USA</option>
+                        <!-- Other countries -->
                     </select>
                   </div>
-
                   <div class="mb-4">
                     <label class="form-label" for="form3Example4f">Gender</label>
                     <select asp-for="Gender" id="form3Example4f" class="form-select">
-                      <option value="">Select Gender</option>
-                      <option value="M">Male</option>
-                      <option value="F">Female</option>
+                        <option value="">Select Gender</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
                     </select>
                   </div>
-
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example4g">Age</label>
                     <input asp-for="Age" type="number" id="form3Example4g" class="form-control" min="0" max="120" />
                   </div>
-                    <br/><br/>
+                  <br/><br/>
                   <div class="form-check d-flex mb-4">
                     <input asp-for="TwoFactor" type="checkbox" class="form-check-input" id="YourBooleanFieldId" />
                     <label class="form-check-label" for="YourBooleanFieldId">Enable Two Factor Authentication?</label>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <br/>
-        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-          <button type="submit" class="btn btn-primary btn-lg">Register</button>
-        </div>
+          <!-- Register button -->
+          <div class="text-center my-4">
+            <button type="submit" class="btn btn-primary btn-lg">Register</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
