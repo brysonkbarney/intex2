@@ -75,61 +75,59 @@
 
 </style>
 
+<div class="container" style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 5vh;">
 
-<div class="container h-100">
-    <div class="row h-100">
-        <!-- Order Details Column centered vertically -->
-        <div class="col-md-6 my-auto">
-            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin: auto; display: flex; flex-direction: column; justify-content: center;">
-                <p style="font-size: 18px; color: #27ae60; margin-bottom: 20px;">Your order was successful and will be shipped soon.</p>
+    <!-- Large Congrats Text -->
+    <h1 style="font-size: 10rem; color: black; margin-bottom: 10px;">CONGRATS!</h1>
 
-                <div style="background: #f7f7f7; padding: 15px; border-left: 5px solid #27ae60; margin-bottom: 20px;">
-                    <h2 style="color: #333; margin-top: 0;">Order Details:</h2>
-                    <p><strong>Transaction ID:</strong> @Model.TransactionId</p>
-                    <p><strong>Customer ID:</strong> @Model.CustomerId</p>
-                    <p><strong>Date:</strong> @Model.Date</p>
-                    <p><strong>Amount:</strong> @Model.Amount</p>
-                    <p><strong>Type of Transaction:</strong> @Model.TypeOfTransaction</p>
-                    <p><strong>Shipping Address:</strong> @Model.ShippingAddress</p>
-                </div>
-            </div>
+    <!-- Container for Order Details and Satisfaction Section -->
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 100%; max-width: 1200px; background: #f7f7f7; display: flex; align-items: center; justify-content: space-around;">
+
+        <!-- Order Details Section -->
+        <div style="padding: 20px;">
+            <p style="font-size: 18px; color: #27ae60; margin-bottom: 20px;">Your order was successful and will be shipped soon.</p>
+            <h2 style="color: #333; margin-top: 0;">Order Details:</h2>
+            <p><strong>Transaction ID:</strong> @Model.TransactionId</p>
+            <p><strong>Customer ID:</strong> @Model.CustomerId</p>
+            <p><strong>Date:</strong> @Model.Date</p>
+            <p><strong>Amount:</strong> @Model.Amount</p>
+            <p><strong>Type of Transaction:</strong> @Model.TypeOfTransaction</p>
+            <p><strong>Shipping Address:</strong> @Model.ShippingAddress</p>
         </div>
 
-        <!-- Image Column -->
-        <div class="col-md-6 my-auto">
-            <h1>Are you satisfied ?</h1>
-
-            <div class="lego-head"></div>
-
-            <div class="input">
-                <label>Satisfaction: <span class="js-satisfaction">10</span>/20</label>
-                <input class="js-satisfaction-slider" type="range" min="0" max="20" step="1" value="10" >
+        <!-- Satisfaction Section -->
+        <div style="padding: 20px; display: flex; flex-direction: column; align-items: center;">
+            <h1 style="color: #333;">Are you satisfied?</h1>
+            <div class="lego-head" style="margin: 20px 0;"></div>
+            <div class="input" style="width: 100%;">
+                <label for="satisfaction-slider" style="display: block; margin-bottom: 10px;">Satisfaction: <span class="js-satisfaction">10</span>/20</label>
+                <input id="satisfaction-slider" class="js-satisfaction-slider" type="range" min="0" max="20" step="1" value="10" style="width: 80%;">
             </div>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="btn" role="button" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; color: white; background-color: #27ae60; border: none; cursor: pointer; border-radius: 5px;">Submit</a>
+
         </div>
     </div>
 </div>
 
 
+
+
+
+
 @section Scripts {
-    <script src="https://unpkg.com/rxjs/bundles/rxjs.umd.min.js"></script>
-    <script>
-        const { fromEvent } = rxjs;
-        const { map } = rxjs.operators;
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var slider = document.querySelector('.js-satisfaction-slider');
+        var satisfactionDisplay = document.querySelector('.js-satisfaction');
+        var legoHead = document.querySelector('.lego-head');
 
-        var $input = document.querySelector('.js-satisfaction-slider');
-        var $satisfaction = document.querySelector('.js-satisfaction');
-        var $legoHead = document.querySelector('.lego-head');
-
-        var inputStream$ = fromEvent($input, 'input')
-            .pipe(
-                map(event => event.target.value),
-                map(val => val / $input.max)
-            );
-
-        inputStream$.subscribe(per => {
-            document.documentElement.style.setProperty('--smile-rotation', `${180 - 180 * per}deg`);
-            $satisfaction.textContent = `${Math.round(per * 20)}`;
-            $legoHead.style.background = `linear-gradient(to top, rgba(248,80,50,${1 - per}) 0%, var(--lego-yellow) ${100 - 100 * per}%)`;
+        slider.addEventListener('input', function () {
+            var per = slider.value / slider.max;
+            var deg = 180 - 180 * per;
+            satisfactionDisplay.textContent = Math.round(per * 20);
+            legoHead.style.background = `linear-gradient(to top, rgba(248,80,50,${1 - per}) 0%, var(--lego-yellow) ${100 - 100 * per}%)`;
+            document.documentElement.style.setProperty('--smile-rotation', `${deg}deg`);
         });
-    </script>
+    });
+</script>
 }

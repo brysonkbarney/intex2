@@ -3,7 +3,15 @@
 
 // Write your JavaScript code.
 
+
 $(document).ready(function(){
+    // Check if the productType query parameter is "star wars"
+    var urlParams = new URLSearchParams(window.location.search);
+    var productType = urlParams.get('productType');
+    if (productType && productType.toLowerCase() === 'star wars') {
+        // Check the "Star Wars" filter box
+        $('#star-wars').prop('checked', true);
+    }
     $("#seeMore").click(function (e) {
         e.preventDefault(); // Prevent the default anchor click action
         $("#shortDescription").hide(); // Hide the short description
