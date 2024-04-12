@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
 using intex2.Models;
 using intex2.Models.ViewModels;
+using intex2.Pages;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.ML;
 using Microsoft.ML.OnnxRuntime;
@@ -193,7 +194,7 @@ public class HomeController : Controller
     
     [HttpPost]
     [Authorize]
-    public IActionResult CheckoutConfirmationStart(decimal amount)
+    public IActionResult CheckoutConfirmationStart(Cart cart)
     {
         // Assuming the user is logged in and their ID is stored in User.Identity.Name
         var appUser = userManager.FindByNameAsync(User.Identity.Name).Result;
@@ -202,18 +203,18 @@ public class HomeController : Controller
         {
             return NotFound();
         }
-        int intAmount = (int)amount;
+        //int intAmount = (int)amount;
         var order = _repo.Orders.FirstOrDefault(o => o.CustomerId == customer.CustomerId);
         if (order == null)
         {
             Order newOrder = new Order()
             {
-                Amount = intAmount
+                //Amount = intAmount
             };
             return View("CheckoutConfirmation", newOrder);
         }
 
-        order.Amount = intAmount;
+        //order.Amount = intAmount;
         return View("CheckoutConfirmation", order);
     }
 
