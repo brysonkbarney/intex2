@@ -226,8 +226,7 @@ public class HomeController : Controller
             };
             return View("CheckoutConfirmation", newOrder);
         }
-
-        //order.Amount = intAmount;
+        order.Amount = (int)_cart.CalculateTotal();
         return View("CheckoutConfirmation", order);
     }
 
