@@ -205,7 +205,7 @@ public class HomeController : Controller
     
     [HttpPost]
     [Authorize]
-    public IActionResult CheckoutConfirmationStart(Cart cart)
+    public IActionResult CheckoutConfirmationStart()
     {
         // Assuming the user is logged in and their ID is stored in User.Identity.Name
         var appUser = userManager.FindByNameAsync(User.Identity.Name).Result;
