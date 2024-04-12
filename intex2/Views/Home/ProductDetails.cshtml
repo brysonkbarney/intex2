@@ -51,7 +51,9 @@
       <form id=@Model.ProductId method="post" asp-page="/Cart">
         <input type="hidden" asp-for="ProductId">
         <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()"/>
-        <button type="submit" class="btn btn-primary my-3">Add to Cart</button>
+        <button type="submit" class="btn btn-primary my-3" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; font-size: 18px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 123, 255, .5); transition: all 0.2s ease-in-out;">
+          Add to Cart
+        </button>
       </form>
       <hr>
       

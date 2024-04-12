@@ -4,10 +4,10 @@
 @model IQueryable<Product>
 
 <div class="container mt-5">
-    <h2>Manage Products</h2>
-    <a asp-action="AddProduct" class="btn btn-secondary">Add a Product</a>
-    <table class="table">
-        <thead>
+    <h2 style="margin-bottom: 20px; color: #343a40;">Manage Products</h2>
+    <a asp-action="AddProduct" class="btn btn-secondary" style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 0.25rem; text-decoration: none; transition: background-color 0.2s ease-in-out; margin-bottom: 20px;">Add a Product</a>
+    <table class="table" style="margin-bottom: 20px;">
+        <thead style="background-color: #343a40; color: white;">
         <tr>
             <th>Name</th>
             <th>Edit</th>
@@ -15,22 +15,26 @@
         </tr>
         </thead>
         <tbody>
-        
-            @foreach (Product p in Model)
-            {
-                <tr>
-                    <td>@p.Name</td>
-                    <td><a class="btn btn-sm btn-primary" asp-action="EditProduct" asp-route-id="@p.ProductId">
-                                            Update
-                                        </a></td>
-                    <td><form asp-action="DeleteProduct" asp-route-id="@p.ProductId" method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
-                            <button type="submit" class="btn btn-sm btn-danger">
-                                Delete
-                            </button>
-                        </form></td>
-                </tr> 
-            }
-        
+
+        @foreach (Product p in Model)
+        {
+        <tr>
+            <td>@p.Name</td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-action="EditProduct" asp-route-id="@p.ProductId" style="padding: 5px 10px; font-size: 0.875rem; color: white; background-color: #007bff; border: none; border-radius: 0.2rem;">
+                    Update
+                </a>
+            </td>
+            <td>
+                <form asp-action="DeleteProduct" asp-route-id="@p.ProductId" method="post" onsubmit="return confirm('Are you sure you want to delete this product?');" style="display: inline;">
+                    <button type="submit" class="btn btn-sm btn-danger" style="padding: 5px 10px; font-size: 0.875rem; color: white; background-color: #dc3545; border: none; border-radius: 0.2rem;">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        }
+
         </tbody>
     </table>
 </div>
