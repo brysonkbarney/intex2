@@ -26,8 +26,8 @@
                 </a>
             </td>
             <td>
-                <form asp-action="DeleteProduct" asp-route-id="@p.ProductId" method="post" onsubmit="return confirm('Are you sure you want to delete this product?');" style="display: inline;">
-                    <button type="submit" class="btn btn-sm btn-danger" style="padding: 5px 10px; font-size: 0.875rem; color: white; background-color: #dc3545; border: none; border-radius: 0.2rem;">
+                <form asp-action="DeleteProduct" asp-route-id="@p.ProductId" method="post" style="display: inline;">
+                    <button type="submit" class="deleteButton btn btn-sm btn-danger" style="padding: 5px 10px; font-size: 0.875rem; color: white; background-color: #dc3545; border: none; border-radius: 0.2rem;">
                         Delete
                     </button>
                 </form>
