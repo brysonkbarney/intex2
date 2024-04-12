@@ -22,13 +22,13 @@ public partial class Order
     public int? Amount { get; set; }
 
     public string? TypeOfTransaction { get; set; }
-
+    [Required]
     public string? CountryOfTransaction { get; set; }
-
+    [Required]
     public string? ShippingAddress { get; set; }
-
+    [Required]
     public string? Bank { get; set; }
-
+    [Required]
     public string? TypeOfCard { get; set; }
 
     public int? Fraud { get; set; }

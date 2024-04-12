@@ -128,64 +128,67 @@ namespace intex2.Controllers
         [Authorize]
         public async Task<IActionResult> Update(string id, string email, string password, 
             bool twoFactor, string gender, int age, string firstName, string lastName, DateOnly birthdate,
-            string countryOfResidence, string name)
+            string countryOfResidence, string name, User userInfo)
         {
-            AppUser user = await userManager.FindByIdAsync(id);
-            Customer customer = _repo.GetCustomerByNetUserId(user.Id);
-            if (user != null)
-            {
-                if (!string.IsNullOrEmpty(email))
-                    user.Email = email;
-                else
-                    ModelState.AddModelError("", "Email cannot be empty");
- 
-                if (!string.IsNullOrEmpty(password))
-                    user.PasswordHash = passwordHasher.HashPassword(user, password);
-                else
-                    ModelState.AddModelError("", "Password cannot be empty");
-                
-                if (!string.IsNullOrEmpty(name))
-                    user.UserName = name;
-                else
-                    ModelState.AddModelError("", "Name cannot be empty");
-                
-                user.TwoFactorEnabled = twoFactor;
-                if (customer != null)
+            if(ModelState.IsValid){
+                AppUser user = await userManager.FindByIdAsync(id);
+                Customer customer = _repo.GetCustomerByNetUserId(user.Id);
+                if (user != null)
                 {
-                    if (!string.IsNullOrEmpty(gender))
-                        customer.Gender = gender;
+                    if (!string.IsNullOrEmpty(email))
+                        user.Email = email;
                     else
-                        ModelState.AddModelError("", "Gender cannot be empty");
-                    if (age != 0)
-                        customer.Age = age;
+                        ModelState.AddModelError("", "Email cannot be empty");
+
+                    if (!string.IsNullOrEmpty(password))
+                        user.PasswordHash = passwordHasher.HashPassword(user, password);
                     else
-                        ModelState.AddModelError("", "Age cannot be 0");
-                    if (!string.IsNullOrEmpty(firstName))
-                        customer.FirstName = firstName;
+                        ModelState.AddModelError("", "Password cannot be empty");
+
+                    if (!string.IsNullOrEmpty(name))
+                        user.UserName = name;
                     else
-                        ModelState.AddModelError("", "First Name cannot be empty");
-                    if (!string.IsNullOrEmpty(lastName))
-                        customer.LastName = lastName;
-                    else
-                        ModelState.AddModelError("", "Last Name cannot be empty");
-                    if (birthdate != DateOnly.MinValue)
-                        customer.BirthDate = birthdate;
-                    else
-                        ModelState.AddModelError("", "Invalid Birthdate");
-                    if (!string.IsNullOrEmpty(countryOfResidence))
-                        customer.CountryOfResidence = countryOfResidence;
-                    else
-                        ModelState.AddModelError("", "Invalid Birthdate");
-                }
-                if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
-                {
-                    IdentityResult result = await userManager.UpdateAsync(user);
-                    bool cresult = _repo.UpdateCustomer(customer);
-                    _repo.Save();
-                    if (result.Succeeded && cresult)
-                        return RedirectToAction("Index");
-                    else
-                        Errors(result);
+                        ModelState.AddModelError("", "Name cannot be empty");
+
+                    user.TwoFactorEnabled = twoFactor;
+                    if (customer != null)
+                    {
+                        if (!string.IsNullOrEmpty(gender))
+                            customer.Gender = gender;
+                        else
+                            ModelState.AddModelError("", "Gender cannot be empty");
+                        if (age != 0)
+                            customer.Age = age;
+                        else
+                            ModelState.AddModelError("", "Age cannot be 0");
+                        if (!string.IsNullOrEmpty(firstName))
+                            customer.FirstName = firstName;
+                        else
+                            ModelState.AddModelError("", "First Name cannot be empty");
+                        if (!string.IsNullOrEmpty(lastName))
+                            customer.LastName = lastName;
+                        else
+                            ModelState.AddModelError("", "Last Name cannot be empty");
+                        if (birthdate != DateOnly.MinValue)
+                            customer.BirthDate = birthdate;
+                        else
+                            ModelState.AddModelError("", "Invalid Birthdate");
+                        if (!string.IsNullOrEmpty(countryOfResidence))
+                            customer.CountryOfResidence = countryOfResidence;
+                        else
+                            ModelState.AddModelError("", "Invalid Country");
+                    }
+
+                    if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+                    {
+                        IdentityResult result = await userManager.UpdateAsync(user);
+                        bool cresult = _repo.UpdateCustomer(customer);
+                        _repo.Save();
+                        if (result.Succeeded && cresult)
+                            return RedirectToAction("MyAccount", "Account");
+                        else
+                            Errors(result);
+                    }
                 }
             }
             else
@@ -276,11 +279,15 @@ namespace intex2.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult EditProduct(Product p)
         {
-            _repo.UpdateProduct(p);
-            _repo.Save();
-            return RedirectToAction("ManageProducts");
-        }
+            if (ModelState.IsValid)
+            {
+                _repo.UpdateProduct(p);
+                _repo.Save();
+                return RedirectToAction("ManageProducts");
+            }
+            return View(p);
 
+        }
         [Authorize(Roles = "Admin")]
         public IActionResult AddProduct()
         {
@@ -290,9 +297,13 @@ namespace intex2.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult AddProduct(Product p)
         {
-            _repo.CreateProduct(p);
-            _repo.Save();
-            return RedirectToAction("ManageProducts");
+            if (ModelState.IsValid)
+            {
+                _repo.CreateProduct(p);
+                _repo.Save();
+                return RedirectToAction("ManageProducts");
+            }
+            return View(p);
         }
 
         [HttpPost]
