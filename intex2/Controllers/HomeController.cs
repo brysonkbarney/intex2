@@ -25,7 +25,7 @@ public class HomeController : Controller
         userManager = userMgr;
         _repo = temp;
         _prediction = prediction;
-        _cart = _cart;
+        _cart = cart;
     }
     public IActionResult Index()
     {
@@ -209,7 +209,6 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult CheckoutConfirmationStart()
     {
-        Cart cart = _cart;
         // Assuming the user is logged in and their ID is stored in User.Identity.Name
         var appUser = userManager.FindByNameAsync(User.Identity.Name).Result;
         var customer = _repo.GetCustomerByNetUserId(appUser.Id);
@@ -223,7 +222,7 @@ public class HomeController : Controller
         {
             Order newOrder = new Order()
             {
-                //Amount = intAmount
+                Amount = (int)_cart.CalculateTotal(),
             };
             return View("CheckoutConfirmation", newOrder);
         }
@@ -241,6 +240,21 @@ public class HomeController : Controller
             int fraud = _prediction.PredictFraud(order);
             order.Fraud = fraud;
             _repo.CreateOrder(order);
+            _repo.Save();
+            
+            int orderId = order.TransactionId;
+            List <LineItem> items = new List<LineItem>();
+            foreach (var item in _cart.Lines)
+            {
+                LineItem newItem = new LineItem()
+                {
+                    TransactionId = orderId,
+                    ProductId = item.Product.ProductId,
+                    Qty = item.Quantity,
+                };
+                items.Add(newItem);
+            }
+            _repo.CreateLineItems(items);
             _repo.Save();
 
             if (fraud == 0)

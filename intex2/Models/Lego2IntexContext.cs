@@ -54,10 +54,10 @@ public partial class Lego2IntexContext : IdentityDbContext<AppUser>
 
         modelBuilder.Entity<LineItem>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable(" LineItems");
-
+            entity.ToTable(" LineItems");
+            entity.Property(e => e.LineId)
+                .HasColumnName("line_ID")
+                .ValueGeneratedOnAdd();
             entity.Property(e => e.ProductId).HasColumnName("product_ID");
             entity.Property(e => e.Qty).HasColumnName("qty");
             entity.Property(e => e.Rating).HasColumnName("rating");

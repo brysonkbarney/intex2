@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace intex2.Models;
 
 public partial class LineItem
 {
-    public int TransactionId { get; set; }
+    [Key]
+    public int LineId { get; set; }
+    public int? TransactionId { get; set; }
 
-    public byte ProductId { get; set; }
+    public int? ProductId { get; set; }
 
-    public byte Qty { get; set; }
+    public int? Qty { get; set; }
 
-    public byte? Rating { get; set; }
+    public int? Rating { get; set; }
 }
