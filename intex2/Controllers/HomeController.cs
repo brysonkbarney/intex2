@@ -25,7 +25,7 @@ public class HomeController : Controller
         userManager = userMgr;
         _repo = temp;
         _prediction = prediction;
-        _cart = _cart;
+        _cart = cart;
     }
     public IActionResult Index()
     {
@@ -209,7 +209,6 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult CheckoutConfirmationStart()
     {
-        Cart cart = _cart;
         // Assuming the user is logged in and their ID is stored in User.Identity.Name
         var appUser = userManager.FindByNameAsync(User.Identity.Name).Result;
         var customer = _repo.GetCustomerByNetUserId(appUser.Id);
@@ -217,19 +216,24 @@ public class HomeController : Controller
         {
             return NotFound();
         }
-        //int intAmount = (int)amount;
         var order = _repo.Orders.FirstOrDefault(o => o.CustomerId == customer.CustomerId);
         if (order == null)
         {
             Order newOrder = new Order()
             {
-                //Amount = intAmount
+                Amount = (int)_cart.CalculateTotal(),
             };
             return View("CheckoutConfirmation", newOrder);
         }
-
-        //order.Amount = intAmount;
-        return View("CheckoutConfirmation", order);
+        Order newOrder1 = new Order()
+        {
+            ShippingAddress = order.ShippingAddress,
+            Amount = (int)_cart.CalculateTotal(),
+            CountryOfTransaction = order.CountryOfTransaction,
+            Bank = order.Bank,
+            TypeOfCard = order.TypeOfCard
+        };
+        return View("CheckoutConfirmation", newOrder1);
     }
 
     [HttpPost]
@@ -242,7 +246,32 @@ public class HomeController : Controller
             order.Fraud = fraud;
             _repo.CreateOrder(order);
             _repo.Save();
+            
+            int orderId = order.TransactionId;
+            List <LineItem> items = new List<LineItem>();
+            foreach (var item in _cart.Lines)
+            {
+                LineItem newItem = new LineItem()
+                {
+                    TransactionId = orderId,
+                    ProductId = item.Product.ProductId,
+                    Qty = item.Quantity,
+                };
+                items.Add(newItem);
+            }
+            _repo.CreateLineItems(items);
+            _repo.Save();
 
+            List<Cart.CartLine> itemsToRemoves = new List<Cart.CartLine>();
+            foreach (var item in _cart.Lines)
+            {
+                var item1 = item;
+                itemsToRemoves.Add(item1);
+            }
+            foreach (var item in itemsToRemoves)
+            {
+                _cart.RemoveLine(item.Product);
+            }
             if (fraud == 0)
             {
                 return View("CheckoutSuccess", order);

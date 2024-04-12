@@ -243,7 +243,7 @@ namespace intex2.Controllers
                 .OrderByDescending(x => x.Date)
                 .Skip((pageNum - 1) * pageSize)
                 .Take(pageSize);
-
+            
             var model = new ReviewOrdersViewModel
             {
                 Orders = orders,

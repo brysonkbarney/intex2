@@ -12,10 +12,14 @@
     <title>@ViewData["Title"]</title>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://ajax.googleapis.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' https: data:;">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/intex2.styles.css" asp-append-version="true"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <!-- Place the Google Fonts link here, after all other CSS files -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
@@ -106,6 +110,7 @@
 <script nonce="@Context.Items["CSPNonce"]" src="~/lib/jquery/dist/jquery.min.js"></script>
 <script nonce="@Context.Items["CSPNonce"]" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script nonce="@Context.Items["CSPNonce"]" src="~/js/site.js" asp-append-version="true"></script>
+<script nonce="@Context.Items["CSPNonce"]" src="~/js/orderconfirmation.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

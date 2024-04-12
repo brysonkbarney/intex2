@@ -3,6 +3,7 @@
 }
 @model Order
 
+
 <style>
     :root {
         --lego-yellow: #f9df1c;
@@ -103,31 +104,8 @@
                 <label for="satisfaction-slider" style="display: block; margin-bottom: 10px;">Satisfaction: <span class="js-satisfaction">10</span>/20</label>
                 <input id="satisfaction-slider" class="js-satisfaction-slider" type="range" min="0" max="20" step="1" value="10" style="width: 80%;">
             </div>
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="btn" role="button" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; color: white; background-color: #27ae60; border: none; cursor: pointer; border-radius: 5px;">Submit</a>
+            <a href="@Url.Action("Index", "Home")" class="btn" role="button" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; color: white; background-color: #27ae60; border: none; cursor: pointer; border-radius: 5px;">Home</a>
 
         </div>
     </div>
 </div>
-
-
-
-
-
-
-@section Scripts {
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var slider = document.querySelector('.js-satisfaction-slider');
-        var satisfactionDisplay = document.querySelector('.js-satisfaction');
-        var legoHead = document.querySelector('.lego-head');
-
-        slider.addEventListener('input', function () {
-            var per = slider.value / slider.max;
-            var deg = 180 - 180 * per;
-            satisfactionDisplay.textContent = Math.round(per * 20);
-            legoHead.style.background = `linear-gradient(to top, rgba(248,80,50,${1 - per}) 0%, var(--lego-yellow) ${100 - 100 * per}%)`;
-            document.documentElement.style.setProperty('--smile-rotation', `${deg}deg`);
-        });
-    });
-</script>
-}
