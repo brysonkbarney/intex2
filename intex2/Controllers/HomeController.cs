@@ -18,14 +18,12 @@ public class HomeController : Controller
     private ILegoRepository _repo;
     private readonly InferenceSession _session;
     private readonly PredictionService _prediction;
-    private readonly SessionCart _cart;
-    public HomeController(UserManager<AppUser> userMgr,ILogger<HomeController> logger, ILegoRepository temp, PredictionService prediction, SessionCart cart)
+    public HomeController(UserManager<AppUser> userMgr,ILogger<HomeController> logger, ILegoRepository temp, PredictionService prediction)
     {
         _logger = logger;
         userManager = userMgr;
         _repo = temp;
         _prediction = prediction;
-        _cart = cart;
     }
     public IActionResult Index()
     {
